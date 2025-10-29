@@ -83,6 +83,15 @@ export default function ClasesPage() {
       image: 'https://placehold.co/600x400/9370db/white?text=Flexibilidad',
       freeTrial: false,
     },
+    {
+      name: 'Eventos Especiales',
+      description: 'Clases temáticas, retos y convivencias diseñadas para toda la comunidad AVC. Una oportunidad única de integración y diversión.',
+      target: 'Toda la comunidad AVC.',
+      benefits: 'Diversión, integración, motivación y retos únicos.',
+      price: 'Varía según el evento - Consulta en recepción',
+      image: 'https://placehold.co/600x400/999999/white?text=Eventos',
+      freeTrial: false,
+    },
   ];
 
   return (
