@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog y Tips de Salud - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+            overflow-x: hidden; /* Previene el desbordamiento horizontal */
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+        
+        /* Animación de entrada (Fade In Up) */
+        .animate-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- ESTILOS PARA TARJETAS DE BLOG --- */
+        .blog-card {
+            background-color: #2a2a2a; /* un gris un poco más claro que el fondo */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+        .blog-card-image-container {
+            overflow: hidden; /* Asegura que la imagen no se salga al hacer zoom */
+        }
+        .blog-card-image {
+            transition: transform 0.4s ease;
+        }
+        .blog-card:hover .blog-card-image {
+            transform: scale(1.05);
+        }
+        .blog-category-tag {
+            display: inline-block;
+            background-color: #dc2626; /* avc-red */
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem; /* 12px */
+            font-weight: 700; /* bold */
+            border-radius: 9999px; /* full rounded */
+            text-transform: uppercase;
+        }
+        
+        /* Overlay para videos */
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .blog-card:hover .video-overlay {
+            opacity: 0.8;
+        }
+        .play-icon {
+            width: 60px;
+            height: 60px;
+            color: white;
+            background-color: rgba(220, 38, 38, 0.8); /* avc-red con transparencia */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+        .blog-card:hover .play-icon {
+            transform: scale(1.1);
+        }
+        /* --- FIN ESTILOS BLOG --- */
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <div class="hidden md:flex space-x-5">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="avc-fitness-about.html" class="text-white hover:text-avc-red transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-coaches.html" class="text-white hover:text-avc-red transition duration-300">Coaches</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-testimonios.html" class="text-white hover:text-avc-red transition duration-300">Testimonios</a>
+                <a href="avc-fitness-eventos.html" class="text-white hover:text-avc-red transition duration-300">Eventos</a>
+                <a href="avc-fitness-beneficios.html" class="text-white hover:text-avc-red transition duration-300">Beneficios</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="avc-fitness-contacto.html" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+                <a href="avc-fitness-dudas.html" class="text-white hover:text-avc-red transition duration-300">Dudas</a>
+                <!-- Marcamos "Blog" como activa -->
+                <a href="avc-fitness-blog.html" class="text-avc-red font-bold transition duration-300">Blog</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER (Específico de Blog) ========== -->
+    <section id="hero-blog" class="relative h-[50vh] flex items-center justify-center text-center px-4 pt-16">
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO: Imagen de fondo inspiradora (ej. comida saludable, amanecer, etc.) -->
+            <img src="https://placehold.co/1920x500/111827/333333?text=Tu+Gu%C3%ADa+de+Bienestar" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x500/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Tips de salud y bienestar en AVC Fitness Center" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto animate-scroll visible">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+                Blog <span class="text-avc-red">AVC Fitness</span>
+            </h1>
+            <p class="text-xl text-gray-200">
+                Consejos de entrenamiento, nutrición y bienestar para potenciar tus resultados.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== CONTENIDO DEL BLOG ========== -->
+    <main class="bg-gray-900 py-20">
+        <div class="container mx-auto px-6">
+            
+            <!-- --- ARTÍCULO DESTACADO --- -->
+            <section class="mb-20 animate-scroll">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-8">Artículo <span class="text-avc-red">Destacado</span></h2>
+                <a href="#" class="block group">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center bg-gray-800 rounded-lg shadow-xl overflow-hidden">
+                        <div class="relative blog-card-image-container h-64 md:h-full">
+                            <!-- REEMPLAZA ESTO: Imagen del artículo destacado -->
+                            <img src="https://placehold.co/800x600/dc2626/FFFFFF?text=Post+Destacado" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/800x600/000000/333333?text=Error+Img';"
+                                 alt="Artículo destacado" 
+                                 class="w-full h-full object-cover blog-card-image">
+                        </div>
+                        <div class="p-8 md:p-12">
+                            <span class="blog-category-tag mb-4">Nutrición</span>
+                            <h3 class="text-2xl lg:text-3xl font-bold text-white mb-4 group-hover:text-avc-red transition duration-300">
+                                Los 5 Mitos Más Comunes sobre la Proteína y el CrossFit
+                            </h3>
+                            <p class="text-gray-300 mb-6 text-lg">
+                                ¿Realmente necesitas batidos post-entreno? ¿Comer mucha proteína daña tus riñones? Desmentimos los mitos más populares...
+                            </p>
+                            <span class="text-avc-red font-semibold text-lg">
+                                Leer Artículo Completo &rarr;
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </section>
+
+            <!-- --- CUADRÍCULA DE ARTÍCULOS --- -->
+            <section>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-12">Últimos <span class="text-avc-red">Artículos</span></h2>
+                
+                <!-- Esta cuadrícula se llenará automáticamente -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    
+                    <!-- Tarjeta de Blog 1 (Imagen) -->
+                    <article class="blog-card rounded-lg shadow-lg overflow-hidden flex flex-col animate-scroll">
+                        <a href="#" class="block relative blog-card-image-container h-52">
+                            <img src="https://placehold.co/600x400/374151/FFFFFF?text=Entrenamiento" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/333333?text=Error+Img';"
+                                 alt="Tip de entrenamiento" 
+                                 class="w-full h-full object-cover blog-card-image">
+                        </a>
+                        <div class="p-6 flex flex-col grow">
+                            <span class="blog-category-tag mb-3">Entrenamiento</span>
+                            <h3 class="text-xl font-bold text-white mb-3 grow">
+                                ¿Qué es el 'AMRAP' y cómo te ayuda a mejorar?
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                Descubre una de las modalidades de entrenamiento más efectivas para medir tu progreso y resistencia.
+                            </p>
+                            <a href="#" class="text-avc-red font-semibold hover:underline">Leer Más &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta de Blog 2 (Video) -->
+                    <article class="blog-card rounded-lg shadow-lg overflow-hidden flex flex-col animate-scroll" style="transition-delay: 0.1s;">
+                        <a href="#" class="block relative blog-card-image-container h-52 group">
+                            <img src="https://placehold.co/600x400/4b5563/FFFFFF?text=Video:+Técnica+Squat" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/333333?text=Error+Img';"
+                                 alt="Video sobre técnica de sentadilla" 
+                                 class="w-full h-full object-cover blog-card-image">
+                            <!-- Overlay de Video -->
+                            <div class="video-overlay">
+                                <div class="play-icon">
+                                    <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="p-6 flex flex-col grow">
+                            <span class="blog-category-tag mb-3">Técnica</span>
+                            <h3 class="text-xl font-bold text-white mb-3 grow">
+                                [VIDEO] 3 Errores Comunes al hacer Sentadillas (Squats)
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                Nuestros coaches te muestran cómo corregir tu postura para evitar lesiones y levantar más peso.
+                            </p>
+                            <a href="#" class="text-avc-red font-semibold hover:underline">Ver Video &rarr;</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Tarjeta de Blog 3 (Infografía) -->
+                    <article class="blog-card rounded-lg shadow-lg overflow-hidden flex flex-col animate-scroll" style="transition-delay: 0.2s;">
+                        <a href="#" class="block relative blog-card-image-container h-52">
+                            <img src="https://placehold.co/600x400/52525B/FFFFFF?text=Infografía+Descanso" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/333333?text=Error+Img';"
+                                 alt="Infografía sobre descanso" 
+                                 class="w-full h-full object-cover blog-card-image">
+                        </a>
+                        <div class="p-6 flex flex-col grow">
+                            <span class="blog-category-tag mb-3">Bienestar</span>
+                            <h3 class="text-xl font-bold text-white mb-3 grow">
+                                [INFOGRAFÍA] La importancia del sueño en la recuperación
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                No todo es entrenar. Descubre por qué dormir bien es clave para construir músculo.
+                            </p>
+                            <a href="#" class="text-avc-red font-semibold hover:underline">Ver Infografía &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta de Blog 4 (Imagen) -->
+                    <article class="blog-card rounded-lg shadow-lg overflow-hidden flex flex-col animate-scroll">
+                        <a href="#" class="block relative blog-card-image-container h-52">
+                            <img src="https://placehold.co/600x400/374151/FFFFFF?text=Comunidad" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/333333?text=Error+Img';"
+                                 alt="Comunidad AVC" 
+                                 class="w-full h-full object-cover blog-card-image">
+                        </a>
+                        <div class="p-6 flex flex-col grow">
+                            <span class="blog-category-tag mb-3">Comunidad</span>
+                            <h3 class="text-xl font-bold text-white mb-3 grow">
+                                5 Razones por las que AVC es más que un "gym"
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                El ambiente familiar y la motivación grupal son nuestro secreto.
+                            </p>
+                            <a href="#" class="text-avc-red font-semibold hover:underline">Leer Más &rarr;</a>
+                        </div>
+                    </article>
+
+                    <!-- Tarjeta de Blog 5 (Imagen) -->
+                    <article class="blog-card rounded-lg shadow-lg overflow-hidden flex flex-col animate-scroll" style="transition-delay: 0.1s;">
+                        <a href="#" class="block relative blog-card-image-container h-52">
+                            <img src="https://placehold.co/600x400/4b5563/FFFFFF?text=Receta" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/333333?text=Error+Img';"
+                                 alt="Receta saludable" 
+                                 class="w-full h-full object-cover blog-card-image">
+                        </a>
+                        <div class="p-6 flex flex-col grow">
+                            <span class="blog-category-tag mb-3">Nutrición</span>
+                            <h3 class="text-xl font-bold text-white mb-3 grow">
+                                Receta: Pancakes de Proteína fáciles y rápidos
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                Un desayuno delicioso y perfecto para tus mañanas de entrenamiento.
+                            </p>
+                            <a href="#" class="text-avc-red font-semibold hover:underline">Leer Más &rarr;</a>
+                        </div>
+                    </article>
+                    
+                    <!-- Tarjeta de Blog 6 (Imagen) -->
+                    <article class="blog-card rounded-lg shadow-lg overflow-hidden flex flex-col animate-scroll" style="transition-delay: 0.2s;">
+                        <a href="#" class="block relative blog-card-image-container h-52">
+                            <img src="https://placehold.co/600x400/52525B/FFFFFF?text=Mentalidad" 
+                                 onerror="this.onerror=null;this.src='https://placehold.co/600x400/000000/333333?text=Error+Img';"
+                                 alt="Mentalidad" 
+                                 class="w-full h-full object-cover blog-card-image">
+                        </a>
+                        <div class="p-6 flex flex-col grow">
+                            <span class="blog-category-tag mb-3">Mentalidad</span>
+                            <h3 class="text-xl font-bold text-white mb-3 grow">
+                                Cómo superar el miedo a levantar peso
+                            </h3>
+                            <p class="text-gray-400 mb-4 text-sm">
+                                Consejos de nuestros coaches para ganar confianza en la zona de Halterofilia.
+                            </p>
+                            <a href="#" class="text-avc-red font-semibold hover:underline">Leer Más &rarr;</a>
+                        </div>
+                    </article>
+
+                </div>
+                
+                <!-- Opcional: Botón de "Cargar Más" -->
+                <div class="text-center mt-16">
+                    <button class="bg-avc-red text-white font-bold py-3 px-8 rounded-md shadow-lg hover:bg-avc-red-dark transition duration-300 transform hover:scale-105">
+                        Cargar Más Artículos
+                    </button>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Script para la animación de scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Se activa cuando el 10% del elemento es visible
+            });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>

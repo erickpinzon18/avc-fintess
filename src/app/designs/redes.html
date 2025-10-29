@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunidad y Redes Sociales - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+            overflow-x: hidden; /* Previene el desbordamiento horizontal */
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+        
+        /* Animación de entrada (Fade In Up) */
+        .animate-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- ESTILOS PARA EL "SOCIAL WALL" --- */
+        .social-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            /* Se elimina aspect-ratio: 1 / 1; para permitir tamaños dinámicos */
+        }
+        .social-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .social-card:hover img {
+            transform: scale(1.1); /* Efecto de zoom al pasar el mouse */
+        }
+        
+        /* Overlay interactivo */
+        .social-overlay {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0);
+            opacity: 0;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+        .group:hover .social-overlay {
+            background-color: rgba(0, 0, 0, 0.75);
+            opacity: 1;
+        }
+        
+        /* Contenido del overlay */
+        .social-overlay-content {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .group:hover .social-overlay-content {
+            transform: translateY(0);
+        }
+
+        /* Icono de Play para videos (TikTok/YouTube) */
+        .play-icon-overlay {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 2.5rem; /* 40px */
+            height: 2.5rem; /* 40px */
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* --- FIN ESTILOS SOCIAL WALL --- */
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <!-- He añadido "Redes" -->
+            <div class="hidden md:flex space-x-5">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="avc-fitness-about.html" class="text-white hover:text-avc-red transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-coaches.html" class="text-white hover:text-avc-red transition duration-300">Coaches</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-testimonios.html" class="text-white hover:text-avc-red transition duration-300">Testimonios</a>
+                <a href="avc-fitness-eventos.html" class="text-white hover:text-avc-red transition duration-300">Eventos</a>
+                <a href="avc-fitness-beneficios.html" class="text-white hover:text-avc-red transition duration-300">Beneficios</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="avc-fitness-contacto.html" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+                <a href="avc-fitness-dudas.html" class="text-white hover:text-avc-red transition duration-300">Dudas</a>
+                <a href="avc-fitness-blog.html" class="text-white hover:text-avc-red transition duration-300">Blog</a>
+                <!-- Marcamos "Redes" como activa -->
+                <a href="avc-fitness-redes.html" class="text-avc-red font-bold transition duration-300">Redes</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER (Específico de Redes) ========== -->
+    <section id="hero-redes" class="relative h-[50vh] flex items-center justify-center text-center px-4 pt-16">
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO: Imagen de fondo de la comunidad, gente riendo o chocando palmas -->
+            <img src="https://placehold.co/1920x500/1F2937/444444?text=Conecta+con+la+Comunidad+AVC" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x500/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Comunidad AVC Fitness Center en redes sociales" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-70"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto animate-scroll visible">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+                Únete a la <span class="text-avc-red">Conversación</span>
+            </h1>
+            <p class="text-xl text-gray-200">
+                Sigue la energía, los retos y la motivación de nuestra comunidad día a día.
+            </p>
+        </div>
+    </section>
+    
+    <!-- ========== BOTONES DE SEGUIMIENTO (CTA) ========== -->
+    <section class="bg-gray-900 py-16">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <!-- Instagram -->
+                <a href="#" class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 transform hover:scale-105 animate-scroll" style="transition-delay: 0.1s;">
+                    <!-- Icono de Instagram -->
+                    <svg class="w-12 h-12 mx-auto mb-4 text-avc-red" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                    <span class="text-xl font-semibold text-white">Síguenos en Instagram</span>
+                </a>
+                <!-- TikTok -->
+                <a href="#" class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 transform hover:scale-105 animate-scroll" style="transition-delay: 0.2s;">
+                    <!-- Icono de TikTok -->
+                    <svg class="w-12 h-12 mx-auto mb-4 text-avc-red" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10s10-4.49 10-10S17.51 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m4.5-9.39c-.43 0-.84.09-1.23.27v-2.88c0-.3-.12-.58-.33-.79c-.21-.21-.49-.33-.79-.33H12c-.3 0-.58.12-.79.33c-.21.21-.33.49-.33.79v7.07c-1.11-.43-1.86-1.5-1.86-2.77c0-1.66 1.34-3 3-3c.4 0 .78.08 1.13.22V8.5h1.75v3.42c.35-.14.73-.22 1.12-.22c1.66 0 3 1.34 3 3s-1.34 3-3 3s-3-1.34-3-3c0-.14.01-.27.04-.4v-4.28c-.03-.13-.04-.26-.04-.4c0-1.1.9-2 2-2s2 .9 2 2s-.9 2-2 2c-.14 0-.27-.01-.4-.04v1.71c.13.03.26.04.4.04c1.1 0 2-.9 2-2s-.9-2-2-2z"/></svg>
+                    <span class="text-xl font-semibold text-white">Mira nuestros TikToks</span>
+                </a>
+                <!-- YouTube -->
+                <a href="#" class="bg-gray-800 p-6 rounded-lg shadow-lg hover:bg-gray-700 transition duration-300 transform hover:scale-105 animate-scroll" style="transition-delay: 0.3s;">
+                    <!-- Icono de YouTube -->
+                    <svg class="w-12 h-12 mx-auto mb-4 text-avc-red" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m-2.5-12l6 4l-6 4v-8z"/></svg>
+                    <span class="text-xl font-semibold text-white">Tutoriales en YouTube</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== "SOCIAL WALL" / GALERÍA ========== -->
+    <main class="bg-gray-950 py-20">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+                Nuestra <span class="text-avc-red">Comunidad</span> en Acción
+            </h2>
+            
+            <!-- 
+                Cuadrícula de Redes Sociales
+                - usa `auto-rows-[200px]` o similar para definir una altura base de fila.
+                - `row-span-1` o `row-span-2` controla la altura.
+                - `col-span-1` o `col-span-2` controla el ancho.
+                - `aspect-[1/1]` (cuadrado) o `aspect-[16/9]` (video) se usan para forzar la proporción.
+            -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 auto-rows-[200px] sm:auto-rows-[250px]">
+                
+                <!-- Tarjeta 1 (Instagram - Cuadrada) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-1 aspect-square">
+                    <img src="https://placehold.co/400x400/DC2626/FFFFFF?text=WOD+del+Día" alt="Publicación de Instagram">
+                    <div class="social-overlay">
+                        <div class="social-overlay-content">
+                            <!-- Icono Social -->
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                            <!-- Texto -->
+                            <p class="text-sm font-semibold mt-auto">¡Nuevo PR de @maria! 100kg en Deadlift. ¡Felicidades! 🔥</p>
+                            <!-- Likes/Comentarios -->
+                            <div class="flex space-x-4 text-sm mt-2">
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> 128</span>
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 21l1.949-4.255A9.863 9.863 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg> 15</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2 (TikTok/Video - Vertical) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-2" style="transition-delay: 0.1s;">
+                    <img src="https://placehold.co/400x800/374151/FFFFFF?text=Reto+TikTok" alt="Publicación de TikTok">
+                    <!-- Icono de Play -->
+                    <div class="play-icon-overlay">
+                        <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="social-overlay">
+                        <div class="social-overlay-content">
+                            <!-- Icono Social -->
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.49 2 2 6.49 2 12s4.49 10 10 10s10-4.49 10-10S17.51 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m4.5-9.39c-.43 0-.84.09-1.23.27v-2.88c0-.3-.12-.58-.33-.79c-.21-.21-.49-.33-.79-.33H12c-.3 0-.58.12-.79.33c-.21.21-.33.49-.33.79v7.07c-1.11-.43-1.86-1.5-1.86-2.77c0-1.66 1.34-3 3-3c.4 0 .78.08 1.13.22V8.5h1.75v3.42c.35-.14.73-.22 1.12-.22c1.66 0 3 1.34 3 3s-1.34 3-3 3s-3-1.34-3-3c0-.14.01-.27.04-.4v-4.28c-.03-.13-.04-.26-.04-.4c0-1.1.9-2 2-2s2 .9 2 2s-.9 2-2 2c-.14 0-.27-.01-.4-.04v1.71c.13.03.26.04.4.04c1.1 0 2-.9 2-2s-.9-2-2-2z"/></svg>
+                            <!-- Texto -->
+                            <p class="text-sm font-semibold mt-auto">¿Te atreves con el reto de Burpees? ¡Sube tu video!</p>
+                            <!-- Likes/Comentarios -->
+                            <div class="flex space-x-4 text-sm mt-2">
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> 1.2K</span>
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 21l1.949-4.255A9.863 9.863 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg> 45</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3 (Instagram - Cuadrada) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-1 aspect-square" style="transition-delay: 0.2s;">
+                    <img src="https://placehold.co/400x400/4B5563/FFFFFF?text=Comunidad" alt="Publicación de Instagram">
+                    <div class="social-overlay">
+                        <div class="social-overlay-content">
+                            <!-- Icono Social -->
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                            <!-- Texto -->
+                            <p class="text-sm font-semibold mt-auto">Así se vivió la clase de Zumba de las 7pm. ¡Pura energía!</p>
+                            <!-- Likes/Comentarios -->
+                            <div class="flex space-x-4 text-sm mt-2">
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> 98</span>
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 21l1.949-4.255A9.863 9.863 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg> 9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4 (YouTube/Video - Horizontal) -->
+                <div class="group social-card animate-scroll col-span-2 row-span-1 aspect-video" style="transition-delay: 0.3s;">
+                    <img src="https://placehold.co/800x450/52525B/FFFFFF?text=YouTube+Tutorial" alt="Publicación de YouTube">
+                    <!-- Icono de Play -->
+                    <div class="play-icon-overlay">
+                        <svg class="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg>
+                    </div>
+                    <div class="social-overlay">
+                        <div class="social-overlay-content">
+                            <!-- Icono Social -->
+                            <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8s8 3.59 8 8s-3.59 8-8 8m-2.5-12l6 4l-6 4v-8z"/></svg>
+                            <!-- Texto -->
+                            <p class="text-sm font-semibold mt-auto">¡NUEVO VIDEO! Técnica correcta de Snatch con el Coach Carlos.</p>
+                            <!-- Likes/Comentarios -->
+                            <div class="flex space-x-4 text-sm mt-2">
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg> 205</span>
+                                <span><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 21l1.949-4.255A9.863 9.863 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg> 22</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 5 (Instagram - Cuadrada) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-1 aspect-square">
+                    <img src="https://placehold.co/400x400/DC2626/FFFFFF?text=Evento+Especial" alt="Publicación de Instagram">
+                    <!-- ... contenido del overlay ... -->
+                </div>
+
+                <!-- Tarjeta 6 (TikTok - Vertical) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-2" style="transition-delay: 0.1s;">
+                    <img src="https://placehold.co/400x800/374151/FFFFFF?text=Clase+Kids" alt="Publicación de Instagram">
+                    <!-- ... contenido del overlay ... -->
+                </div>
+
+                <!-- Tarjeta 7 (Instagram - Cuadrada) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-1 aspect-square" style="transition-delay: 0.2s;">
+                    <img src="https://placehold.co/400x400/4B5563/FFFFFF?text=Zumba" alt="Publicación de TikTok">
+                    <!-- ... contenido del overlay ... -->
+                </div>
+
+                <!-- Tarjeta 8 (Instagram - Vertical) -->
+                <div class="group social-card animate-scroll col-span-1 row-span-2" style="transition-delay: 0.3s;">
+                    <img src="https://placehold.co/400x800/52525B/FFFFFF?text=Clase+Full" alt="Publicación de Instagram">
+                    <!-- ... contenido del overlay ... -->
+                </div>
+
+            </div>
+        </div>
+    </main>
+    
+    <!-- ========== CTA PARA COMPARTIR ========== -->
+    <section class="bg-gray-800 py-20 text-center animate-scroll">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+                ¡Queremos ver tu <span class="text-avc-red">progreso!</span>
+            </h2>
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-6">
+                Comparte tus fotos, videos y logros en tus redes sociales. ¡Etiquétanos y usa nuestro hashtag para aparecer en el muro!
+            </p>
+            <span class="inline-block bg-gray-900 text-avc-red text-2xl md:text-4xl font-bold py-4 px-8 rounded-lg shadow-lg">
+                #AVCFitnessCenter
+            </span>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919 4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Script para la animación de scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Se activa cuando el 10% del elemento es visible
+            });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>
+

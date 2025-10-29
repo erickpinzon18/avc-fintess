@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beneficios - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+        
+        /* Tarjeta de Beneficio */
+        .benefit-card {
+            background-color: #2a2a2a;
+            border-radius: 0.75rem;
+            padding: 2rem;
+            border: 1px solid #333;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+            opacity: 0; /* Oculta para animación */
+            transform: translateY(20px); /* Mueve para animación */
+            animation: fadeInUP 0.5s ease-out forwards;
+        }
+        
+        /* Animación de carga */
+        @keyframes fadeInUP {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Staggered animation delay (para aplicar en línea o con JS) */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+
+        .benefit-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: #dc2626;
+            box-shadow: 0 15px 25px rgba(220, 38, 38, 0.15);
+        }
+        
+        .benefit-icon {
+            width: 50px;
+            height: 50px;
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-button-red {
+            display: inline-block;
+            background-color: #dc2626;
+            color: white;
+            font-weight: 700;
+            padding: 0.85rem 2rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+        .cta-button-red:hover {
+            background-color: #b91c1c;
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(220, 38, 38, 0.3);
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <div class="hidden md:flex space-x-5">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="avc-fitness-about.html" class="text-white hover:text-avc-red transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-coaches.html" class="text-white hover:text-avc-red transition duration-300">Coaches</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-testimonios.html" class="text-white hover:text-avc-red transition duration-300">Testimonios</a>
+                <a href="avc-fitness-eventos.html" class="text-white hover:text-avc-red transition duration-300">Eventos</a>
+                <!-- Marcamos "Beneficios" como activa -->
+                <a href="avc-fitness-beneficios.html" class="text-avc-red font-bold transition duration-300">Beneficios</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="avc-fitness-contacto.html" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER (Específico de Beneficios) ========== -->
+    <section id="hero-beneficios" class="relative h-[60vh] flex items-center justify-center text-center px-4 pt-16">
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO: Imagen de la comunidad unida, o un detalle del gym -->
+            <img src="https://placehold.co/1920x600/777777/888888?text=Beneficios+Exclusivos+AVC" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x600/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Beneficios de AVC Fitness Center" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+                Ser <span class="text-avc-red">Parte</span> Tiene sus <span class="text-avc-red">Recompensas</span>
+            </h1>
+            <p class="text-xl text-gray-200">
+                Al unirte a AVC Fitness Center, obtienes mucho más que solo acceso al gimnasio.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== SECCIÓN DE BENEFICIOS ========== -->
+    <section class="py-20 bg-gray-900" id="beneficios-lista">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Beneficios de ser <span class="text-avc-red">Miembro AVC</span></h2>
+                <p class="text-lg text-gray-300">
+                    Tu membresía te da acceso a un ecosistema de bienestar, ahorro y una comunidad increíble.
+                </p>
+            </div>
+
+            <!-- Grid de Beneficios -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Beneficio 1: Descuentos Locales -->
+                <div class="benefit-card" style="animation-delay: 0.1s;">
+                    <svg class="benefit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                    <h3 class="text-2xl font-bold text-white mb-3">Descuentos en Negocios Locales</h3>
+                    <p class="text-gray-300">
+                        Ahorra en tiendas, restaurantes y servicios cercanos solo por ser miembro activo de AVC.
+                    </p>
+                </div>
+
+                <!-- Beneficio 2: Promociones Especiales -->
+                <div class="benefit-card" style="animation-delay: 0.2s;">
+                    <svg class="benefit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5z"></path></svg>
+                    <h3 class="text-2xl font-bold text-white mb-3">Promociones en Eventos AVC</h3>
+                    <p class="text-gray-300">
+                        Obtén precios especiales y acceso preferencial en nuestros eventos, retos y convivencias.
+                    </p>
+                </div>
+
+                <!-- Beneficio 3: Acceso Prioritario -->
+                <div class="benefit-card" style="animation-delay: 0.3s;">
+                    <svg class="benefit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <h3 class="text-2xl font-bold text-white mb-3">Acceso Prioritario a Clases</h3>
+                    <p class="text-gray-300">
+                        Sé el primero en enterarte y reservar tu lugar en nuevas clases y horarios antes que nadie.
+                    </p>
+                </div>
+                
+                <!-- Beneficio 4: Sorteos y Regalos -->
+                <div class="benefit-card" style="animation-delay: 0.4s;">
+                    <svg class="benefit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2zM3 14s.6-1 2-1 2 1 2 1v4H3v-4zm0 0c-1.105 0-2-.672-2-1.5S1.895 11 3 11s2 .672 2 1.5S4.105 14 3 14zm12 0s.6-1 2-1 2 1 2 1v4h-4v-4zm0 0c-1.105 0-2-.672-2-1.5S10.895 11 12 11s2 .672 2 1.5S13.105 14 12 14zm6 0s.6-1 2-1 2 1 2 1v4h-4v-4zm0 0c-1.105 0-2-.672-2-1.5S16.895 11 18 11s2 .672 2 1.5S19.105 14 18 14z"></path></svg>
+                    <h3 class="text-2xl font-bold text-white mb-3">Sorteos y Regalos Exclusivos</h3>
+                    <p class="text-gray-300">
+                        Participa en sorteos de membresías, productos deportivos, y sorpresas de nuestros patrocinadores.
+                    </p>
+                </div>
+                
+                <!-- Beneficio 5: Asesoría Personalizada -->
+                <div class="benefit-card" style="animation-delay: 0.5s;">
+                    <svg class="benefit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <h3 class="text-2xl font-bold text-white mb-3">Asesoría Personalizada</h3>
+                    <p class="text-gray-300">
+                        Accede a seguimiento de progreso con nuestros coaches para ajustar tus rutinas y alcanzar tus metas.
+                    </V>
+                </div>
+                
+                <!-- Beneficio 6: Ambiente Familiar -->
+                <div class="benefit-card" style="animation-delay: 0.6s;">
+                    <svg class="benefit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+C                    <h3 class="text-2xl font-bold text-white mb-3">Ambiente Familiar y Motivador</h3>
+                    <p class="text-gray-300">
+                        El mejor beneficio: ser parte de una comunidad que te apoya, te motiva y celebra tus logros contigo.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- ========== CALL TO ACTION FINAL ========== -->
+    <section class="py-24 bg-gray-950" id="cta-final">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+                ¿Qué esperas para <span class="text-avc-red">disfrutar</span> de todo esto?
+            </h2>
+            <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-10">
+                Tu membresía es la llave a una mejor versión de ti y a una comunidad que te espera.
+            </p>
+            <a href="avc-fitness-unete.html" class="cta-button-red">
+                ¡Quiero Unirme Ahora!
+            </a>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

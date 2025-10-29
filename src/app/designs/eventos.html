@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos y Actividades - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+        
+        /* Tarjeta de Evento */
+        .event-card {
+            background-color: #2a2a2a;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            border-color: #dc2626;
+            box-shadow: 0 15px 25px rgba(220, 38, 38, 0.2);
+        }
+        .event-card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .event-card:hover .event-card-img {
+            transform: scale(1.05);
+        }
+        .event-card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .event-date-badge {
+            display: inline-block;
+            background-color: #dc2626;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+        .event-card-footer {
+            margin-top: auto; /* Empuja el botón al fondo */
+            padding-top: 1.5rem;
+            border-top: 1px solid #444;
+        }
+        .cta-button-red {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background-color: #dc2626;
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .cta-button-red:hover {
+            background-color: #b91c1c;
+            transform: scale(1.02);
+        }
+
+        /* Galería de Eventos Pasados */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 0.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+        }
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            padding: 1.5rem 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .gallery-grid-past {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) {
+            .gallery-grid-past {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .gallery-grid-past {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <div class="hidden md:flex space-x-6">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="avc-fitness-about.html" class="text-white hover:text-avc-red transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-coaches.html" class="text-white hover:text-avc-red transition duration-300">Coaches</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-testimonios.html" class="text-white hover:text-avc-red transition duration-300">Testimonios</a>
+                <!-- Marcamos "Eventos" como activa -->
+                <a href="avc-fitness-eventos.html" class="text-avc-red font-bold transition duration-300">Eventos</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="avc-fitness-contacto.html" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER (Específico de Eventos) ========== -->
+    <section id="hero-eventos" class="relative h-[60vh] flex items-center justify-center text-center px-4 pt-16">
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO: Imagen de un evento, gente compitiendo o celebrando -->
+            <img src="https://placehold.co/1920x600/666666/777777?text=Eventos+Especiales+AVC" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x600/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Eventos en AVC Fitness Center" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+                Vive la <span class="text-avc-red">Experiencia</span>
+            </h1>
+            <p class="text-xl text-gray-200">
+                Más que un gym, somos una comunidad. Descubre nuestros próximos eventos, retos y convivencias.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== SECCIÓN PRÓXIMOS EVENTOS ========== -->
+    <section class="py-20 bg-gray-900" id="proximos-eventos">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Próximos <span class="text-avc-red">Eventos</span></h2>
+                <p class="text-lg text-gray-300">
+                    Siempre hay algo emocionante sucediendo en AVC. ¡No te quedes fuera, revisa lo que viene y aparta tu lugar!
+                </p>
+            </div>
+
+            <!-- Grid de Próximos Eventos -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Evento 1: Reto Murph -->
+                <div class="event-card">
+                    <!-- REEMPLAZA ESTO: Imagen del Reto Murph -->
+                    <img src="https://placehold.co/600x400/555555/white?text=Reto+Murph" alt="Reto Murph" class="event-card-img">
+                    <div class="event-card-content">
+                        <span class="event-date-badge">PRÓXIMAMENTE</span>
+                        <h3 class="text-2xl font-bold text-white mb-3">Reto Anual "Murph"</h3>
+                        <p class="text-gray-300 text-sm mb-4">
+                            El reto de héroe más icónico del CrossFit. Prepárate para poner a prueba tu resistencia física y mental. 
+                            Habrá categorías escaladas.
+                        </p>
+                        <div class="event-card-footer">
+                            <a href="#" class="cta-button-red">
+                                Inscríbete al Reto
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evento 2: Clase Temática -->
+                <div class="event-card">
+                    <!-- REEMPLAZA ESTO: Imagen de clase con DJ o luces -->
+                    <img src="https://placehold.co/600x400/666666/white?text=Cycling+con+DJ" alt="Clase Temática" class="event-card-img">
+                    <div class="event-card-content">
+                        <span class="event-date-badge">VIERNES 20 DIC</span>
+                        <h3 class="text-2xl font-bold text-white mb-3">Clase de Cycling con DJ en Vivo</h3>
+                        <p class="text-gray-300 text-sm mb-4">
+                            ¡Pedalea al ritmo de la mejor música! Una sesión especial de Indoor Cycling con DJ invitado, luces y la mejor energía.
+                        </p>
+                        <div class="event-card-footer">
+                            <a href="#" class="cta-button-red">
+                                Aparta tu Bici
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evento 3: Convivencia -->
+                <div class="event-card">
+                    <!-- REEMPLAZA ESTO: Imagen de convivencia o aniversario -->
+                    <img src="https://placehold.co/600x400/777777/white?text=Posada+AVC" alt="Convivencia" class="event-card-img">
+                    <div class="event-card-content">
+                        <span class="event-date-badge">SÁBADO 21 DIC</span>
+                        <h3 class="text-2xl font-bold text-white mb-3">Posada Anual AVC</h3>
+                        <p class="text-gray-300 text-sm mb-4">
+                            ¡No todo es entrenar! Celebremos un año más de logros y comunidad. Trae un platillo para compartir y toda la actitud.
+                        </p>
+                        <div class="event-card-footer">
+                            <a href="#" class="cta-button-red">
+                                Confirma tu Asistencia
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== GALERÍA EVENTOS PASADOS ========== -->
+    <section class="py-20 bg-gray-950" id="eventos-pasados">
+        <div class="container mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Momentos <span class="text-avc-red">Inolvidables</span></h2>
+                <p class="text-lg text-gray-300">
+                    Un vistazo a la energía y la diversión de nuestros eventos pasados. ¡La próxima vez, tú tienes que estar ahí!
+                </p>
+            </div>
+
+            <!-- Grid de Fotos -->
+            <div class="gallery-grid-past">
+                
+                <!-- Foto 1 -->
+                <div class="gallery-item h-64">
+                    <img src="https://placehold.co/600x400/888888/white?text=Aniversario+AVC" alt="Aniversario AVC" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="text-white text-lg font-bold">Aniversario AVC</h3>
+                    </div>
+                </div>
+                <!-- Foto 2 -->
+                <div class="gallery-item h-64">
+                    <img src="https://placehold.co/600x400/999999/white?text=Reto+Verano" alt="Reto Verano" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="text-white text-lg font-bold">Reto Verano</h3>
+                    </div>
+                </div>
+                <!-- Foto 3 -->
+                <div class="gallery-item h-64">
+                    <img src="https://placehold.co/600x400/aaaaaa/white?text=Clase+Halloween" alt="Clase Halloween" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="text-white text-lg font-bold">Clase Temática Halloween</h3>
+                    </div>
+                </div>
+                <!-- Foto 4 -->
+                <div class="gallery-item h-64">
+                    <img src="https://placehold.co/600x400/bbbbbb/white?text=Competencia+Interna" alt="Competencia Interna" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="text-white text-lg font-bold">Competencia Interna</h3>
+                    </div>
+                </div>
+                <!-- Foto 5 -->
+                <div class="gallery-item h-64">
+                    <img src="https://placehold.co/600x400/cccccc/white?text=Convivencia+Equipo" alt="Convivencia Equipo" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="text-white text-lg font-bold">Convivencia de Equipo</h3>
+                    </div>
+                </div>
+                <!-- Foto 6 -->
+                <div class="gallery-item h-64">
+                    <img src="https://placehold.co/600x400/dddddd/white?text=Posada" alt="Posada" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <h3 class="text-white text-lg font-bold">Posada Navideña</h3>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>Contacto y Ubicación - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+            overflow-x: hidden; /* Previene el desbordamiento horizontal */
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+        
+        /* Animación de entrada (Fade In Up) */
+        .animate-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Estilo para el placeholder del mapa */
+        #map-placeholder {
+            background-color: #374151; /* gray-700 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        /* Animación para el pin del mapa */
+        @keyframes bouncePin {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .map-pin {
+            animation: bouncePin 1.5s ease-in-out infinite;
+        }
+
+        /* Estilo para los campos del formulario */
+        .form-input {
+            background-color: #374151; /* gray-700 */
+            border: 2px solid transparent;
+            color: white;
+            transition: border-color 0.3s ease;
+        }
+        .form-input:focus {
+            background-color: #4b5563; /* gray-600 */
+            border-color: #dc2626; /* avc-red */
+            outline: none;
+            box-shadow: none;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <div class="hidden md:flex space-x-5">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="avc-fitness-about.html" class="text-white hover:text-avc-red transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-coaches.html" class="text-white hover:text-avc-red transition duration-300">Coaches</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-testimonios.html" class="text-white hover:text-avc-red transition duration-300">Testimonios</a>
+                <a href="avc-fitness-eventos.html" class="text-white hover:text-avc-red transition duration-300">Eventos</a>
+                <a href="avc-fitness-beneficios.html" class="text-white hover:text-avc-red transition duration-300">Beneficios</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <!-- Marcamos "Contacto" como activa -->
+                <a href="avc-fitness-contacto.html" class="text-avc-red font-bold transition duration-300">Contacto</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== MAPA (Hero Section) ========== -->
+    <!-- Este 'main' envuelve todo el contenido debajo de la nav fija -->
+    <main class="pt-16"> <!-- El padding-top evita que el contenido quede oculto por la nav fija -->
+        
+        <!-- Sección del Mapa Full-Width -->
+        <section id="map-placeholder" class="w-full h-[60vh]">
+            <!-- 
+                AQUÍ VA EL IFRAME DE GOOGLE MAPS:
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=..." 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            -->
+            
+            <!-- Placeholder visual mientras no está el iframe -->
+            <div>
+                <svg class="w-16 h-16 text-avc-red map-pin" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                </svg>
+                <h2 class="text-2xl font-bold text-white mt-4">El Mapa Interactivo se cargará aquí</h2>
+                <p class="text-gray-300 text-lg">Ubicación de AVC Fitness Center</p>
+            </div>
+            <!-- Fin del Placeholder -->
+
+        </section>
+
+        <!-- ========== CONTENIDO (Indicadores y Formulario) ========== -->
+        <section class="bg-gray-900 py-20">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    
+                    <!-- Columna 1: Información de Contacto e Indicadores -->
+                    <div class="animate-scroll">
+                        <h1 class="text-3xl md:text-4xl font-bold text-white mb-6">Visítanos o <span class="text-avc-red">Contáctanos</span></h1>
+                        <p class="text-lg text-gray-300 mb-8">
+                            Estamos listos para recibirte. Encuentra aquí cómo llegar y la información de estacionamiento y transporte.
+                        </p>
+                        
+                        <!-- Indicadores -->
+                        <div class="space-y-6">
+                            <!-- Indicador 1: Dirección -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex shrink-0 bg-avc-red p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-white">Dirección</h3>
+                                    <p class="text-gray-300">[Av. Universidad 123, Col. Centro, San Juan del Río, Qro.]</p>
+                                </div>
+                            </div>
+                            <!-- Indicador 2: Transporte -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex shrink-0 bg-avc-red p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M5.32 3.14a.5.5 0 0 0 0 .7l1.9 1.9-1.5 1.5a.5.5 0 0 0 .7.7l1.5-1.5 1.9 1.9a.5.5 0 0 0 .7 0l4.3-4.3a.5.5 0 0 0 0-.7L12.7 1.7a.5.5 0 0 0-.7 0L8 5.7 5.32 3.14zM.188 8.874a1.8 1.8 0 0 0 0 2.4l1.5 1.5a.5.5 0 0 0 .7-.7l-1.5-1.5a.8.8 0 0 1 0-1.1l1.5-1.5a.5.5 0 0 0-.7-.7l-1.5 1.5a1.8 1.8 0 0 0 0 2.4zM10.2 15.8a1.8 1.8 0 0 0 2.4 0l1.5-1.5a.5.5 0 0 0-.7-.7l-1.5 1.5a.8.8 0 0 1-1.1 0l-1.5-1.5a.5.5 0 0 0-.7.7l1.5 1.5z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-white">Transporte Cercano</h3>
+                                    <p class="text-gray-300">Las rutas 5, 8 y 12 te dejan a menos de 3 calles del gimnasio.</p>
+                                </div>
+                            </div>
+                            <!-- Indicador 3: Estacionamiento -->
+                            <div class="flex items-start space-x-4">
+                                <div class="flex shrink-0 bg-avc-red p-3 rounded-full">
+                                    <svg class="w-6 h-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M2.5 0a.5.5 0 0 0-.5.5v15a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5V.5a.5.5 0 0 0-.5-.5h-11zM3 1a.5.5 0 0 1 .5.5V3a.5.5 0 0 1-1 0V1.5A.5.5 0 0 1 3 1zm2 0a.5.5 0 0 1 .5.5V3a.5.5 0 0 1-1 0V1.5A.5.5 0 0 1 5 1zm2 0a.5.5 0 0 1 .5.5V3a.5.5 0 0 1-1 0V1.5A.5.5 0 0 1 7 1zm2 0a.5.5 0 0 1 .5.5V3a.5.5 0 0 1-1 0V1.5A.5.5 0 0 1 9 1zm2 0a.5.5 0 0 1 .5.5V3a.5.5 0 0 1-1 0V1.5A.5.5 0 0 1 11 1zm-9 4a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-1 0V5.5A.5.5 0 0 1 3 5zm2 0a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-1 0V5.5A.5.5 0 0 1 5 5zm2 0a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-1 0V5.5A.5.5 0 0 1 7 5zm2 0a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-1 0V5.5A.5.5 0 0 1 9 5zm2 0a.5.5 0 0 1 .5.5V9a.5.5 0 0 1-1 0V5.5A.5.5 0 0 1 11 5zm-9 4a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5zm2 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0v-3a.5.5 0 0 1 .5-.5z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-semibold text-white">Estacionamiento</h3>
+                                    <p class="text-gray-300">Contamos con estacionamiento exclusivo para miembros y convenio con pensiones cercanas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Columna 2: Formulario de Contacto -->
+                    <div class="animate-scroll" style="transition-delay: 0.1s;">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Envíanos un <span class="text-avc-red">Mensaje</span></h2>
+                        <form action="#" method="POST" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-300">Nombre</label>
+                                <input type="text" name="name" id="name" required class="form-input mt-1 block w-full rounded-md shadow-sm p-3">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                                <input type="email" name="email" id="email" required class="form-input mt-1 block w-full rounded-md shadow-sm p-3">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-300">Teléfono (Opcional)</label>
+                                <input type="tel" name="phone" id="phone" class="form-input mt-1 block w-full rounded-md shadow-sm p-3">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-300">Mensaje</label>
+                                <textarea name="message" id="message" rows="4" required class="form-input mt-1 block w-full rounded-md shadow-sm p-3"></textarea>
+    
+                            </div>
+                            <div>
+                                <button type="submit" class="w-full bg-avc-red text-white font-bold py-3 px-6 rounded-md shadow-lg hover:bg-avc-red-dark transition duration-300 transform hover:scale-105">
+                                    Enviar Mensaje
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Script para la animación de scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Se activa cuando el 10% del elemento es visible
+            });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+
+</body>
+</html>

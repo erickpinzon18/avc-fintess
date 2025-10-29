@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiénes Somos - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados (los mismos de la home) -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+
+        /* Estilos para las fotos */
+        .about-photo {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem; /* Más redondeado */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .about-photo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(220, 38, 38, 0.2); /* Sombra roja al hover */
+        }
+        
+        /* Grid para Misión/Visión con efecto visual */
+        .vision-card {
+            background-color: #2a2a2a; /* un gris un poco más claro que el fondo */
+            border-radius: 0.75rem;
+            padding: 2rem;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+        }
+        .vision-card:hover {
+            border-color: #dc2626;
+            transform: translateY(-5px);
+        }
+
+        /* Estilo para tarjetas de valores */
+        .value-card {
+            background: #222;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 4px solid #dc2626;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .value-card:hover {
+            background: #2a2a2a;
+            transform: scale(1.05);
+        }
+        .value-card svg {
+            margin: 0 auto 1rem;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <!-- (Es la misma que en la home para consistencia) -->
+    <!-- Asegúrate de cambiar los href a los nombres de archivo correctos (ej: avc-fitness-home.html) -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <div class="hidden md:flex space-x-6">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <!-- Marcamos "Quiénes Somos" como activa en esta página -->
+                <a href="avc-fitness-about.html" class="text-avc-red font-bold transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="avc-fitness-contacto.html" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER (Específico de Quiénes Somos) ========== -->
+    <section id="hero-about" class="relative h-[60vh] flex items-center justify-center text-center px-4 pt-16">
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO: Imagen de la comunidad, gente sonriendo, no solo entrenando -->
+            <img src="https://placehold.co/1920x600/1a1a1a/333333?text=Comunidad+AVC+Fitness" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x600/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Comunidad de AVC Fitness Center" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+                Más que un gimnasio, <br>somos <span class="text-avc-red">una familia</span>.
+            </h1>
+            <p class="text-xl text-gray-200">
+                Descubre nuestra filosofía y por qué AVC es tu segundo hogar.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== SECCIÓN PRINCIPAL "QUIÉNES SOMOS" ========== -->
+    <section class="py-20 bg-gray-950" id="quienes-somos-contenido">
+        <div class="container mx-auto px-6">
+            
+            <!-- Introducción y Foto Principal -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
+                <div class="text-lg text-gray-300 space-y-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Nuestra <span class="text-avc-red">Filosofía</span></h2>
+                    <p>
+                        En <span class="font-bold text-white">AVC Fitness Center</span> creemos que entrenar va más allá del ejercicio: es un estilo de vida, una forma de sentirte bien contigo mismo y disfrutar el proceso.
+                    </p>
+                    <p>
+                        Somos mucho más que un gimnasio: somos una <span class="text-avc-red font-semibold">comunidad</span> donde cada persona encuentra motivación, apoyo y un ambiente lleno de energía positiva.
+                    </p>
+                </div>
+                <div>
+                    <!-- REEMPLAZA ESTO: Foto de gente conviviendo, chocando manos, etc. -->
+                    <img src="https://placehold.co/600x400/333333/white?text=Foto+Comunidad" alt="Comunidad AVC" class="about-photo">
+                </div>
+            </div>
+
+            <!-- Actividades Destacadas (Visual) -->
+            <div class="my-20 text-center">
+                <h3 class="text-3xl font-semibold text-white mb-10">Un lugar para <span class="text-avc-red">todo</span></h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">CrossFit</span>
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">Entrenamiento Funcional</span>
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">Halterofilia</span>
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">Indoor Cycling</span>
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">Zumba</span>
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">Baile</span>
+                    <span class="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white">Flexibilidad</span>
+                </div>
+            </div>
+
+            <!-- Misión y Visión (Tarjetas lado a lado) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 my-20">
+                <div class="vision-card">
+                    <h3 class="text-3xl font-bold text-white mb-4"><span class="text-avc-red">Nuestra</span> Misión</h3>
+                    <p class="text-gray-300 text-lg">
+                        Ofrecer entrenamientos y actividades deportivas para personas de todas las edades, fomentando un estilo de vida saludable, divertido y lleno de motivación. Cada persona que entre a nuestras instalaciones se siente bienvenida, apoyada y libre de juicios.
+                    </p>
+                </div>
+                <div class="vision-card">
+                    <h3 class="text-3xl font-bold text-white mb-4"><span class="text-avc-red">Nuestra</span> Visión</h3>
+                    <p class="text-gray-300 text-lg">
+                        Ser reconocidos por nuestro ambiente positivo, familiar y motivador, con presencia en todo el estado. Inspirar a más personas a cuidar su salud y bienestar.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Valores (Grid de Tarjetas con Iconos) -->
+            <div class="my-20">
+                <h3 class="text-3xl font-semibold text-white text-center mb-10">Nuestros <span class="text-avc-red">Valores</span></h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                    <!-- Salud y bienestar -->
+                    <div class="value-card">
+                        <svg class="w-10 h-10 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <span class="font-bold text-lg text-white">Salud y bienestar</span>
+                    </div>
+                    <!-- Respeto e inclusión -->
+                    <div class="value-card">
+                        <svg class="w-10 h-10 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-1.657-1.343-3-3-3s-3 1.343-3 3v2m10 0v-2a3 3 0 00-5.356-1.857M17 20H7"></path></svg>
+                        <span class="font-bold text-lg text-white">Respeto e inclusión</span>
+                    </div>
+                    <!-- Motivación -->
+                    <div class="value-card">
+                        <svg class="w-10 h-10 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <span class="font-bold text-lg text-white">Motivación</span>
+                    </div>
+                    <!-- Compromiso -->
+                    <div class="value-card">
+                        <svg class="w-10 h-10 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-bold text-lg text-white">Compromiso</span>
+                    </div>
+                    <!-- Ambiente familiar -->
+                    <div class="value-card">
+                        <svg class="w-10 h-10 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <span class="font-bold text-lg text-white">Ambiente familiar</span>
+                    </div>
+                    <!-- Diversión -->
+                    <div class="value-card">
+                        <svg class="w-10 h-10 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span class="font-bold text-lg text-white">Diversión</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cultura y Responsabilidad + Fotos -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center my-20">
+                <div class="space-y-6">
+                     <!-- REEMPLAZA ESTO: Fotos de eventos, reciclaje, etc. -->
+                    <img src="https://placehold.co/600x350/444444/white?text=Foto+Cultura+1" alt="Cultura AVC" class="about-photo">
+                    <img src="https://placehold.co/600x350/555555/white?text=Foto+Cultura+2" alt="Responsabilidad AVC" class="about-photo">
+                </div>
+                <div class="text-lg text-gray-300 space-y-4">
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Nuestra <span class="text-avc-red">Cultura</span></h2>
+                    <p>
+                        Promovemos activamente el <span class="text-white font-semibold">reciclaje</span>, el <span class="text-white font-semibold">consumo local</span> y el <span class="text-white font-semibold">cuidado del medio ambiente</span>.
+                    </p>
+                    <p>
+                        Buscamos crear un espacio integral para crecer, convivir y disfrutar junto a personas que comparten tu misma pasión por mejorar día a día, en todos los aspectos de la vida.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <!-- (Es el mismo que en la home para consistencia) -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

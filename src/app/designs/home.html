@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVC Fitness Center - Tu Casa Fitness</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Paleta de colores principal: gris muy oscuro y texto claro */
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red {
+            color: #dc2626; /* Tailwind's red-600 */
+        }
+        .bg-avc-red {
+            background-color: #dc2626;
+        }
+        .border-avc-red {
+            border-color: #dc2626;
+        }
+        .hover\:bg-avc-red-dark:hover {
+            background-color: #b91c1c; /* Tailwind's red-700 */
+        }
+         .hover\:border-avc-red:hover {
+            border-color: #dc2626;
+        }
+        .hover\:text-avc-red:hover {
+             color: #dc2626;
+        }
+
+        /* Imagen del logo en la barra de navegación */
+        .navbar-logo {
+            height: 40px; /* Ajusta esto según el tamaño de tu logo */
+        }
+
+        /* Estilos para la galería */
+        .gallery-grid {
+            display: grid;
+            /* Grid responsivo: 1 col en móvil, 2 en tablet, 3 en desktop */
+            grid-template-columns: repeat(1, 1fr);
+            gap: 1.5rem;
+        }
+        @media (min-width: 640px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem; /* Bordes redondeados */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            aspect-ratio: 4 / 3; /* Proporción para las imágenes/videos */
+        }
+
+        .gallery-item img, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Asegura que la imagen/video llene el contenedor */
+            transition: transform 0.4s ease-in-out;
+        }
+
+        .gallery-item:hover img, .gallery-item:hover video {
+            transform: scale(1.05); /* Efecto de zoom al pasar el ratón */
+        }
+
+        /* Superposición de texto para la galería */
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            padding: 1.5rem 1rem 1rem;
+            color: white;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo y Nombre -->
+            <a href="#home" class="flex items-center space-x-3">
+                <!-- REEMPLAZA ESTO con la URL de tu logo -->
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            
+            <!-- Links de Navegación (para Desktop) -->
+            <div class="hidden md:flex space-x-6">
+                <a href="#home" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="#clases" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="#unete" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+                <a href="#horarios" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="#galeria" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="#contacto" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            
+            <!-- Botón de Menú (para Móvil) - (Funcionalidad JS no incluida) -->
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER ========== -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center text-center px-4 pt-16">
+        <!-- Imagen de Fondo con superposición oscura -->
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO con tu imagen principal de alta calidad -->
+            <img src="https://placehold.co/1920x1080/000000/333333?text=Foto+Gym+Principal" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x1080/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Miembros de AVC Fitness entrenando" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-70"></div>
+        </div>
+        
+        <!-- Contenido del Banner -->
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-white mb-8">
+                Tu casa fitness te espera. <br> Supera tus límites, diviértete y <span class="text-avc-red">siente la motivación.</span>
+            </h1>
+            
+            <!-- Botones de Acción -->
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="#clases" class="bg-avc-red hover:bg-avc-red-dark text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 text-lg">
+                    Conoce nuestras clases
+                </a>
+                <a href="#unete" class="bg-transparent border-2 border-white hover:border-avc-red hover:text-avc-red text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 text-lg">
+                    Únete ahora
+                </a>
+                <a href="#horarios" class="bg-transparent border-2 border-white hover:border-avc-red hover:text-avc-red text-white font-bold py-3 px-8 rounded-full shadow-lg transition duration-300 transform hover:scale-105 text-lg">
+                    Horario de clases
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== BENEFICIOS DESTACADOS ========== -->
+    <section class="py-20 bg-gray-900" id="beneficios">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-16">¿Por qué <span class="text-avc-red">AVC Fitness Center</span>?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                
+                <!-- Beneficio 1 -->
+                <div class="bg-gray-800 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-b-4 border-avc-red">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Ambiente familiar y positivo</h3>
+                    <p class="text-gray-300">Más que un gimnasio, una familia donde todos se apoyan y crecen juntos. ¡Ven y siéntete parte!</p>
+                </div>
+                
+                <!-- Beneficio 2 -->
+                <div class="bg-gray-800 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-b-4 border-avc-red">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Variedad de actividades</h3>
+                    <p class="text-gray-300">CrossFit, Funcional, Halterofilia... Opciones para cada meta y nivel, nunca te aburrirás.</p>
+                </div>
+                
+                <!-- Beneficio 3 -->
+                <div class="bg-gray-800 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-b-4 border-avc-red">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Coaches capacitados</h3>
+                    <p class="text-gray-300">Expertos apasionados por tu progreso, que te guiarán de forma segura y efectiva en cada WOD.</p>
+                </div>
+                
+                <!-- Beneficio 4 -->
+                <div class="bg-gray-800 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-b-4 border-avc-red">
+                    <h3 class="text-2xl font-semibold text-white mb-4">Comunidad activa</h3>
+                    <p class="text-gray-300">Entrena con amigos y haz nuevos. La motivación nunca falta en nuestra increíble comunidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== GALERÍA DE FOTOS Y VIDEOS ========== -->
+    <section class="py-20 bg-gray-950" id="galeria">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-16">Momentos en <span class="text-avc-red">AVC</span></h2>
+            
+            <div class="gallery-grid">
+                
+                <!-- Item 1: Foto -->
+                <div class="gallery-item">
+                    <!-- REEMPLAZA ESTO con tus fotos -->
+                    <img src="https://placehold.co/600x400/dc2626/white?text=Foto+WOD" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/FFFFFF?text=Error+Imagen';"
+                         alt="Entrenamiento CrossFit" loading="lazy">
+                    <div class="gallery-item-overlay">
+                        <span class="text-lg font-semibold">Intensidad en cada WOD</span>
+                    </div>
+                </div>
+                
+                <!-- Item 2: Foto -->
+                <div class="gallery-item">
+                    <!-- REEMPLAZA ESTO con tus fotos -->
+                    <img src="https://placehold.co/600x400/1a1a1a/white?text=Comunidad+AVC" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/FFFFFF?text=Error+Imagen';"
+                         alt="Comunidad AVC" loading="lazy">
+                    <div class="gallery-item-overlay">
+                        <span class="text-lg font-semibold">La fuerza de nuestra comunidad</span>
+                    </div>
+                </div>
+                
+                <!-- Item 3: Video -->
+                <div class="gallery-item">
+                    <!-- REEMPLAZA ESTO con tus videos -->
+                    <video controls muted loop playsinline poster="https://placehold.co/600x400/000000/ffffff?text=Video+Promo">
+                        <source src="https://www-" type="video/mp4">
+                        Tu navegador no soporta el tag de video.
+                    </video>
+                    <div class="gallery-item-overlay">
+                        <span class="text-lg font-semibold">Nuestros atletas en acción</span>
+                    </div>
+                </div>
+                
+                <!-- Item 4: Foto -->
+                <div class="gallery-item">
+                    <!-- REEMPLAZA ESTO con tus fotos -->
+                    <img src="https://placehold.co/600x400/444444/white?text=Foto+Funcional" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/FFFFFF?text=Error+Imagen';"
+                         alt="Clase Funcional" loading="lazy">
+                    <div class="gallery-item-overlay">
+                        <span class="text-lg font-semibold">Funcional para todos los niveles</span>
+                    </div>
+                </div>
+                
+                <!-- Item 5: Foto -->
+                <div class="gallery-item">
+                    <!-- REEMPLAZA ESTO con tus fotos -->
+                    <img src="https://placehold.co/600x400/555555/white?text=Coaches+Guiando" 
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/333333/FFFFFF?text=Error+Imagen';"
+                         alt="Coaches Guiando" loading="lazy">
+                    <div class="gallery-item-overlay">
+                        <span class="text-lg font-semibold">Guía experta de nuestros coaches</span>
+                    </div>
+                </div>
+                
+                <!-- Item 6: Video -->
+                <div class="gallery-item">
+                    <!-- REEMPLAZA ESTO con tus videos -->
+                    <video controls muted loop playsinline poster="https://placehold.co/600x400/111111/ffffff?text=Video+Ambiente">
+                        <source src="https://www-" type="video/mp4">
+                        Tu navegador no soporta el tag de video.
+                    </video>
+                    <div class="gallery-item-overlay">
+                        <span class="text-lg font-semibold">Ambiente y energía</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <!-- Iconos de Redes Sociales (Ejemplo) -->
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

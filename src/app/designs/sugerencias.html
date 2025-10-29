@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>Dudas y Sugerencias - AVC Fitness Center</title>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Carga de Google Fonts (Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1a1a1a; 
+            color: #e0e0e0;
+            overflow-x: hidden; /* Previene el desbordamiento horizontal */
+        }
+        
+        /* Definición del rojo vibrante de AVC */
+        .text-avc-red { color: #dc2626; }
+        .bg-avc-red { background-color: #dc2626; }
+        .border-avc-red { border-color: #dc2626; }
+        .hover\:bg-avc-red-dark:hover { background-color: #b91c1c; }
+        .hover\:border-avc-red:hover { border-color: #dc2626; }
+        .hover\:text-avc-red:hover { color: #dc2626; }
+
+        /* Logo en Navbar */
+        .navbar-logo { height: 40px; }
+        
+        /* Animación de entrada (Fade In Up) */
+        .animate-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilo para los campos del formulario */
+        .form-input {
+            background-color: #374151; /* gray-700 */
+            border: 2px solid transparent;
+            color: white;
+            transition: border-color 0.3s ease;
+        }
+        .form-input:focus {
+            background-color: #4b5563; /* gray-600 */
+            border-color: #dc2626; /* avc-red */
+            outline: none;
+            box-shadow: none;
+        }
+        
+        /* --- NUEVOS ESTILOS PARA EL ACORDEÓN --- */
+        .accordion-item {
+            border-bottom: 1px solid #374151; /* gray-700 */
+        }
+        .accordion-button {
+            width: 100%;
+            text-align: left;
+            padding: 1rem 0.5rem;
+            font-weight: 600; /* semi-bold */
+            color: #e5e7eb; /* gray-200 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .accordion-button:hover {
+            color: #dc2626; /* avc-red */
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        .accordion-content p {
+            padding-bottom: 1rem;
+            color: #d1d5db; /* gray-300 */
+            line-height: 1.6;
+        }
+        /* Rotar el icono del acordeón */
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+        .accordion-button.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+        /* --- FIN DE ESTILOS DE ACORDEÓN --- */
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ========== NAVEGACIÓN ========== -->
+    <nav class="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="avc-fitness-home.html" class="flex items-center space-x-3">
+                <img src="https://i.imgur.com/mOqW3wJ.png" alt="Logo AVC Fitness Center" class="navbar-logo">
+                <span class="text-white text-2xl font-bold tracking-tight">AVC Fitness Center</span>
+            </a>
+            <div class="hidden md:flex space-x-5">
+                <a href="avc-fitness-home.html" class="text-white hover:text-avc-red transition duration-300">Inicio</a>
+                <a href="avc-fitness-about.html" class="text-white hover:text-avc-red transition duration-300">Quiénes Somos</a>
+                <a href="avc-fitness-clases.html" class="text-white hover:text-avc-red transition duration-300">Clases</a>
+                <a href="avc-fitness-coaches.html" class="text-white hover:text-avc-red transition duration-300">Coaches</a>
+                <a href="avc-fitness-horarios.html" class="text-white hover:text-avc-red transition duration-300">Horarios</a>
+                <a href="avc-fitness-testimonios.html" class="text-white hover:text-avc-red transition duration-300">Testimonios</a>
+                <a href="avc-fitness-eventos.html" class="text-white hover:text-avc-red transition duration-300">Eventos</a>
+                <a href="avc-fitness-beneficios.html" class="text-white hover:text-avc-red transition duration-300">Beneficios</a>
+                <a href="avc-fitness-galeria.html" class="text-white hover:text-avc-red transition duration-300">Galería</a>
+                <a href="avc-fitness-contacto.html" class="text-white hover:text-avc-red transition duration-300">Contacto</a>
+                <!-- Marcamos "Dudas" como activa -->
+                <a href="avc-fitness-dudas.html" class="text-avc-red font-bold transition duration-300">Dudas</a>
+                <a href="avc-fitness-unete.html" class="text-white hover:text-avc-red transition duration-300">Únete</a>
+            </div>
+            <div class="md:hidden">
+                <button class="text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO BANNER (Específico de Dudas) ========== -->
+    <section id="hero-dudas" class="relative h-[50vh] flex items-center justify-center text-center px-4 pt-16">
+        <div class="absolute inset-0">
+            <!-- REEMPLAZA ESTO: Imagen de fondo sutil, quizás de la recepción o un coach amigable -->
+            <img src="https://placehold.co/1920x500/333333/444444?text=Tu+Opini%C3%B3n+Importa" 
+                 onerror="this.onerror=null;this.src='https://placehold.co/1920x500/000000/333333?text=Error+Cargando+Imagen';"
+                 alt="Coach de AVC Fitness Center escuchando" 
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black opacity-70"></div>
+        </div>
+        <div class="relative z-10 max-w-3xl mx-auto animate-scroll visible">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+                Queremos <span class="text-avc-red">escucharte</span>
+            </h1>
+            <p class="text-xl text-gray-200">
+                Tu opinión nos ayuda a crecer. Déjanos tus dudas, comentarios o sugerencias.
+            </p>
+        </div>
+    </section>
+
+    <!-- ========== FORMULARIO Y FAQS (DISEÑO MEJORADO) ========== -->
+    <main class="bg-gray-900 py-20">
+        <section class="container mx-auto px-6">
+            
+            <!-- Título de la sección -->
+            <div class="text-center max-w-3xl mx-auto mb-16 animate-scroll">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                    Resolvemos tus <span class="text-avc-red">Dudas</span>
+                </h2>
+                <p class="text-lg text-gray-300">
+                    ¿Tienes preguntas? Consulta nuestras respuestas rápidas. Si no encuentras lo que buscas, ¡escríbenos en el formulario!
+                </p>
+            </div>
+
+            <!-- Contenedor de dos columnas -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            
+                <!-- Columna Izquierda: Acordeón de FAQs -->
+                <div class="animate-scroll" style="transition-delay: 0.1s;">
+                    <h3 class="text-2xl md:text-3xl font-semibold text-white mb-6">Preguntas Frecuentes</h3>
+                    <div class="bg-gray-800 rounded-lg shadow-xl p-6">
+                        
+                        <!-- FAQ 1 -->
+                        <div class="accordion-item">
+                            <button class="accordion-button">
+                                <span>¿Necesito experiencia previa para unirme?</span>
+                                <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <p>¡Para nada! Todas nuestras clases, especialmente CrossFit y Funcional, están diseñadas para ser 100% escalables. Nuestros coaches adaptarán cada ejercicio a tu nivel actual para que puedas avanzar de forma segura.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ 2 -->
+                        <div class="accordion-item">
+                            <button class="accordion-button">
+                                <span>¿Qué debo llevar a mi primera clase?</span>
+                                <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <p>Ropa deportiva cómoda, calzado deportivo adecuado, una botella de agua y una toalla pequeña. ¡Lo más importante es traer toda la actitud y ganas de divertirte!</p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 3 -->
+                        <div class="accordion-item">
+                            <button class="accordion-button">
+                                <span>¿Tienen clases de prueba?</span>
+                                <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <p>Sí, ofrecemos una clase de prueba completamente GRATIS para CrossFit y Entrenamiento Funcional. Para Indoor Cycling tiene un costo de recuperación. ¡Es la mejor forma de conocer el ambiente y a los coaches!</p>
+                            </div>
+                        </div>
+
+                        <!-- FAQ 4 -->
+                        <div class="accordion-item">
+                            <button class="accordion-button">
+                                <span>¿Cómo cancelo o reagendo una clase?</span>
+                                <svg class="w-6 h-6 accordion-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                            <div class="accordion-content">
+                                <p>Puedes gestionar todas tus reservas a través de nuestra app de miembros. Te pedimos cancelar con al menos 2 horas de anticipación para liberar tu lugar a otra persona.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Formulario (El contenido de antes) -->
+                <div class="max-w-2xl mx-auto bg-gray-800 rounded-lg shadow-xl p-8 md:p-12 animate-scroll">
+                    
+                    <!-- Mensaje de confirmación (oculto por defecto) -->
+                    <div id="success-message" class="hidden text-center">
+                        <svg class="w-16 h-16 text-green-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h2 class="text-3xl font-bold text-white mb-4">¡Mensaje Enviado!</h2>
+                        <p class="text-lg text-gray-300">
+                            Gracias por tu opinión. Hemos recibido tu mensaje y te contactaremos pronto si es necesario.
+                        </p>
+                        <a href="avc-fitness-home.html" class="mt-8 inline-block bg-avc-red text-white font-bold py-3 px-6 rounded-md shadow-lg hover:bg-avc-red-dark transition duration-300">
+                            Volver al Inicio
+                        </a>
+                    </div>
+
+                    <!-- Formulario -->
+                    <form id="suggestion-form" action="#" method="POST" class="space-y-6">
+                        <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 text-center">
+                            ¿No encontraste <span class="text-avc-red">respuesta?</span>
+                        </h2>
+                        
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300">Nombre</label>
+                            <input type="text" name="name" id="name" required class="form-input mt-1 block w-full rounded-md shadow-sm p-3" placeholder="Tu nombre completo">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                            <input type="email" name="email" id="email" required class="form-input mt-1 block w-full rounded-md shadow-sm p-3" placeholder="tu@correo.com">
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-medium text-gray-300">Teléfono (Opcional)</label>
+                            <input type="tel" name="phone" id="phone" class="form-input mt-1 block w-full rounded-md shadow-sm p-3" placeholder="427 123 4567">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300">Mensaje, Duda o Sugerencia</label>
+                            <textarea name="message" id="message" rows="5" required class="form-input mt-1 block w-full rounded-md shadow-sm p-3" placeholder="Escribe aquí tu mensaje..."></textarea>
+</div>
+                        <div>
+                            <button type="submit" class="w-full bg-avc-red text-white font-bold py-3 px-6 rounded-md shadow-lg hover:bg-avc-red-dark transition duration-300 transform hover:scale-105">
+                                Enviar Mensaje
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
+        <div class="container mx-auto text-center px-6">
+            <p>&copy; 2024 AVC Fitness Center. Todos los derechos reservados.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="hover:text-avc-red transition duration-300">Privacidad</a>
+                <a href="#" class="hover:text-avc-red transition duration-300">Términos</a>
+                <a href="avc-fitness-contacto.html" class="hover:text-avc-red transition duration-300">Contacto</a>
+            </div>
+            <div class="flex justify-center space-x-6 mt-6">
+                <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.772-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.225-1.664 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.149-3.225 1.664-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.62c-3.144 0-3.493.012-4.71.069-2.731.123-3.95 1.349-4.072 4.072-.057 1.217-.069 1.566-.069 4.71s.012 3.493.069 4.71c.123 2.723 1.341 3.949 4.072 4.072 1.217.057 1.566.069 4.71.069 3.144 0 3.493-.012 4.71-.069 2.731-.123 3.95-1.349 4.072-4.072.057-1.217.069-1.566.069-4.71s-.012-3.493-.069-4.71c-.123-2.723-1.341-3.949-4.072-4.072-1.217-.057-1.566-.069-4.71-.069zm0 5.188c-1.954 0-3.52 1.566-3.52 3.52s1.566 3.52 3.52 3.52 3.52-1.566 3.52-3.52-1.566-3.52-3.52-3.52zm0 5.4c-1.038 0-1.88-.842-1.88-1.88s.842-1.88 1.88-1.88 1.88.842 1.88 1.88-.842 1.88-1.88 1.88zm5.225-5.71c-.552 0-.999.447-.999.999s.447.999.999.999c.553 0 .999-.447.999-.999s-.447-.999-.999-.999z" clip-rule="evenodd" /></svg>
+                </a>
+                <a href="#" aria-label="WhatsApp" class="text-gray-400 hover:text-avc-red transition duration-300">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.001 2.002C6.478 2.002 2 6.48 2 12.003c0 5.522 4.478 10 10.001 10 1.706 0 3.32-.422 4.77-1.193l3.602 1.187-1.165-3.503c.83-1.423 1.31-3.02 1.31-4.723 0-5.523-4.478-10.001-10.001-10.001m0 1.638c4.603 0 8.364 3.76 8.364 8.363 0 1.62-.46 3.14-1.274 4.432l.87 2.61-2.637-.872c-1.27.77-2.753 1.222-4.323 1.222-4.603 0-8.364-3.76-8.364-8.363 0-4.603 3.76-8.363 8.364-8.363m5.01 6.01c-.273-.136-1.62-.798-1.872-.888-.252-.09-.434-.136-.617.136-.183.273-.708.888-.87 1.06-.162.173-.324.195-.6.06-.273-.136-1.144-.422-2.18-1.34-.806-.71-1.34-1.59-1.497-1.864-.16-.273-.015-.42.12-.555.12-.12.273-.324.41-.485.136-.162.183-.273.273-.455.09-.183.045-.346-.022-.482-.067-.136-.617-1.488-.844-2.036-.225-.548-.455-.47-.617-.477-.16-.007-.345-.007-.527-.007-.183 0-.48.068-.732.346-.252.273-.96 1.118-.96 2.71 0 1.59.984 3.14 1.123 3.355.136.213 1.95 2.978 4.728 4.18.66.29 1.173.468 1.575.6.53.183 1.002.158 1.383.09.43-.067 1.27-.518 1.45-.998.18-.48.18-.888.12-.998-.06-.108-.24-.16-.51-.295" /></svg>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Script para la animación de scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animate-scroll');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Opcional: dejar de observar una vez que es visible
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.1 // Se activa cuando el 10% del elemento es visible
+            });
+
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+
+            /* --- NUEVO SCRIPT PARA ACORDEÓN --- */
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    const isActive = button.classList.contains('active');
+
+                    // Primero, cerramos todos los demás
+                    accordionButtons.forEach(btn => {
+                        if (btn !== button) {
+                            btn.classList.remove('active');
+                            btn.nextElementSibling.style.maxHeight = null;
+                        }
+                    });
+                    
+                    // Abrimos o cerramos el actual
+                    if (isActive) {
+                        button.classList.remove('active');
+                        content.style.maxHeight = null;
+                    } else {
+                        button.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    }
+                });
+            });
+            /* --- FIN SCRIPT ACORDEÓN --- */
+        });
+    </script>
+
+</body>
+</html>
+
