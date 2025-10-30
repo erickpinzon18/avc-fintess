@@ -1,8 +1,8 @@
-# AVC Fitness Center - Sitio Web Next.js 🏋️
+# AVC Fitness - Sitio Web Next.js 🏋️
 
 ## Descripción del Proyecto
 
-Sitio web moderno y dinámico para AVC Fitness Center construido con **Next.js 14 (App Router)**, **Tailwind CSS**, **Firebase** y **GSAP**. Transforma diseños HTML estáticos en una aplicación web completamente funcional con contenido dinámico desde Firestore.
+Sitio web moderno y dinámico para AVC Fitness construido con **Next.js 14 (App Router)**, **Tailwind CSS**, **Firebase** y **GSAP**. Transforma diseños HTML estáticos en una aplicación web completamente funcional con contenido dinámico desde Firestore.
 
 ## 🚀 Tecnologías
 
@@ -97,4 +97,4 @@ src/
 
 ## 📝 Licencia
 
-Proyecto privado - AVC Fitness Center
+Proyecto privado - AVC Fitness

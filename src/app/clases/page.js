@@ -101,7 +101,7 @@ export default function ClasesPage() {
         <div className="absolute inset-0">
           <Image
             src="https://placehold.co/1920x600/2a2a2a/333333?text=Nuestras+Clases+AVC"
-            alt="Clases en AVC Fitness Center"
+            alt="Clases en AVC Fitness"
             fill
             className="object-cover"
             priority

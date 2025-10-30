@@ -81,7 +81,7 @@ export default async function TestimoniosPage() {
             Lo que dicen nuestros <span className="text-avc-red">miembros</span>
           </h1>
           <p className="text-xl text-gray-200">
-            Historias reales de transformación y crecimiento en AVC Fitness Center.
+            Historias reales de transformación y crecimiento en AVC Fitness.
           </p>
         </div>
       </section>

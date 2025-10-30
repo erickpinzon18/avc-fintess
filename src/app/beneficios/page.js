@@ -43,7 +43,7 @@ export default function BeneficiosPage() {
             Beneficios de ser <span className="text-avc-red">miembro</span>
           </h1>
           <p className="text-xl text-gray-200">
-            Todo lo que obtienes al unirte a la familia AVC Fitness Center
+            Todo lo que obtienes al unirte a la familia AVC Fitness
           </p>
         </div>
       </section>

@@ -36,7 +36,7 @@ export default async function EventosPage() {
       date: new Date('2025-02-15'),
       description: 'Participa en el evento más grande de CrossFit del año',
       imageUrl: 'https://placehold.co/800x400/dc2626/white?text=Open+2025',
-      location: 'AVC Fitness Center',
+      location: 'AVC Fitness',
     },
     {
       id: '2',
@@ -44,7 +44,7 @@ export default async function EventosPage() {
       date: new Date('2025-01-20'),
       description: 'Mejora tu técnica con expertos internacionales',
       imageUrl: 'https://placehold.co/800x400/1a1a1a/white?text=Workshop',
-      location: 'AVC Fitness Center',
+      location: 'AVC Fitness',
     },
   ];
 
@@ -55,7 +55,7 @@ export default async function EventosPage() {
       date: new Date('2024-12-10'),
       description: 'Competencia interna épica',
       imageUrl: 'https://placehold.co/800x400/333333/white?text=Throwdown',
-      location: 'AVC Fitness Center',
+      location: 'AVC Fitness',
     },
   ];
 

@@ -1,0 +1,138 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Función helper para verificar si el usuario es administrador
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+    
+    // Función helper para verificar si el usuario está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // ========== CLASES ==========
+    // Público: Lectura | Admin: Escritura
+    match /clases/{claseId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== COACHES ==========
+    // Público: Lectura | Admin: Escritura
+    match /coaches/{coachId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== TESTIMONIOS ==========
+    // Público: Lectura | Admin: Escritura
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== BLOG ==========
+    // Público: Lectura | Admin: Escritura
+    match /blog/{postId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== EVENTOS ==========
+    // Público: Lectura | Admin: Escritura
+    match /eventos/{eventoId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== BENEFICIOS ==========
+    // Público: Lectura | Admin: Escritura
+    match /beneficios/{beneficioId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== HORARIOS ==========
+    // Público: Lectura | Admin: Escritura
+    match /horarios/{horarioId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== REDES SOCIALES ==========
+    // Público: Lectura | Admin: Escritura
+    match /socialPosts/{postId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== MENSAJES DE CONTACTO ==========
+    // Cualquiera puede crear | Admin puede leer/modificar
+    match /contactMessages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // ========== SUSCRIPCIONES A NEWSLETTER ==========
+    // Cualquiera puede crear | Admin puede leer/modificar
+    match /newsletter/{subscriptionId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // ========== PREGUNTAS FRECUENTES ==========
+    // Cualquiera puede crear | Admin puede leer/modificar
+    match /questions/{questionId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // ========== CONFIGURACIÓN GENERAL ==========
+    // Público: Lectura | Solo Admin: Escritura
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // ========== ADMINISTRADORES ==========
+    // Solo Admin puede leer y escribir
+    match /admins/{adminId} {
+      allow read: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== GALERÍA ==========
+    // Público: Lectura | Admin: Escritura
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ========== RESERVACIONES ==========
+    // Usuario autenticado puede crear su propia reservación
+    // Admin puede ver/modificar todas
+    match /reservations/{reservationId} {
+      allow create: if isAuthenticated();
+      allow read: if isAuthenticated() && 
+                    (request.auth.uid == resource.data.userId || isAdmin());
+      allow update, delete: if isAdmin();
+    }
+    
+    // ========== MEMBRESÍAS ==========
+    // Usuario puede ver su membresía | Admin puede ver/modificar todas
+    match /memberships/{membershipId} {
+      allow read: if isAuthenticated() && 
+                    (request.auth.uid == resource.data.userId || isAdmin());
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Denegar acceso a cualquier otra colección por defecto
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

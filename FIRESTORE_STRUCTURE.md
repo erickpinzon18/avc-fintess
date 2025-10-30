@@ -1,4 +1,4 @@
-# Estructura de Datos para Firestore - AVC Fitness Center
+# Estructura de Datos para Firestore - AVC Fitness
 
 Este archivo contiene ejemplos de documentos para cada colección de Firestore.
 
@@ -103,7 +103,7 @@ Este archivo contiene ejemplos de documentos para cada colección de Firestore.
   "description": "Participa en el evento más grande de CrossFit del año. Tres WODs, premios increíbles y mucha diversión.",
   "date": "Firestore Timestamp (2025-02-15)",
   "imageUrl": "https://placehold.co/800x400/dc2626/white?text=Open+2025",
-  "location": "AVC Fitness Center"
+  "location": "AVC Fitness"
 }
 
 {
@@ -111,7 +111,7 @@ Este archivo contiene ejemplos de documentos para cada colección de Firestore.
   "description": "Mejora tu técnica en Snatch y Clean & Jerk con coaches certificados y atletas internacionales.",
   "date": "Firestore Timestamp (2025-01-20)",
   "imageUrl": "https://placehold.co/800x400/1a1a1a/white?text=Workshop",
-  "location": "AVC Fitness Center"
+  "location": "AVC Fitness"
 }
 
 {
@@ -119,7 +119,7 @@ Este archivo contiene ejemplos de documentos para cada colección de Firestore.
   "description": "Nuestra competencia interna anual. 50+ atletas, 4 WODs épicos.",
   "date": "Firestore Timestamp (2024-12-10)",
   "imageUrl": "https://placehold.co/800x400/333333/white?text=Throwdown",
-  "location": "AVC Fitness Center"
+  "location": "AVC Fitness"
 }
 ```
 
@@ -149,7 +149,7 @@ Este archivo contiene ejemplos de documentos para cada colección de Firestore.
   "imageUrl": "https://placehold.co/600x400/555555/white?text=YouTube+Video",
   "caption": "Día en la vida de un atleta AVC",
   "likes": 567,
-  "platform": "AVC Fitness Center",
+  "platform": "AVC Fitness",
   "createdAt": "Firestore Timestamp"
 }
 ```

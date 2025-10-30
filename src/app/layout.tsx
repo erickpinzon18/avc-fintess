@@ -11,8 +11,8 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "AVC Fitness Center - Tu Casa Fitness",
-  description: "Supera tus límites en AVC Fitness Center. CrossFit, Funcional, Halterofilia y más. Únete a nuestra comunidad fitness.",
+  title: "AVC Fitness - Tu Casa Fitness",
+  description: "Supera tus límites en AVC Fitness. CrossFit, Funcional, Halterofilia y más. Únete a nuestra comunidad fitness.",
 };
 
 export default function RootLayout({

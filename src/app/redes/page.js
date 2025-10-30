@@ -53,7 +53,7 @@ export default async function RedesPage() {
       imageUrl: 'https://placehold.co/600x400/555555/white?text=YouTube+Video',
       caption: 'Día en la vida de un atleta AVC',
       likes: 567,
-      platform: 'AVC Fitness Center',
+      platform: 'AVC Fitness',
     },
     {
       id: '5',

@@ -72,7 +72,7 @@ export default function QuienesSomosPage() {
         <div className="absolute inset-0">
           <Image
             src="https://placehold.co/1920x600/1a1a1a/333333?text=Comunidad+AVC+Fitness"
-            alt="Comunidad de AVC Fitness Center"
+            alt="Comunidad de AVC Fitness"
             fill
             className="object-cover"
             priority
@@ -100,7 +100,7 @@ export default function QuienesSomosPage() {
                 Nuestra <span className="text-avc-red">Filosofía</span>
               </h2>
               <p>
-                En <span className="font-bold text-white">AVC Fitness Center</span> creemos
+                En <span className="font-bold text-white">AVC Fitness</span> creemos
                 que entrenar va más allá del ejercicio: es un estilo de vida, una forma de
                 sentirte bien contigo mismo y disfrutar el proceso.
               </p>

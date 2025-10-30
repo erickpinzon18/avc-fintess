@@ -36,15 +36,12 @@ export default function Navbar() {
         {/* Logo y Nombre */}
         <Link href="/" className="flex items-center space-x-3">
           <Image
-            src="/assets/logo.svg"
-            alt="Logo AVC Fitness Center"
+            src="/assets/logo.png"
+            alt="Logo AVC Fitness"
             width={40}
             height={40}
             className="navbar-logo"
           />
-          <span className="text-white text-2xl font-bold tracking-tight">
-            AVC Fitness Center
-          </span>
         </Link>
 
         {/* Links de Navegación (para Desktop) */}

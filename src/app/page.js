@@ -117,7 +117,7 @@ export default function HomePage() {
       <section className="py-20 bg-gray-900" id="beneficios">
         <div className="container mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-16">
-            ¿Por qué <span className="text-avc-red">AVC Fitness Center</span>?
+            ¿Por qué <span className="text-avc-red">AVC Fitness</span>?
           </h2>
           <div
             ref={benefitsRef}

@@ -113,14 +113,14 @@ const events = [
     description: 'Participa en el evento más grande de CrossFit del año',
     date: new Date('2025-02-15'),
     imageUrl: 'https://placehold.co/800x400/dc2626/white?text=Open+2025',
-    location: 'AVC Fitness Center',
+    location: 'AVC Fitness',
   },
   {
     title: 'Workshop de Halterofilia',
     description: 'Mejora tu técnica con expertos internacionales',
     date: new Date('2025-01-20'),
     imageUrl: 'https://placehold.co/800x400/1a1a1a/white?text=Workshop',
-    location: 'AVC Fitness Center',
+    location: 'AVC Fitness',
   },
 ];
 
@@ -144,7 +144,7 @@ const socialPosts = [
     imageUrl: 'https://placehold.co/600x400/555555/white?text=YouTube+Video',
     caption: 'Día en la vida de un atleta AVC',
     likes: 567,
-    platform: 'AVC Fitness Center',
+    platform: 'AVC Fitness',
   },
 ];
 

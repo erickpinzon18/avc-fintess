@@ -210,7 +210,7 @@ export default function BlogDetailPage({ params }) {
                 ¿Listo para poner esto en práctica?
               </h3>
               <p className="text-gray-300 mb-6">
-                Únete a AVC Fitness Center y comienza tu transformación hoy mismo.
+                Únete a AVC Fitness y comienza tu transformación hoy mismo.
               </p>
               <Link
                 href="/unete"

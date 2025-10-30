@@ -2,14 +2,19 @@
   "name": "avc-fitness",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "create-admin": "node scripts/createAdmin.js",
+    "seed": "node scripts/seedFirestore.js",
+    "init-firestore": "node scripts/initializeFirestore.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
+    "dotenv": "^17.2.3",
     "firebase": "^12.4.0",
     "framer-motion": "^12.23.24",
     "gsap": "^3.13.0",

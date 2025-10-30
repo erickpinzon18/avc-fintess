@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-gray-950 text-gray-400 py-12 border-t border-gray-800">
       <div className="container mx-auto text-center px-6">
-        <p>&copy; {currentYear} AVC Fitness Center. Todos los derechos reservados.</p>
+        <p>&copy; {currentYear} AVC Fitness. Todos los derechos reservados.</p>
         <div className="flex justify-center space-x-6 mt-4">
           <Link href="/privacidad" className="hover:text-avc-red transition duration-300">
             Privacidad
