@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, where } from 'firebase/firestore';
-import Link from 'next/link';
+import AdminHeader from '../components/AdminHeader';
 
 const DIAS_SEMANA = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -23,8 +23,8 @@ export default function AdminHorariosPage() {
   const [formData, setFormData] = useState({
     clase: '',
     fecha: '',
-    horaInicio: '',
-    horaFin: '',
+    horaInicio: '07:00',
+    horaFin: '08:00',
     instructor: '',
     capacidadMaxima: 20,
     nivel: 'Todos los niveles',
@@ -103,9 +103,13 @@ export default function AdminHorariosPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Crear fecha en zona horaria local para evitar problemas de offset UTC
+      const [year, month, day] = formData.fecha.split('-').map(Number);
+      const fechaLocal = new Date(year, month - 1, day);
+      
       const dataToSave = {
         ...formData,
-        fecha: new Date(formData.fecha),
+        fecha: fechaLocal,
         capacidadMaxima: parseInt(formData.capacidadMaxima),
         duracion: parseInt(formData.duracion),
       };
@@ -161,8 +165,8 @@ export default function AdminHorariosPage() {
     setFormData({
       clase: '',
       fecha: selectedDate || '',
-      horaInicio: '',
-      horaFin: '',
+      horaInicio: '07:00',
+      horaFin: '08:00',
       instructor: '',
       capacidadMaxima: 20,
       nivel: 'Todos los niveles',
@@ -274,39 +278,39 @@ export default function AdminHorariosPage() {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin" className="text-gray-400 hover:text-white">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold text-white">Calendario de Clases</h1>
-                <p className="text-sm text-gray-400">Gestiona los horarios de todas las clases del mes</p>
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                setEditingHorario(null);
-                resetForm();
-                setShowModal(true);
-              }}
-              className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              <span>Agregar Horario</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader 
+        title="Calendario de Clases"
+        subtitle="Gestiona los horarios de todas las clases del mes"
+      />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
+        {/* Action Buttons */}
+        <div className="mb-8 flex justify-between items-center">
+          <button
+            onClick={() => router.push('/admin')}
+            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Volver</span>
+          </button>
+          <button
+            onClick={() => {
+              setEditingHorario(null);
+              resetForm();
+              setShowModal(true);
+            }}
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Agregar Horario</span>
+          </button>
+        </div>
+
         {/* Controles del calendario */}
         <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 mb-6">
           <div className="flex items-center justify-between">
@@ -355,7 +359,7 @@ export default function AdminHorariosPage() {
               return (
                 <div
                   key={index}
-                  className={`min-h-[120px] p-2 rounded-lg border-2 transition-all duration-300 ${
+                  className={`min-h-[200px] p-2 rounded-lg border-2 transition-all duration-300 ${
                     !date
                       ? 'bg-gray-950 border-gray-900'
                       : esPasado
@@ -374,7 +378,7 @@ export default function AdminHorariosPage() {
                       
                       {horariosDelDia.length > 0 && (
                         <div className="space-y-1">
-                          {horariosDelDia.slice(0, 2).map((horario) => (
+                          {horariosDelDia.slice(0, 5).map((horario) => (
                             <div
                               key={horario.id}
                               className="bg-avc-red bg-opacity-20 border border-avc-red rounded p-1 text-xs"
@@ -387,9 +391,9 @@ export default function AdminHorariosPage() {
                               <div className="text-red-200">{horario.horaInicio}</div>
                             </div>
                           ))}
-                          {horariosDelDia.length > 2 && (
+                          {horariosDelDia.length > 5 && (
                             <div className="text-xs text-gray-400 text-center">
-                              +{horariosDelDia.length - 2} más
+                              +{horariosDelDia.length - 5} más
                             </div>
                           )}
                         </div>

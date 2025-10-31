@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Image from 'next/image';
-import Link from 'next/link';
+import AdminHeader from '../components/AdminHeader';
 
 export default function AdminCoachesPage() {
   const [user, setUser] = useState(null);
@@ -22,6 +22,10 @@ export default function AdminCoachesPage() {
     certifications: '',
     email: '',
     instagram: '',
+    experience: '',
+    achievements: '',
+    philosophy: '',
+    favoriteExercise: '',
   });
   const router = useRouter();
 
@@ -96,6 +100,10 @@ export default function AdminCoachesPage() {
       certifications: Array.isArray(coach.certifications) ? coach.certifications.join(', ') : '',
       email: coach.email || '',
       instagram: coach.instagram || '',
+      experience: coach.experience || '',
+      achievements: coach.achievements || '',
+      philosophy: coach.philosophy || '',
+      favoriteExercise: coach.favoriteExercise || '',
     });
     setShowModal(true);
   };
@@ -121,6 +129,10 @@ export default function AdminCoachesPage() {
       certifications: '',
       email: '',
       instagram: '',
+      experience: '',
+      achievements: '',
+      philosophy: '',
+      favoriteExercise: '',
     });
   };
 
@@ -140,39 +152,38 @@ export default function AdminCoachesPage() {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin" className="text-gray-400 hover:text-white">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold text-white">Administrar Coaches</h1>
-                <p className="text-sm text-gray-400">Gestiona el equipo de entrenadores</p>
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                setEditingCoach(null);
-                resetForm();
-                setShowModal(true);
-              }}
-              className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              <span>Nuevo Coach</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader 
+        title="Administrar Coaches"
+        subtitle="Gestiona el equipo de entrenadores"
+      />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
+        {/* Action Buttons */}
+        <div className="mb-8 flex justify-between items-center">
+          <button
+            onClick={() => router.push('/admin')}
+            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Volver</span>
+          </button>
+          <button
+            onClick={() => {
+              setEditingCoach(null);
+              resetForm();
+              setShowModal(true);
+            }}
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Nuevo Coach</span>
+          </button>
+        </div>
         {/* Coaches Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {coaches.map((coach) => (
@@ -300,6 +311,50 @@ export default function AdminCoachesPage() {
                   rows={4}
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Entrenador certificado con 5 años de experiencia..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Años de Experiencia</label>
+                <input
+                  type="text"
+                  value={formData.experience}
+                  onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  placeholder="5 años"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Logros Destacados</label>
+                <textarea
+                  value={formData.achievements}
+                  onChange={(e) => setFormData({ ...formData, achievements: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  placeholder="Ej: Campeón Regional CrossFit 2023, Entrenador del año..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Filosofía de Entrenamiento</label>
+                <textarea
+                  value={formData.philosophy}
+                  onChange={(e) => setFormData({ ...formData, philosophy: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  placeholder="Mi enfoque se centra en..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-300 mb-2">Ejercicio Favorito</label>
+                <input
+                  type="text"
+                  value={formData.favoriteExercise}
+                  onChange={(e) => setFormData({ ...formData, favoriteExercise: e.target.value })}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  placeholder="Ej: Clean & Jerk"
                 />
               </div>
 

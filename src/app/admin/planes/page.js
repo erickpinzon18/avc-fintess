@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import Image from 'next/image';
-import Link from 'next/link';
+import AdminHeader from '../components/AdminHeader';
 
 export default function AdminPlanesPage() {
   const [user, setUser] = useState(null);
@@ -17,10 +17,14 @@ export default function AdminPlanesPage() {
   const [formData, setFormData] = useState({
     name: '',
     price: '',
-    duration: '',
+    period: '',
     description: '',
     features: [''],
+    benefits: [''],
     popular: false,
+    icon: '',
+    color: '',
+    order: 0,
   });
   const router = useRouter();
 
@@ -56,19 +60,24 @@ export default function AdminPlanesPage() {
     e.preventDefault();
     try {
       const cleanedFeatures = formData.features.filter(f => f.trim() !== '');
+      const cleanedBenefits = formData.benefits.filter(f => f.trim() !== '');
       
       if (editingPlan) {
         const planRef = doc(db, 'planes', editingPlan.id);
         await updateDoc(planRef, {
           ...formData,
           price: parseFloat(formData.price),
+          order: parseInt(formData.order) || 0,
           features: cleanedFeatures,
+          benefits: cleanedBenefits,
         });
       } else {
         await addDoc(collection(db, 'planes'), {
           ...formData,
           price: parseFloat(formData.price),
+          order: parseInt(formData.order) || 0,
           features: cleanedFeatures,
+          benefits: cleanedBenefits,
           createdAt: new Date(),
         });
       }
@@ -86,11 +95,15 @@ export default function AdminPlanesPage() {
     setEditingPlan(plan);
     setFormData({
       name: plan.name || '',
-      price: plan.price || '',
-      duration: plan.duration || '',
+      price: plan.price?.toString() || '',
+      period: plan.period || '',
       description: plan.description || '',
-      features: plan.features || [''],
-      popular: plan.popular || false,
+      features: (Array.isArray(plan.features) && plan.features.length > 0) ? plan.features : [''],
+      benefits: (Array.isArray(plan.benefits) && plan.benefits.length > 0) ? plan.benefits : [''],
+      icon: plan.icon || '',
+      color: plan.color || '',
+      order: plan.order || 0,
+      popular: plan.popular === true, // Asegurar que sea siempre boolean
     });
     setShowModal(true);
   };
@@ -111,9 +124,13 @@ export default function AdminPlanesPage() {
     setFormData({
       name: '',
       price: '',
-      duration: '',
+      period: '',
       description: '',
       features: [''],
+      benefits: [''],
+      icon: '',
+      color: '',
+      order: 0,
       popular: false,
     });
   };
@@ -136,6 +153,24 @@ export default function AdminPlanesPage() {
     setFormData({ ...formData, features: newFeatures });
   };
 
+  const addBenefit = () => {
+    setFormData({
+      ...formData,
+      benefits: [...formData.benefits, ''],
+    });
+  };
+
+  const updateBenefit = (index, value) => {
+    const newBenefits = [...formData.benefits];
+    newBenefits[index] = value;
+    setFormData({ ...formData, benefits: newBenefits });
+  };
+
+  const removeBenefit = (index) => {
+    const newBenefits = formData.benefits.filter((_, i) => i !== index);
+    setFormData({ ...formData, benefits: newBenefits });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 flex items-center justify-center">
@@ -152,39 +187,39 @@ export default function AdminPlanesPage() {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/admin" className="text-gray-400 hover:text-white">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </Link>
-              <div>
-                <h1 className="text-2xl font-bold text-white">Planes y Membresías</h1>
-                <p className="text-sm text-gray-400">Gestiona los planes de membresía y sus precios</p>
-              </div>
-            </div>
-            <button
-              onClick={() => {
-                setEditingPlan(null);
-                resetForm();
-                setShowModal(true);
-              }}
-              className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              <span>Nuevo Plan</span>
-            </button>
-          </div>
-        </div>
-      </header>
+      <AdminHeader 
+        title="Planes y Membresías"
+        subtitle="Gestiona los planes de membresía y sus precios"
+      />
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
+        {/* Action Buttons */}
+        <div className="mb-8 flex justify-between items-center">
+          <button
+            onClick={() => router.push('/admin')}
+            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Volver</span>
+          </button>
+          <button
+            onClick={() => {
+              setEditingPlan(null);
+              resetForm();
+              setShowModal(true);
+            }}
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <span>Nuevo Plan</span>
+          </button>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {planes.map((plan) => (
             <div key={plan.id} className="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-avc-red transition-all duration-300 relative">
@@ -196,7 +231,7 @@ export default function AdminPlanesPage() {
               <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
               <div className="mb-4">
                 <span className="text-3xl font-bold text-avc-red">${plan.price}</span>
-                <span className="text-gray-400 ml-2">/ {plan.duration}</span>
+                <span className="text-gray-400 ml-2">{plan.period}</span>
               </div>
               <p className="text-gray-400 mb-4">{plan.description}</p>
               <ul className="space-y-2 mb-6">
@@ -288,14 +323,14 @@ export default function AdminPlanesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">Duración</label>
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">Período</label>
                   <input
                     type="text"
-                    value={formData.duration}
-                    onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
+                    value={formData.period}
+                    onChange={(e) => setFormData({ ...formData, period: e.target.value })}
                     required
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                    placeholder="Mensual"
+                    placeholder="/mes, 12 clases, etc."
                   />
                 </div>
               </div>
@@ -348,11 +383,46 @@ export default function AdminPlanesPage() {
               </div>
 
               <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-sm font-semibold text-gray-300">Beneficios</label>
+                  <button
+                    type="button"
+                    onClick={addBenefit}
+                    className="text-avc-red hover:text-red-500 text-sm font-semibold"
+                  >
+                    + Agregar beneficio
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {formData.benefits.map((benefit, index) => (
+                    <div key={index} className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={benefit}
+                        onChange={(e) => updateBenefit(index, e.target.value)}
+                        className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                        placeholder="Asesoría nutricional"
+                      />
+                      {formData.benefits.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeBenefit(index)}
+                          className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition duration-300"
+                        >
+                          🗑️
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
-                    checked={formData.isPopular}
-                    onChange={(e) => setFormData({ ...formData, isPopular: e.target.checked })}
+                    checked={formData.popular}
+                    onChange={(e) => setFormData({ ...formData, popular: e.target.checked })}
                     className="w-5 h-5 text-avc-red bg-gray-800 border-gray-700 rounded focus:ring-avc-red"
                   />
                   <span className="text-gray-300">Marcar como plan popular</span>

@@ -4,22 +4,28 @@ import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 
 async function getTestimonials() {
   try {
-    const testimonialsCol = collection(db, 'testimonials');
+    const testimonialsCol = collection(db, 'testimonios');
     const q = query(testimonialsCol, orderBy('createdAt', 'desc'));
     const testimonialSnapshot = await getDocs(q);
     const testimonialsList = testimonialSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    return testimonialsList;
+    
+    // Separar por tipo
+    const testimonials = testimonialsList.filter(t => t.type === 'testimonial' || !t.type).slice(0, 4);
+    const transformations = testimonialsList.filter(t => t.type === 'transformation').slice(0, 2);
+    const quotes = testimonialsList.filter(t => t.type === 'quote').slice(0, 3);
+    
+    return { testimonials, transformations, quotes };
   } catch (error) {
     console.error('Error fetching testimonials:', error);
-    return [];
+    return { testimonials: [], transformations: [], quotes: [] };
   }
 }
 
 export default async function TestimoniosPage() {
-  const testimonials = await getTestimonials();
+  const { testimonials, transformations, quotes } = await getTestimonials();
 
   const defaultTestimonials = [
     {
@@ -60,7 +66,34 @@ export default async function TestimoniosPage() {
     },
   ];
 
+  const defaultTransformations = [
+    {
+      id: 't1',
+      name: 'Roberto V.',
+      duration: '6 Meses',
+      beforeImage: 'https://placehold.co/600x600/444444/white?text=ANTES',
+      afterImage: 'https://placehold.co/600x600/777777/white?text=DESPUÉS',
+      testimonial: 'Cambié mis hábitos y gané confianza. El apoyo de los coaches fue clave.',
+    },
+    {
+      id: 't2',
+      name: 'Laura G.',
+      duration: '1 Año',
+      beforeImage: 'https://placehold.co/600x600/444444/white?text=ANTES',
+      afterImage: 'https://placehold.co/600x600/777777/white?text=DESPUÉS',
+      testimonial: 'No solo es el peso, es la fuerza que gané, mental y física. Me siento increíble.',
+    },
+  ];
+
+  const defaultQuotes = [
+    { id: 'q1', quote: 'Más que un gym, una familia.' },
+    { id: 'q2', quote: 'Aquí nadie te juzga, todos te apoyan.' },
+    { id: 'q3', quote: 'Tu única competencia es contra ti mismo.' },
+  ];
+
   const displayTestimonials = testimonials.length > 0 ? testimonials : defaultTestimonials;
+  const displayTransformations = transformations.length > 0 ? transformations : defaultTransformations;
+  const displayQuotes = quotes.length > 0 ? quotes : defaultQuotes;
 
   return (
     <>
@@ -162,95 +195,50 @@ export default async function TestimoniosPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
-            {/* Transformación 1 */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700">
-              <div className="grid grid-cols-2">
-                {/* ANTES */}
-                <div>
-                  <div className="relative h-80">
-                    <Image
-                      src="https://placehold.co/600x600/444444/white?text=ANTES"
-                      alt="Foto Antes"
-                      fill
-                      className="object-cover"
-                    />
+            {displayTransformations.map((transformation) => (
+              <div key={transformation.id} className="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700">
+                <div className="grid grid-cols-2">
+                  {/* ANTES */}
+                  <div>
+                    <div className="relative h-80">
+                      <Image
+                        src={transformation.beforeImage || 'https://placehold.co/600x600/444444/white?text=ANTES'}
+                        alt="Foto Antes"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-4 bg-gray-800 text-center">
+                      <span className="inline-block bg-gray-600 text-white px-3 py-1 rounded text-sm font-bold uppercase">
+                        Antes
+                      </span>
+                    </div>
                   </div>
-                  <div className="p-4 bg-gray-800 text-center">
-                    <span className="inline-block bg-gray-600 text-white px-3 py-1 rounded text-sm font-bold uppercase">
-                      Antes
-                    </span>
-                  </div>
-                </div>
-                {/* DESPUÉS */}
-                <div>
-                  <div className="relative h-80">
-                    <Image
-                      src="https://placehold.co/600x600/777777/white?text=DESPUÉS"
-                      alt="Foto Después"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4 bg-gray-800 text-center">
-                    <span className="inline-block bg-avc-red text-white px-3 py-1 rounded text-sm font-bold uppercase">
-                      Después
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div className="p-6 bg-gray-800">
-                <h3 className="text-2xl font-bold text-white mb-2">Roberto V. - 6 Meses</h3>
-                <p className="text-gray-300">
-                  &quot;Cambié mis hábitos y gané confianza. El apoyo de los coaches fue
-                  clave.&quot;
-                </p>
-              </div>
-            </div>
-
-            {/* Transformación 2 */}
-            <div className="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700">
-              <div className="grid grid-cols-2">
-                {/* ANTES */}
-                <div>
-                  <div className="relative h-80">
-                    <Image
-                      src="https://placehold.co/600x600/444444/white?text=ANTES"
-                      alt="Foto Antes"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4 bg-gray-800 text-center">
-                    <span className="inline-block bg-gray-600 text-white px-3 py-1 rounded text-sm font-bold uppercase">
-                      Antes
-                    </span>
+                  {/* DESPUÉS */}
+                  <div>
+                    <div className="relative h-80">
+                      <Image
+                        src={transformation.afterImage || 'https://placehold.co/600x600/777777/white?text=DESPUÉS'}
+                        alt="Foto Después"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-4 bg-gray-800 text-center">
+                      <span className="inline-block bg-avc-red text-white px-3 py-1 rounded text-sm font-bold uppercase">
+                        Después
+                      </span>
+                    </div>
                   </div>
                 </div>
-                {/* DESPUÉS */}
-                <div>
-                  <div className="relative h-80">
-                    <Image
-                      src="https://placehold.co/600x600/777777/white?text=DESPUÉS"
-                      alt="Foto Después"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="p-4 bg-gray-800 text-center">
-                    <span className="inline-block bg-avc-red text-white px-3 py-1 rounded text-sm font-bold uppercase">
-                      Después
-                    </span>
-                  </div>
+                <div className="p-6 bg-gray-800">
+                  <h3 className="text-2xl font-bold text-white mb-2">{transformation.name} - {transformation.duration}</h3>
+                  <p className="text-gray-300">
+                    &quot;{transformation.testimonial}&quot;
+                  </p>
                 </div>
               </div>
-              <div className="p-6 bg-gray-800">
-                <h3 className="text-2xl font-bold text-white mb-2">Laura G. - 1 Año</h3>
-                <p className="text-gray-300">
-                  &quot;No solo es el peso, es la fuerza que gané, mental y física. Me siento
-                  increíble.&quot;
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -268,24 +256,13 @@ export default async function TestimoniosPage() {
         </div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
-              <p className="text-2xl font-serif italic text-white">
-                &quot;Más que un gym, una <span className="text-avc-red font-bold">familia</span>
-                .&quot;
-              </p>
-            </div>
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
-              <p className="text-2xl font-serif italic text-white">
-                &quot;Aquí nadie te juzga, todos te{' '}
-                <span className="text-avc-red font-bold">apoyan</span>.&quot;
-              </p>
-            </div>
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
-              <p className="text-2xl font-serif italic text-white">
-                &quot;Tu única competencia es contra{' '}
-                <span className="text-avc-red font-bold">ti mismo</span>.&quot;
-              </p>
-            </div>
+            {displayQuotes.map((quoteItem) => (
+              <div key={quoteItem.id} className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
+                <p className="text-2xl font-serif italic text-white">
+                  &quot;{quoteItem.quote}&quot;
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

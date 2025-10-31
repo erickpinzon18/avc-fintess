@@ -115,7 +115,7 @@ export default function AdminPage() {
     {
       title: 'Galería',
       description: 'Administra fotos y videos de las instalaciones',
-      icon: '�',
+      icon: '🖼️',
       href: '/admin/galeria',
       color: 'from-blue-600 to-blue-800',
     },
@@ -278,7 +278,7 @@ export default function AdminPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-12 bg-gradient-to-r from-red-900 to-red-800 rounded-xl p-8 border border-red-700">
+        {/* <div className="mt-12 bg-gradient-to-r from-red-900 to-red-800 rounded-xl p-8 border border-red-700">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="mb-6 md:mb-0">
               <h3 className="text-2xl font-bold text-white mb-2">
@@ -300,7 +300,7 @@ export default function AdminPage() {
               </Link>
             </div>
           </div>
-        </div>
+        </div> */}
       </main>
     </div>
   );

@@ -10,7 +10,9 @@
     "lint": "eslint",
     "create-admin": "node scripts/createAdmin.js",
     "seed": "node scripts/seedFirestore.js",
-    "init-firestore": "node scripts/initializeFirestore.js"
+    "init-firestore": "node scripts/initializeFirestore.js",
+    "add-clases": "node scripts/addClasesToFirestore.js",
+    "add-planes": "node scripts/addPlanesToFirestore.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
