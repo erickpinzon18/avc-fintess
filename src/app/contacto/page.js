@@ -270,6 +270,54 @@ export default function ContactoPage() {
           </div>
         </div>
       </section>
+
+      {/* MAPA DE GOOGLE MAPS */}
+      <section className="w-full">
+        <div className="bg-gray-800 py-8">
+          <div className="container mx-auto px-6">
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">
+              Nuestra <span className="text-avc-red">Ubicación</span>
+            </h2>
+            <p className="text-gray-300 text-center mb-8">
+              Encuéntranos fácilmente en Google Maps
+            </p>
+          </div>
+        </div>
+        <div className="w-full h-[500px] relative">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.8659088296205!2d-99.16558492471314!3d19.42691554142773!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff35f5bd1563%3A0x6c366f0e2de02ff7!2sMonumento%20a%20la%20Revoluci%C3%B3n!5e0!3m2!1ses-419!2smx!4v1698765432109!5m2!1ses-419!2smx"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="w-full h-full"
+          ></iframe>
+        </div>
+        <div className="bg-gray-800 py-6 border-t border-gray-700">
+          <div className="container mx-auto px-6 text-center">
+            <a
+              href="https://maps.google.com/?q=Monumento+a+la+Revolución+Ciudad+de+México"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-avc-red hover:text-red-400 font-semibold transition duration-300"
+            >
+              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Abrir en Google Maps
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+            <p className="text-gray-400 text-sm mt-3">
+              Haz clic para obtener direcciones desde tu ubicación
+            </p>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

@@ -4,26 +4,14 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import AdminHeader from '../components/AdminHeader';
 
 export default function AdminBlogPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [editingPost, setEditingPost] = useState(null);
-  const [formData, setFormData] = useState({
-    title: '',
-    slug: '',
-    excerpt: '',
-    content: '',
-    author: '',
-    category: 'Nutrición',
-    image: '',
-    published: false,
-    featured: false,
-  });
+  const [filterStatus, setFilterStatus] = useState('all'); // all, published, draft
   const router = useRouter();
 
   useEffect(() => {
@@ -50,74 +38,14 @@ export default function AdminBlogPage() {
       }));
       // Ordenar por fecha de creación (más recientes primero)
       postsList.sort((a, b) => {
-        const dateA = a.publishedAt?.toDate ? a.publishedAt.toDate() : new Date(a.publishedAt || 0);
-        const dateB = b.publishedAt?.toDate ? b.publishedAt.toDate() : new Date(b.publishedAt || 0);
+        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
         return dateB - dateA;
       });
       setPosts(postsList);
     } catch (error) {
       console.error('Error al cargar posts:', error);
     }
-  };
-
-  const generateSlug = (title) => {
-    return title
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '') // Remove accents
-      .replace(/[^a-z0-9\s-]/g, '') // Remove special characters
-      .replace(/\s+/g, '-') // Replace spaces with hyphens
-      .replace(/-+/g, '-') // Replace multiple hyphens with single hyphen
-      .trim();
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const dataToSave = {
-        ...formData,
-        slug: formData.slug || generateSlug(formData.title),
-        published: formData.published,
-        featured: formData.featured,
-      };
-
-      if (editingPost) {
-        const postRef = doc(db, 'blog', editingPost.id);
-        await updateDoc(postRef, {
-          ...dataToSave,
-          updatedAt: new Date(),
-        });
-      } else {
-        await addDoc(collection(db, 'blog'), {
-          ...dataToSave,
-          publishedAt: new Date(),
-          createdAt: new Date(),
-        });
-      }
-      setShowModal(false);
-      setEditingPost(null);
-      resetForm();
-      loadPosts();
-    } catch (error) {
-      console.error('Error al guardar post:', error);
-      alert('Error al guardar el post');
-    }
-  };
-
-  const handleEdit = (post) => {
-    setEditingPost(post);
-    setFormData({
-      title: post.title || '',
-      slug: post.slug || '',
-      excerpt: post.excerpt || '',
-      content: post.content || '',
-      author: post.author || '',
-      category: post.category || 'Nutrición',
-      image: post.image || '',
-      published: post.published || false,
-      featured: post.featured || false,
-    });
-    setShowModal(true);
   };
 
   const handleDelete = async (id) => {
@@ -146,18 +74,17 @@ export default function AdminBlogPage() {
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      title: '',
-      slug: '',
-      excerpt: '',
-      content: '',
-      author: '',
-      category: 'Nutrición',
-      image: '',
-      published: false,
-      featured: false,
-    });
+  const toggleFeatured = async (post) => {
+    try {
+      const postRef = doc(db, 'blog', post.id);
+      await updateDoc(postRef, {
+        featured: !post.featured,
+      });
+      loadPosts();
+    } catch (error) {
+      console.error('Error al cambiar destacado:', error);
+      alert('Error al cambiar el estado destacado');
+    }
   };
 
   if (loading) {
@@ -173,12 +100,19 @@ export default function AdminBlogPage() {
 
   if (!user) return null;
 
-  const publishedPosts = posts.filter(p => p.published);
-  const draftPosts = posts.filter(p => !p.published);
+  // Filtrar posts según el estado seleccionado
+  const filteredPosts = posts.filter(post => {
+    if (filterStatus === 'published') return post.published;
+    if (filterStatus === 'draft') return !post.published;
+    return true; // 'all'
+  });
+
+  const publishedCount = posts.filter(p => p.published).length;
+  const draftCount = posts.filter(p => !p.published).length;
+  const featuredCount = posts.filter(p => p.featured).length;
 
   return (
     <div className="min-h-screen bg-gray-950">
-      {/* Header */}
       {/* Header */}
       <AdminHeader 
         title="Gestión del Blog"
@@ -199,12 +133,8 @@ export default function AdminBlogPage() {
             <span>Volver</span>
           </button>
           <button
-            onClick={() => {
-              setEditingPost(null);
-              resetForm();
-              setShowModal(true);
-            }}
-            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            onClick={() => router.push('/admin/blog/editor')}
+            className="bg-avc-red hover:bg-red-700 text-white font-bold px-8 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -213,341 +143,247 @@ export default function AdminBlogPage() {
           </button>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-linear-to-br from-blue-600 to-blue-700 rounded-lg p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Total Artículos</p>
-                <p className="text-3xl font-bold text-white">{posts.length}</p>
+                <p className="text-blue-200 text-sm font-medium mb-1">Total de Artículos</p>
+                <p className="text-3xl font-bold">{posts.length}</p>
               </div>
-              <div className="bg-blue-900 bg-opacity-50 p-3 rounded-lg">
-                <span className="text-3xl">📝</span>
+              <div className="bg-blue-500 bg-opacity-30 rounded-full p-3">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <div className="bg-linear-to-br from-green-600 to-green-700 rounded-lg p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Publicados</p>
-                <p className="text-3xl font-bold text-white">{publishedPosts.length}</p>
+                <p className="text-green-200 text-sm font-medium mb-1">Publicados</p>
+                <p className="text-3xl font-bold">{publishedCount}</p>
               </div>
-              <div className="bg-green-900 bg-opacity-50 p-3 rounded-lg">
-                <span className="text-3xl">✅</span>
+              <div className="bg-green-500 bg-opacity-30 rounded-full p-3">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <div className="bg-linear-to-br from-yellow-600 to-yellow-700 rounded-lg p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Borradores</p>
-                <p className="text-3xl font-bold text-white">{draftPosts.length}</p>
+                <p className="text-yellow-200 text-sm font-medium mb-1">Borradores</p>
+                <p className="text-3xl font-bold">{draftCount}</p>
               </div>
-              <div className="bg-yellow-900 bg-opacity-50 p-3 rounded-lg">
-                <span className="text-3xl">📄</span>
+              <div className="bg-yellow-500 bg-opacity-30 rounded-full p-3">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-linear-to-br from-purple-600 to-purple-700 rounded-lg p-6 text-white">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-purple-200 text-sm font-medium mb-1">Destacados</p>
+                <p className="text-3xl font-bold">{featuredCount}</p>
+              </div>
+              <div className="bg-purple-500 bg-opacity-30 rounded-full p-3">
+                <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Published Posts */}
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold text-white mb-6">Artículos Publicados ({publishedPosts.length})</h2>
-          {publishedPosts.length > 0 ? (
-            <div className="space-y-4">
-              {publishedPosts.map((post) => (
-                <div
-                  key={post.id}
-                  className="bg-gray-900 rounded-xl border border-gray-800 p-6 hover:border-avc-red transition-all duration-300"
-                >
-                  <div className="flex items-start space-x-6">
-                    {post.image && (
-                      <div className="w-48 h-32 shrink-0 rounded-lg overflow-hidden bg-gray-800">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover"
-                        />
+        {/* Filters */}
+        <div className="mb-6 flex space-x-2">
+          <button
+            onClick={() => setFilterStatus('all')}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              filterStatus === 'all'
+                ? 'bg-avc-red text-white'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+          >
+            Todos ({posts.length})
+          </button>
+          <button
+            onClick={() => setFilterStatus('published')}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              filterStatus === 'published'
+                ? 'bg-avc-red text-white'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+          >
+            Publicados ({publishedCount})
+          </button>
+          <button
+            onClick={() => setFilterStatus('draft')}
+            className={`px-4 py-2 rounded-lg font-semibold transition ${
+              filterStatus === 'draft'
+                ? 'bg-avc-red text-white'
+                : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+            }`}
+          >
+            Borradores ({draftCount})
+          </button>
+        </div>
+
+        {/* Posts Table */}
+        <div className="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-800">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Artículo
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Categoría
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Autor
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Estado
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Fecha
+                  </th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                    Acciones
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-800">
+                {filteredPosts.length === 0 ? (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-12 text-center">
+                      <div className="text-gray-500">
+                        <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                        <p className="text-lg font-semibold">No hay artículos</p>
+                        <p className="text-sm mt-1">Crea tu primer artículo usando el botón "Nuevo Artículo"</p>
                       </div>
-                    )}
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex-1">
-                          <div className="flex items-center space-x-3 mb-2">
-                            <h3 className="text-xl font-bold text-white">{post.title}</h3>
-                            {post.featured && (
-                              <span className="bg-yellow-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                                ⭐ Destacado
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-gray-400 text-sm mb-2 line-clamp-2">{post.excerpt}</p>
-                          <div className="flex items-center space-x-4 text-xs text-gray-500">
-                            <span className="bg-gray-800 px-2 py-1 rounded">{post.category}</span>
-                            <span>Por {post.author}</span>
-                            <span>
-                              {post.publishedAt?.toDate
-                                ? post.publishedAt.toDate().toLocaleDateString('es-MX')
-                                : new Date(post.publishedAt).toLocaleDateString('es-MX')}
-                            </span>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredPosts.map((post) => (
+                    <tr key={post.id} className="hover:bg-gray-800 transition">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center space-x-3">
+                          {post.image && (
+                            <img
+                              src={post.image}
+                              alt={post.title}
+                              className="w-16 h-16 object-cover rounded"
+                            />
+                          )}
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2">
+                              <p className="text-white font-semibold">{post.title}</p>
+                              {post.featured && (
+                                <span className="text-yellow-500" title="Destacado">
+                                  ⭐
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-gray-400 text-sm line-clamp-1">{post.excerpt}</p>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex space-x-2 mt-4">
-                        <button
-                          onClick={() => handleEdit(post)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-                        >
-                          Editar
-                        </button>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex px-3 py-1 text-xs font-semibold rounded-full bg-gray-800 text-gray-300">
+                          {post.category}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-gray-300">
+                        {post.author || '-'}
+                      </td>
+                      <td className="px-6 py-4">
                         <button
                           onClick={() => togglePublished(post)}
-                          className="bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                          className={`inline-flex items-center px-3 py-1 text-xs font-semibold rounded-full transition ${
+                            post.published
+                              ? 'bg-green-900 bg-opacity-30 text-green-400 hover:bg-opacity-50'
+                              : 'bg-yellow-900 bg-opacity-30 text-yellow-400 hover:bg-opacity-50'
+                          }`}
                         >
-                          Despublicar
+                          {post.published ? (
+                            <>
+                              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                              Publicado
+                            </>
+                          ) : (
+                            <>
+                              <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 9a1 1 0 000 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                              </svg>
+                              Borrador
+                            </>
+                          )}
+                        </button>
+                      </td>
+                      <td className="px-6 py-4 text-gray-400 text-sm">
+                        {post.createdAt?.toDate
+                          ? post.createdAt.toDate().toLocaleDateString('es-MX', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                            })
+                          : '-'}
+                      </td>
+                      <td className="px-6 py-4 text-right space-x-2">
+                        <button
+                          onClick={() => toggleFeatured(post)}
+                          className={`p-2 rounded-lg transition ${
+                            post.featured
+                              ? 'bg-yellow-600 text-white hover:bg-yellow-700'
+                              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                          }`}
+                          title={post.featured ? 'Quitar destacado' : 'Marcar como destacado'}
+                        >
+                          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => router.push(`/admin/blog/editor?id=${post.id}`)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition"
+                          title="Editar"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
                         </button>
                         <button
                           onClick={() => handleDelete(post.id)}
-                          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                          className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg transition"
+                          title="Eliminar"
                         >
-                          Eliminar
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
                         </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="bg-gray-900 rounded-xl border border-gray-800 p-12 text-center">
-              <p className="text-gray-400 text-lg">No hay artículos publicados</p>
-            </div>
-          )}
-        </div>
-
-        {/* Draft Posts */}
-        {draftPosts.length > 0 && (
-          <div>
-            <h2 className="text-3xl font-bold text-white mb-6">Borradores ({draftPosts.length})</h2>
-            <div className="space-y-4">
-              {draftPosts.map((post) => (
-                <div
-                  key={post.id}
-                  className="bg-gray-900 rounded-xl border border-gray-800 p-6 opacity-75 hover:opacity-100 hover:border-yellow-600 transition-all duration-300"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-xl font-bold text-white">{post.title}</h3>
-                        <span className="bg-yellow-800 text-white px-2 py-1 rounded text-xs font-semibold">
-                          📄 Borrador
-                        </span>
-                      </div>
-                      <p className="text-gray-400 text-sm mb-2 line-clamp-2">{post.excerpt}</p>
-                      <div className="flex items-center space-x-4 text-xs text-gray-500">
-                        <span className="bg-gray-800 px-2 py-1 rounded">{post.category}</span>
-                        <span>Por {post.author}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2 mt-4">
-                    <button
-                      onClick={() => handleEdit(post)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => togglePublished(post)}
-                      className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-                    >
-                      Publicar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(post.id)}
-                      className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
-        )}
+        </div>
       </main>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
-                {editingPost ? 'Editar Artículo' : 'Nuevo Artículo'}
-              </h2>
-              <button
-                onClick={() => {
-                  setShowModal(false);
-                  setEditingPost(null);
-                  resetForm();
-                }}
-                className="text-gray-400 hover:text-white"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Título del Artículo</label>
-                <input
-                  type="text"
-                  value={formData.title}
-                  onChange={(e) => {
-                    setFormData({ 
-                      ...formData, 
-                      title: e.target.value,
-                      slug: generateSlug(e.target.value)
-                    });
-                  }}
-                  required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder="Ej: 10 Consejos para Mejorar tu Rendimiento"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Slug (URL)</label>
-                <input
-                  type="text"
-                  value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder="10-consejos-mejorar-rendimiento"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Se genera automáticamente del título, pero puedes personalizarlo
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Extracto/Resumen</label>
-                <textarea
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  required
-                  rows="2"
-                  maxLength="200"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder="Un breve resumen del artículo (máx. 200 caracteres)"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  {formData.excerpt.length}/200 caracteres
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Contenido</label>
-                <textarea
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  required
-                  rows="12"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red font-mono text-sm"
-                  placeholder="Escribe el contenido completo del artículo..."
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">Autor</label>
-                  <input
-                    type="text"
-                    value={formData.author}
-                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                    placeholder="Nombre del autor"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">Categoría</label>
-                  <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  >
-                    <option value="Nutrición">Nutrición</option>
-                    <option value="Entrenamiento">Entrenamiento</option>
-                    <option value="Bienestar">Bienestar</option>
-                    <option value="Motivación">Motivación</option>
-                    <option value="Recuperación">Recuperación</option>
-                    <option value="Noticias">Noticias</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">URL de Imagen Principal</label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder="https://ejemplo.com/imagen.jpg"
-                />
-              </div>
-
-              <div className="flex items-center space-x-6">
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.published}
-                    onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                    className="w-5 h-5 text-avc-red bg-gray-800 border-gray-700 rounded focus:ring-avc-red"
-                  />
-                  <span className="text-gray-300 font-semibold">Publicar ahora</span>
-                </label>
-
-                <label className="flex items-center space-x-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.featured}
-                    onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                    className="w-5 h-5 text-yellow-600 bg-gray-800 border-gray-700 rounded focus:ring-yellow-600"
-                  />
-                  <span className="text-gray-300 font-semibold">⭐ Artículo destacado</span>
-                </label>
-              </div>
-
-              <div className="flex space-x-4 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowModal(false);
-                    setEditingPost(null);
-                    resetForm();
-                  }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
-                >
-                  {editingPost ? 'Actualizar' : 'Crear'} Artículo
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

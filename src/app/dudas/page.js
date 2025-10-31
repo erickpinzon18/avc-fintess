@@ -96,48 +96,170 @@ export default function DudasPage() {
       </section>
 
       <section className="py-20 bg-gray-900">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-8">FAQ</h2>
-              <div className="space-y-4">
+        <div className="container mx-auto px-6 max-w-7xl">
+          {/* Header Section */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-white mb-4">
+              Preguntas <span className="text-avc-red">Más Frecuentes</span>
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              Aquí encontrarás respuestas a las dudas más comunes. Si no encuentras lo que buscas, 
+              no dudes en contactarnos directamente.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* FAQ Section - 2 columns */}
+            <div className="lg:col-span-2">
+              <div className="space-y-3">
                 {faqs.map((faq, index) => (
                   <Disclosure key={index}>
                     {({ open }) => (
-                      <div className="bg-gray-800 rounded-lg">
-                        <Disclosure.Button className="flex justify-between w-full px-6 py-4 text-left text-white font-semibold hover:bg-gray-750 transition duration-300">
-                          <span>{faq.q}</span>
-                          <svg className={`w-5 h-5 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className={`bg-gray-800 rounded-lg border ${open ? 'border-avc-red' : 'border-gray-700'} transition-all duration-300`}>
+                        <Disclosure.Button className="flex justify-between items-start w-full px-6 py-5 text-left text-white font-semibold hover:bg-gray-750 transition duration-300 group">
+                          <span className="pr-4 group-hover:text-avc-red transition-colors">{faq.q}</span>
+                          <svg 
+                            className={`w-5 h-5 shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-avc-red' : 'text-gray-400'}`} 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </Disclosure.Button>
-                        <Disclosure.Panel className="px-6 pb-4 text-gray-400">{faq.a}</Disclosure.Panel>
+                        <Disclosure.Panel className="px-6 pb-5 text-gray-300 leading-relaxed">
+                          {faq.a}
+                        </Disclosure.Panel>
                       </div>
                     )}
                   </Disclosure>
                 ))}
               </div>
+
+              {/* Contact Info Below FAQs */}
+              <div className="mt-8 bg-linear-to-r from-avc-red to-red-700 rounded-xl p-6 text-white">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-white bg-opacity-20 p-3 rounded-lg">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2">¿No encontraste lo que buscabas?</h3>
+                    <p className="text-white text-opacity-90">
+                      Contáctanos directamente y con gusto te atenderemos. Estamos disponibles por WhatsApp, 
+                      teléfono o puedes visitarnos en nuestras instalaciones.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="bg-gray-800 rounded-xl p-8">
-              <h2 className="text-2xl font-bold text-white mb-6">¿Tienes otra pregunta?</h2>
-              {success && <div className="bg-green-900 border border-green-600 text-white px-4 py-3 rounded mb-6">¡Gracias! Te responderemos pronto.</div>}
-              {error && <div className="bg-red-900 border border-red-600 text-white px-4 py-3 rounded mb-6">{error}</div>}
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-white font-semibold mb-2">Nombre</label>
-                  <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300" />
+            {/* Contact Form - 1 column - Sticky */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-24">
+                <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-xl">
+                  <div className="text-center mb-6">
+                    <div className="bg-avc-red bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <svg className="w-8 h-8 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-2">¿Tienes otra pregunta?</h3>
+                    <p className="text-gray-400 text-sm">Envíanos tu duda y te responderemos pronto</p>
+                  </div>
+
+                  {success && (
+                    <div className="bg-green-900 border border-green-600 text-white px-4 py-3 rounded-lg mb-4 text-sm">
+                      <div className="flex items-center">
+                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        ¡Gracias! Te responderemos pronto.
+                      </div>
+                    </div>
+                  )}
+                  
+                  {error && (
+                    <div className="bg-red-900 border border-red-600 text-white px-4 py-3 rounded-lg mb-4 text-sm">
+                      {error}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label htmlFor="name" className="block text-white font-semibold mb-2 text-sm">
+                        Nombre completo
+                      </label>
+                      <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        value={formData.name} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 text-sm" 
+                        placeholder="Tu nombre"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="email" className="block text-white font-semibold mb-2 text-sm">
+                        Correo electrónico
+                      </label>
+                      <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        value={formData.email} 
+                        onChange={handleChange} 
+                        required 
+                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 text-sm" 
+                        placeholder="tu@email.com"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label htmlFor="question" className="block text-white font-semibold mb-2 text-sm">
+                        Tu pregunta
+                      </label>
+                      <textarea 
+                        id="question" 
+                        name="question" 
+                        value={formData.question} 
+                        onChange={handleChange} 
+                        required 
+                        rows={4} 
+                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 resize-none text-sm" 
+                        placeholder="Escribe tu pregunta aquí..."
+                      ></textarea>
+                    </div>
+                    
+                    <button 
+                      type="submit" 
+                      disabled={loading} 
+                      className="w-full bg-avc-red hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                      {loading ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Enviando...
+                        </>
+                      ) : (
+                        <>
+                          Enviar Pregunta
+                          <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                          </svg>
+                        </>
+                      )}
+                    </button>
+                  </form>
                 </div>
-                <div>
-                  <label htmlFor="email" className="block text-white font-semibold mb-2">Email</label>
-                  <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300" />
-                </div>
-                <div>
-                  <label htmlFor="question" className="block text-white font-semibold mb-2">Tu pregunta</label>
-                  <textarea id="question" name="question" value={formData.question} onChange={handleChange} required rows={5} className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300 resize-none"></textarea>
-                </div>
-                <button type="submit" disabled={loading} className="w-full bg-avc-red hover:bg-avc-red-dark text-white font-bold py-3 px-6 rounded-full transition duration-300 disabled:opacity-50">{loading ? 'Enviando...' : 'Enviar Pregunta'}</button>
-              </form>
+              </div>
             </div>
           </div>
         </div>

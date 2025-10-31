@@ -17,7 +17,7 @@ export default function AdminGaleriaPage() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    type: 'photo',
+    type: 'image',
     url: '',
     category: 'Instalaciones',
     order: 0,
@@ -86,7 +86,7 @@ export default function AdminGaleriaPage() {
     setFormData({
       title: item.title || '',
       description: item.description || '',
-      type: item.type || 'photo',
+      type: item.type || 'image',
       url: item.url || '',
       category: item.category || 'Instalaciones',
       order: item.order || 0,
@@ -110,7 +110,7 @@ export default function AdminGaleriaPage() {
     setFormData({
       title: '',
       description: '',
-      type: 'photo',
+      type: 'image',
       url: '',
       category: 'Instalaciones',
       order: 0,
@@ -132,6 +132,8 @@ export default function AdminGaleriaPage() {
 
   const filteredGaleria = filterType === 'all' 
     ? galeria 
+    : filterType === 'photo'
+    ? galeria.filter(item => item.type === 'image' || item.type === 'photo')
     : galeria.filter(item => item.type === filterType);
 
   return (
@@ -191,7 +193,7 @@ export default function AdminGaleriaPage() {
                 : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
             }`}
           >
-            📷 Fotos ({galeria.filter(i => i.type === 'photo').length})
+            📷 Fotos ({galeria.filter(i => i.type === 'image' || i.type === 'photo').length})
           </button>
           <button
             onClick={() => setFilterType('video')}
@@ -214,7 +216,7 @@ export default function AdminGaleriaPage() {
                 className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:border-avc-red transition-all duration-300 group"
               >
                 <div className="relative h-64 bg-gray-800">
-                  {item.type === 'photo' ? (
+                  {item.type === 'image' || item.type === 'photo' ? (
                     <img
                       src={item.url}
                       alt={item.title}
@@ -247,7 +249,7 @@ export default function AdminGaleriaPage() {
                   <p className="text-gray-400 text-sm mb-4 line-clamp-2">{item.description}</p>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs text-gray-500">
-                      {item.type === 'photo' ? '📷 Foto' : '🎥 Video'}
+                      {item.type === 'image' || item.type === 'photo' ? '📷 Foto' : '🎥 Video'}
                     </span>
                   </div>
                   <div className="flex space-x-2">
@@ -333,7 +335,7 @@ export default function AdminGaleriaPage() {
                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                     className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
                   >
-                    <option value="photo">📷 Foto</option>
+                    <option value="image">📷 Foto</option>
                     <option value="video">🎥 Video</option>
                   </select>
                 </div>
@@ -355,7 +357,7 @@ export default function AdminGaleriaPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-gray-300 mb-2">
-                  URL {formData.type === 'photo' ? 'de Imagen' : 'de Video'}
+                  URL {formData.type === 'image' ? 'de Imagen' : 'de Video'}
                 </label>
                 <input
                   type="url"
@@ -363,7 +365,7 @@ export default function AdminGaleriaPage() {
                   onChange={(e) => setFormData({ ...formData, url: e.target.value })}
                   required
                   className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder={formData.type === 'photo' 
+                  placeholder={formData.type === 'image' 
                     ? 'https://ejemplo.com/imagen.jpg' 
                     : 'https://www.youtube.com/embed/VIDEO_ID'
                   }
@@ -392,7 +394,7 @@ export default function AdminGaleriaPage() {
                 </p>
               </div>
 
-              {formData.url && formData.type === 'photo' && (
+              {formData.url && formData.type === 'image' && (
                 <div>
                   <label className="block text-sm font-semibold text-gray-300 mb-2">Vista previa</label>
                   <div className="relative h-64 bg-gray-800 rounded-lg overflow-hidden">

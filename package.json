@@ -12,7 +12,9 @@
     "seed": "node scripts/seedFirestore.js",
     "init-firestore": "node scripts/initializeFirestore.js",
     "add-clases": "node scripts/addClasesToFirestore.js",
-    "add-planes": "node scripts/addPlanesToFirestore.js"
+    "add-planes": "node scripts/addPlanesToFirestore.js",
+    "add-galeria": "node scripts/addGaleriaToFirestore.js",
+    "add-blogs": "node scripts/addBlogsToFirestore.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
