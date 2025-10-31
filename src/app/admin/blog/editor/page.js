@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, addDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
 
-export default function BlogEditorPage() {
+function BlogEditor() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -528,3 +528,19 @@ export default function BlogEditorPage() {
     </div>
   );
 }
+
+export default function BlogEditorPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
+          <p className="text-gray-400">Cargando editor...</p>
+        </div>
+      </div>
+    }>
+      <BlogEditor />
+    </Suspense>
+  );
+}
+
