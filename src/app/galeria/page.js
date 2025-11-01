@@ -73,7 +73,7 @@ export default function GaleriaPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           {/* Filter Categories */}
           <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -84,7 +84,7 @@ export default function GaleriaPage() {
                 className={`px-6 py-3 rounded-lg font-semibold transition duration-300 ${
                   filterCategory === cat
                     ? 'bg-avc-red text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 {cat === 'all' ? 'Todas' : cat}
@@ -161,7 +161,7 @@ export default function GaleriaPage() {
               </svg>
             </button>
 
-            <div className="bg-gray-900 rounded-xl overflow-hidden">
+            <div className="bg-white rounded-xl overflow-hidden shadow-2xl border border-gray-200">
               {selectedItem.type === 'image' || selectedItem.type === 'photo' ? (
                 <div className="relative w-full h-[70vh]">
                   <Image
@@ -182,12 +182,12 @@ export default function GaleriaPage() {
                 </div>
               )}
               
-              <div className="p-6 bg-gray-900">
+              <div className="p-6 bg-white border-t border-gray-200">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-2">{selectedItem.title}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-2">{selectedItem.title}</h3>
                     {selectedItem.description && (
-                      <p className="text-gray-400 mb-4">{selectedItem.description}</p>
+                      <p className="text-gray-600 mb-4">{selectedItem.description}</p>
                     )}
                     <span className="inline-block bg-avc-red text-white px-4 py-1.5 rounded-full text-sm font-semibold">
                       {selectedItem.category}

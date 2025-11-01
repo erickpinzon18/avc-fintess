@@ -114,9 +114,9 @@ export default function HomePage() {
       </section>
 
       {/* BENEFICIOS DESTACADOS */}
-      <section className="py-20 bg-gray-900" id="beneficios">
+      <section className="py-20 bg-gray-50" id="beneficios">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-16">
             ¿Por qué <span className="text-avc-red">AVC Fitness</span>?
           </h2>
           <div
@@ -127,12 +127,12 @@ export default function HomePage() {
               <div
                 key={index}
                 data-animate
-                className="bg-gray-800 p-8 rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-b-4 border-avc-red"
+                className="bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-b-4 border-avc-red"
               >
-                <h3 className="text-2xl font-semibold text-white mb-4">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-4">
                   {benefit.title}
                 </h3>
-                <p className="text-gray-300">{benefit.description}</p>
+                <p className="text-gray-600">{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -140,9 +140,9 @@ export default function HomePage() {
       </section>
 
       {/* GALERÍA DE FOTOS Y VIDEOS */}
-      <section className="py-20 bg-gray-950" id="galeria">
+      <section className="py-20 bg-white" id="galeria">
         <div className="container mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-16">
             Momentos en <span className="text-avc-red">AVC</span>
           </h2>
 

@@ -154,10 +154,10 @@ export default function AdminTestimoniosPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando...</p>
+          <p className="text-gray-600">Cargando...</p>
         </div>
       </div>
     );
@@ -166,7 +166,7 @@ export default function AdminTestimoniosPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <AdminHeader 
         title="Administrar Testimonios"
@@ -179,19 +179,19 @@ export default function AdminTestimoniosPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-blue-900/20 border border-blue-600 rounded-lg p-4">
             <div className="text-blue-400 text-sm font-semibold mb-1">Testimonios Auténticos</div>
-            <div className="text-3xl font-bold text-white">
+            <div className="text-3xl font-bold text-gray-900">
               {testimonios.filter(t => t.type === 'testimonial' || !t.type).length} / 4
             </div>
           </div>
           <div className="bg-purple-900/20 border border-purple-600 rounded-lg p-4">
             <div className="text-purple-400 text-sm font-semibold mb-1">Transformaciones Reales</div>
-            <div className="text-3xl font-bold text-white">
+            <div className="text-3xl font-bold text-gray-900">
               {testimonios.filter(t => t.type === 'transformation').length} / 2
             </div>
           </div>
           <div className="bg-yellow-900/20 border border-yellow-600 rounded-lg p-4">
             <div className="text-yellow-400 text-sm font-semibold mb-1">Frases Motivadoras</div>
-            <div className="text-3xl font-bold text-white">
+            <div className="text-3xl font-bold text-gray-900">
               {testimonios.filter(t => t.type === 'quote').length} / 3
             </div>
           </div>
@@ -201,7 +201,7 @@ export default function AdminTestimoniosPage() {
         <div className="mb-8 flex justify-between items-center">
           <button
             onClick={() => router.push('/admin')}
-            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-gray-100 hover:bg-gray-50 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -214,7 +214,7 @@ export default function AdminTestimoniosPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -225,7 +225,7 @@ export default function AdminTestimoniosPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {testimonios.map((testimonio) => (
-            <div key={testimonio.id} className="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-avc-red transition-all duration-300 border-l-4 border-l-avc-red">
+            <div key={testimonio.id} className="bg-white rounded-xl p-6 border border-gray-200 hover:border-avc-red transition-all duration-300 border-l-4 border-l-avc-red">
               {/* Badge de tipo */}
               <div className="mb-4">
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold uppercase ${
@@ -252,7 +252,7 @@ export default function AdminTestimoniosPage() {
                         fill
                         className="rounded object-cover"
                       />
-                      <span className="absolute bottom-2 left-2 bg-gray-600 text-white px-2 py-1 text-xs rounded">ANTES</span>
+                      <span className="absolute bottom-2 left-2 bg-gray-600 text-gray-900 px-2 py-1 text-xs rounded">ANTES</span>
                     </div>
                     <div className="relative h-40">
                       <Image
@@ -261,15 +261,15 @@ export default function AdminTestimoniosPage() {
                         fill
                         className="rounded object-cover"
                       />
-                      <span className="absolute bottom-2 left-2 bg-avc-red text-white px-2 py-1 text-xs rounded">DESPUÉS</span>
+                      <span className="absolute bottom-2 left-2 bg-avc-red text-gray-900 px-2 py-1 text-xs rounded">DESPUÉS</span>
                     </div>
                   </div>
-                  <h3 className="text-xl font-bold text-white">{testimonio.name} - {testimonio.duration}</h3>
-                  <p className="text-gray-300 italic mt-2">&quot;{testimonio.testimonial}&quot;</p>
+                  <h3 className="text-xl font-bold text-gray-900">{testimonio.name} - {testimonio.duration}</h3>
+                  <p className="text-gray-700 italic mt-2">&quot;{testimonio.testimonial}&quot;</p>
                 </>
               ) : testimonio.type === 'quote' ? (
                 <>
-                  <p className="text-2xl font-serif italic text-white mb-4">&quot;{testimonio.quote}&quot;</p>
+                  <p className="text-2xl font-serif italic text-gray-900 mb-4">&quot;{testimonio.quote}&quot;</p>
                 </>
               ) : (
                 <>
@@ -283,8 +283,8 @@ export default function AdminTestimoniosPage() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">{testimonio.name}</h3>
-                      <p className="text-gray-400 text-sm">Miembro desde {testimonio.memberSince}</p>
+                      <h3 className="text-xl font-bold text-gray-900">{testimonio.name}</h3>
+                      <p className="text-gray-600 text-sm">Miembro desde {testimonio.memberSince}</p>
                       <p className="text-avc-red text-sm">{testimonio.program}</p>
                     </div>
                   </div>
@@ -298,20 +298,20 @@ export default function AdminTestimoniosPage() {
                     ))}
                   </div>
 
-                  <p className="text-gray-300 italic mb-4">&quot;{testimonio.testimonial}&quot;</p>
+                  <p className="text-gray-700 italic mb-4">&quot;{testimonio.testimonial}&quot;</p>
                 </>
               )}
 
               <div className="flex space-x-2 mt-4">
                 <button
                   onClick={() => handleEdit(testimonio)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(testimonio.id)}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
                 >
                   Eliminar
                 </button>
@@ -322,10 +322,10 @@ export default function AdminTestimoniosPage() {
 
         {testimonios.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-gray-400 text-lg mb-4">No hay testimonios registrados</p>
+            <p className="text-gray-600 text-lg mb-4">No hay testimonios registrados</p>
             <button
               onClick={() => setShowModal(true)}
-              className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300"
+              className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300"
             >
               Crear Primer Testimonio
             </button>
@@ -336,9 +336,9 @@ export default function AdminTestimoniosPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-gray-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
                 {editingTestimonio ? 'Editar Testimonio' : 'Nuevo Testimonio'}
               </h2>
               <button
@@ -347,7 +347,7 @@ export default function AdminTestimoniosPage() {
                   setEditingTestimonio(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-600 hover:text-gray-900"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -358,11 +358,11 @@ export default function AdminTestimoniosPage() {
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               {/* Selector de Tipo */}
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Tipo de Contenido</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Tipo de Contenido</label>
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                 >
                   <option value="testimonial">⭐ Testimonio Auténtico (máx 4)</option>
                   <option value="transformation">🔥 Transformación Real (máx 2)</option>
@@ -374,71 +374,71 @@ export default function AdminTestimoniosPage() {
               {formData.type === 'testimonial' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Nombre del Cliente</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Nombre del Cliente</label>
                     <input
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="Ana García"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-300 mb-2">Miembro Desde</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Miembro Desde</label>
                       <input
                         type="text"
                         value={formData.memberSince}
                         onChange={(e) => setFormData({ ...formData, memberSince: e.target.value })}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                        className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                         placeholder="2022"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-300 mb-2">Programa</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Programa</label>
                       <input
                         type="text"
                         value={formData.program}
                         onChange={(e) => setFormData({ ...formData, program: e.target.value })}
                         required
-                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                        className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                         placeholder="CrossFit"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Testimonio</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Testimonio</label>
                     <textarea
                       value={formData.testimonial}
                       onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
                       required
                       rows={4}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="AVC cambió mi vida completamente..."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">URL de Imagen</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">URL de Imagen</label>
                     <input
                       type="text"
                       value={formData.image}
                       onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="https://ejemplo.com/foto.jpg"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Calificación (1-5)</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Calificación (1-5)</label>
                     <select
                       value={formData.rating}
                       onChange={(e) => setFormData({ ...formData, rating: parseInt(e.target.value) })}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                     >
                       <option value={5}>⭐⭐⭐⭐⭐ (5 estrellas)</option>
                       <option value={4}>⭐⭐⭐⭐ (4 estrellas)</option>
@@ -454,61 +454,61 @@ export default function AdminTestimoniosPage() {
               {formData.type === 'transformation' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Nombre del Cliente</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Nombre del Cliente</label>
                     <input
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="Roberto V."
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Duración</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Duración</label>
                     <input
                       type="text"
                       value={formData.duration}
                       onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="6 Meses"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">URL Imagen ANTES</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">URL Imagen ANTES</label>
                     <input
                       type="text"
                       value={formData.beforeImage}
                       onChange={(e) => setFormData({ ...formData, beforeImage: e.target.value })}
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="https://ejemplo.com/antes.jpg"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">URL Imagen DESPUÉS</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">URL Imagen DESPUÉS</label>
                     <input
                       type="text"
                       value={formData.afterImage}
                       onChange={(e) => setFormData({ ...formData, afterImage: e.target.value })}
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="https://ejemplo.com/despues.jpg"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Testimonio</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Testimonio</label>
                     <textarea
                       value={formData.testimonial}
                       onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
                       required
                       rows={3}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="Cambié mis hábitos y gané confianza..."
                     />
                   </div>
@@ -519,13 +519,13 @@ export default function AdminTestimoniosPage() {
               {formData.type === 'quote' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Frase Motivadora</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Frase Motivadora</label>
                     <textarea
                       value={formData.quote}
                       onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
                       required
                       rows={3}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                       placeholder="Más que un gym, una familia."
                     />
                   </div>
@@ -540,13 +540,13 @@ export default function AdminTestimoniosPage() {
                     setEditingTestimonio(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingTestimonio ? 'Actualizar' : 'Crear'} Testimonio
                 </button>

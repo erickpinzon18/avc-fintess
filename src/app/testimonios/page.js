@@ -110,23 +110,23 @@ export default async function TestimoniosPage() {
           <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">
             Lo que dicen nuestros <span className="text-avc-red">miembros</span>
           </h1>
-          <p className="text-xl text-gray-200">
+          <p className="text-xl text-gray-600">
             Historias reales de transformación y crecimiento en AVC Fitness.
           </p>
         </div>
       </section>
 
       {/* SECCIÓN PRINCIPAL */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Testimonios <span className="text-avc-red">Auténticos</span>
             </h2>
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-600">
               Estas son las voces de nuestra comunidad. Personas como tú que decidieron cambiar
               su vida y encontraron en AVC el lugar perfecto para hacerlo.
             </p>
@@ -137,7 +137,7 @@ export default async function TestimoniosPage() {
             {displayTestimonials.map((testimonial) => (
               <div
                 key={testimonial.id}
-                className="bg-gray-800 rounded-xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 border-l-4 border-avc-red"
+                className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border-l-4 border-avc-red"
               >
                 <div className="flex items-center mb-6">
                   <div className="relative w-16 h-16 mr-4">
@@ -153,8 +153,8 @@ export default async function TestimoniosPage() {
                     />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">{testimonial.name}</h3>
-                    <p className="text-gray-400 text-sm">
+                    <h3 className="text-xl font-bold text-gray-900">{testimonial.name}</h3>
+                    <p className="text-gray-500 text-sm">
                       Miembro desde {testimonial.memberSince}
                     </p>
                   </div>
@@ -174,7 +174,7 @@ export default async function TestimoniosPage() {
                   ))}
                 </div>
 
-                <p className="text-gray-300 italic">&quot;{testimonial.testimonial}&quot;</p>
+                <p className="text-gray-700 italic">&quot;{testimonial.testimonial}&quot;</p>
               </div>
             ))}
           </div>
@@ -182,13 +182,13 @@ export default async function TestimoniosPage() {
       </section>
 
       {/* SECCIÓN ANTES Y DESPUÉS */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
               Transformaciones <span className="text-avc-red">Reales</span>
             </h2>
-            <p className="text-lg text-gray-300">
+            <p className="text-lg text-gray-600">
               El compromiso y la constancia traen resultados increíbles. Estamos orgullosos del
               progreso de nuestra comunidad.
             </p>
@@ -196,7 +196,7 @@ export default async function TestimoniosPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto">
             {displayTransformations.map((transformation) => (
-              <div key={transformation.id} className="bg-gray-800 rounded-xl overflow-hidden shadow-xl border border-gray-700">
+              <div key={transformation.id} className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-200">
                 <div className="grid grid-cols-2">
                   {/* ANTES */}
                   <div>
@@ -208,8 +208,8 @@ export default async function TestimoniosPage() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="p-4 bg-gray-800 text-center">
-                      <span className="inline-block bg-gray-600 text-white px-3 py-1 rounded text-sm font-bold uppercase">
+                    <div className="p-4 bg-gray-100 text-center">
+                      <span className="inline-block bg-gray-600 text-gray-900 px-3 py-1 rounded text-sm font-bold uppercase">
                         Antes
                       </span>
                     </div>
@@ -224,16 +224,16 @@ export default async function TestimoniosPage() {
                         className="object-cover"
                       />
                     </div>
-                    <div className="p-4 bg-gray-800 text-center">
-                      <span className="inline-block bg-avc-red text-white px-3 py-1 rounded text-sm font-bold uppercase">
+                    <div className="p-4 bg-gray-100 text-center">
+                      <span className="inline-block bg-avc-red text-gray-900 px-3 py-1 rounded text-sm font-bold uppercase">
                         Después
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="p-6 bg-gray-800">
-                  <h3 className="text-2xl font-bold text-white mb-2">{transformation.name} - {transformation.duration}</h3>
-                  <p className="text-gray-300">
+                <div className="p-6 bg-white">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{transformation.name} - {transformation.duration}</h3>
+                  <p className="text-gray-700">
                     &quot;{transformation.testimonial}&quot;
                   </p>
                 </div>
@@ -257,8 +257,8 @@ export default async function TestimoniosPage() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {displayQuotes.map((quoteItem) => (
-              <div key={quoteItem.id} className="bg-gray-900 bg-opacity-80 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
-                <p className="text-2xl font-serif italic text-white">
+              <div key={quoteItem.id} className="bg-white bg-opacity-95 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
+                <p className="text-2xl font-serif italic text-gray-900">
                   &quot;{quoteItem.quote}&quot;
                 </p>
               </div>

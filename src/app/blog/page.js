@@ -73,26 +73,26 @@ export default function BlogPage() {
       <section className="relative h-[60vh] flex items-center justify-center text-center px-4 pt-16">
         <div className="absolute inset-0">
           <Image
-            src="https://placehold.co/1920x600/2a2a2a/333333?text=Blog+AVC+Fitness"
+            src="https://placehold.co/1920x600/f3f4f6/6b7280?text=Blog+AVC+Fitness"
             alt="Blog AVC"
             fill
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-black opacity-60"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-gray-50/80"></div>
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">
             Blog <span className="text-avc-red">AVC Fitness</span>
           </h1>
-          <p className="text-xl text-gray-200">
+          <p className="text-xl text-gray-700">
             Consejos, tips y noticias para maximizar tu rendimiento y bienestar.
           </p>
         </div>
       </section>
 
       {/* SECCIÓN PRINCIPAL */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           {/* Filtros de Categoría */}
           <div className="mb-12 flex flex-wrap gap-3 justify-center">
@@ -103,7 +103,7 @@ export default function BlogPage() {
                 className={`px-6 py-2 rounded-full font-semibold transition-all ${
                   selectedCategory === category
                     ? 'bg-avc-red text-white shadow-lg scale-105'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 {category === 'all' ? 'Todos' : category}
@@ -115,15 +115,15 @@ export default function BlogPage() {
             <div className="flex items-center justify-center py-20">
               <div className="text-center">
                 <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-                <p className="text-gray-400">Cargando artículos...</p>
+                <p className="text-gray-600">Cargando artículos...</p>
               </div>
             </div>
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">
-              <svg className="w-24 h-24 mx-auto mb-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-24 h-24 mx-auto mb-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
-              <h2 className="text-2xl font-bold text-gray-400 mb-2">No hay artículos disponibles</h2>
+              <h2 className="text-2xl font-bold text-gray-600 mb-2">No hay artículos disponibles</h2>
               <p className="text-gray-500">Pronto publicaremos contenido nuevo</p>
             </div>
           ) : (
@@ -135,11 +135,11 @@ export default function BlogPage() {
                     <svg className="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
-                    <h2 className="text-2xl font-bold text-white">Artículo Destacado</h2>
+                    <h2 className="text-2xl font-bold text-gray-900">Artículo Destacado</h2>
                   </div>
                   <Link
                     href={`/blog/${featuredPost.slug}`}
-                    className="group block bg-gray-800 rounded-2xl overflow-hidden shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-yellow-600"
+                    className="group block bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-yellow-500"
                   >
                     <div className="grid md:grid-cols-2 gap-6">
                       <div className="relative h-80 md:h-full">
@@ -152,17 +152,17 @@ export default function BlogPage() {
                       </div>
                       <div className="p-8 flex flex-col justify-center">
                         <div className="flex items-center space-x-3 mb-4">
-                          <span className="bg-yellow-600 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                          <span className="bg-yellow-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
                             ⭐ Destacado
                           </span>
                           <span className="bg-avc-red text-white px-3 py-1 rounded-full text-sm font-semibold">
                             {featuredPost.category}
                           </span>
                         </div>
-                        <h3 className="text-3xl font-bold text-white mb-4 group-hover:text-avc-red transition-colors">
+                        <h3 className="text-3xl font-bold text-gray-900 mb-4 group-hover:text-avc-red transition-colors">
                           {featuredPost.title}
                         </h3>
-                        <p className="text-gray-400 mb-6 text-lg">{featuredPost.excerpt}</p>
+                        <p className="text-gray-600 mb-6 text-lg">{featuredPost.excerpt}</p>
                         <div className="flex justify-between items-center text-sm text-gray-500">
                           <span className="font-semibold">{featuredPost.author}</span>
                           <span>
@@ -187,7 +187,7 @@ export default function BlogPage() {
                   <Link
                     key={post.id}
                     href={`/blog/${post.slug}`}
-                    className="group bg-gray-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-700 hover:border-avc-red"
+                    className="group bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 hover:border-avc-red"
                   >
                     <div className="relative h-48">
                       <Image
@@ -201,10 +201,10 @@ export default function BlogPage() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h2 className="text-xl font-bold text-white mb-3 group-hover:text-avc-red transition-colors">
+                      <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-avc-red transition-colors">
                         {post.title}
                       </h2>
-                      <p className="text-gray-400 mb-4 line-clamp-3">{post.excerpt}</p>
+                      <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
                       <div className="flex justify-between items-center text-sm text-gray-500">
                         <span>{post.author}</span>
                         <span>

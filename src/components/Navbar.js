@@ -31,7 +31,7 @@ export default function Navbar() {
   const isActive = (href) => pathname === href;
 
   return (
-    <nav className="bg-gray-900 bg-opacity-80 backdrop-blur-md p-4 fixed w-full z-50 shadow-lg top-0">
+    <nav className="bg-white border-b border-gray-200 backdrop-blur-md p-4 fixed w-full z-50 shadow-md top-0">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo y Nombre */}
         <Link href="/" className="flex items-center space-x-3">
@@ -50,10 +50,10 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`transition duration-300 ${
+              className={`transition duration-300 font-medium ${
                 isActive(link.href)
                   ? 'text-avc-red'
-                  : 'text-white hover:text-avc-red'
+                  : 'text-gray-700 hover:text-avc-red'
               }`}
             >
               {link.label}
@@ -63,7 +63,7 @@ export default function Navbar() {
           {/* Dropdown Menu para más opciones */}
           <Menu as="div" className="relative inline-block text-left">
             <div>
-              <Menu.Button className="text-white hover:text-avc-red transition duration-300 flex items-center">
+              <Menu.Button className="text-gray-700 hover:text-avc-red transition duration-300 flex items-center font-medium">
                 Más
                 <svg
                   className="w-5 h-5 ml-1"
@@ -89,7 +89,7 @@ export default function Navbar() {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-700 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-200 rounded-md bg-white shadow-lg ring-1 ring-gray-200 focus:outline-none border border-gray-200">
                 <div className="px-1 py-1">
                   {navLinks.slice(6).map((link) => (
                     <Menu.Item key={link.href}>
@@ -98,9 +98,9 @@ export default function Navbar() {
                           href={link.href}
                           className={`${
                             active || isActive(link.href)
-                              ? 'bg-gray-700 text-avc-red'
-                              : 'text-white'
-                          } group flex w-full items-center rounded-md px-2 py-2 text-sm transition duration-150`}
+                              ? 'bg-gray-50 text-avc-red'
+                              : 'text-gray-700'
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm transition duration-150 hover:bg-gray-50`}
                         >
                           {link.label}
                         </Link>
@@ -117,7 +117,7 @@ export default function Navbar() {
         <div className="lg:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white focus:outline-none"
+            className="text-gray-700 focus:outline-none hover:text-avc-red transition"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
@@ -163,7 +163,7 @@ export default function Navbar() {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 -translate-y-1"
       >
-        <div className="lg:hidden mt-4 bg-gray-800 rounded-lg shadow-lg p-4">
+        <div className="lg:hidden mt-4 bg-white rounded-lg shadow-lg p-4 border border-gray-200">
           <div className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <Link
@@ -172,8 +172,8 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={`transition duration-300 px-3 py-2 rounded ${
                   isActive(link.href)
-                    ? 'text-avc-red bg-gray-700'
-                    : 'text-white hover:text-avc-red hover:bg-gray-700'
+                    ? 'text-avc-red bg-gray-50 font-medium'
+                    : 'text-gray-700 hover:text-avc-red hover:bg-gray-50'
                 }`}
               >
                 {link.label}

@@ -73,30 +73,30 @@ export default function UnetePage() {
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white mb-8">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 mb-8">
             Es tu momento de <span className="text-avc-red">brillar</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-200 mb-12 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto">
             Da el primer paso hacia la mejor versión de ti mismo. Únete a la familia AVC Fitness
             Center y descubre todo lo que puedes lograr.
           </p>
 
           {/* Beneficios Destacados */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm p-6 rounded-xl border border-avc-red">
+            <div className="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-xl border border-avc-red">
               <div className="text-4xl mb-3">🔥</div>
-              <h3 className="text-xl font-bold text-white mb-2">Clases Ilimitadas</h3>
-              <p className="text-gray-300">Acceso a todas nuestras actividades</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Clases Ilimitadas</h3>
+              <p className="text-gray-700">Acceso a todas nuestras actividades</p>
             </div>
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm p-6 rounded-xl border border-avc-red">
+            <div className="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-xl border border-avc-red">
               <div className="text-4xl mb-3">👥</div>
-              <h3 className="text-xl font-bold text-white mb-2">Comunidad Increíble</h3>
-              <p className="text-gray-300">Haz amigos y entrena con motivación</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Comunidad Increíble</h3>
+              <p className="text-gray-700">Haz amigos y entrena con motivación</p>
             </div>
-            <div className="bg-gray-900 bg-opacity-80 backdrop-blur-sm p-6 rounded-xl border border-avc-red">
+            <div className="bg-white bg-opacity-80 backdrop-blur-sm p-6 rounded-xl border border-avc-red">
               <div className="text-4xl mb-3">⭐</div>
-              <h3 className="text-xl font-bold text-white mb-2">Coaches Expertos</h3>
-              <p className="text-gray-300">Guía profesional en cada sesión</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Coaches Expertos</h3>
+              <p className="text-gray-700">Guía profesional en cada sesión</p>
             </div>
           </div>
 
@@ -120,21 +120,21 @@ export default function UnetePage() {
       </section>
 
       {/* FORMULARIO DE INSCRIPCIÓN */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-white mb-4">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
                 ¡Comienza <span className="text-avc-red">Hoy</span>!
               </h2>
-              <p className="text-lg text-gray-300">
+              <p className="text-lg text-gray-700">
                 Completa el formulario y nos pondremos en contacto contigo para agendar tu clase
                 de prueba gratuita.
               </p>
             </div>
 
             {success && (
-              <div className="bg-green-900 border-2 border-green-600 text-white px-6 py-4 rounded-xl mb-8 text-center">
+              <div className="bg-green-900 border-2 border-green-600 text-gray-900 px-6 py-4 rounded-xl mb-8 text-center">
                 <h3 className="text-xl font-bold mb-2">¡Bienvenido a la familia AVC! 🎉</h3>
                 <p>
                   Hemos recibido tu información. Nos pondremos en contacto contigo muy pronto
@@ -144,19 +144,19 @@ export default function UnetePage() {
             )}
 
             {error && (
-              <div className="bg-red-900 border-2 border-red-600 text-white px-6 py-4 rounded-xl mb-8">
+              <div className="bg-red-900 border-2 border-red-600 text-gray-900 px-6 py-4 rounded-xl mb-8">
                 {error}
               </div>
             )}
 
             <form
               onSubmit={handleSubmit}
-              className="bg-gray-800 rounded-2xl p-8 md:p-12 border-2 border-gray-700 shadow-2xl"
+              className="bg-gray-100 rounded-2xl p-8 md:p-12 border-2 border-gray-300 shadow-2xl"
             >
               <div className="space-y-6">
                 {/* Nombre */}
                 <div>
-                  <label htmlFor="name" className="block text-white font-semibold mb-2 text-lg">
+                  <label htmlFor="name" className="block text-gray-900 font-semibold mb-2 text-lg">
                     Nombre completo *
                   </label>
                   <input
@@ -166,14 +166,14 @@ export default function UnetePage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300"
                     placeholder="Juan Pérez"
                   />
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-white font-semibold mb-2 text-lg">
+                  <label htmlFor="email" className="block text-gray-900 font-semibold mb-2 text-lg">
                     Correo electrónico *
                   </label>
                   <input
@@ -183,14 +183,14 @@ export default function UnetePage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300"
                     placeholder="tu@email.com"
                   />
                 </div>
 
                 {/* Teléfono */}
                 <div>
-                  <label htmlFor="phone" className="block text-white font-semibold mb-2 text-lg">
+                  <label htmlFor="phone" className="block text-gray-900 font-semibold mb-2 text-lg">
                     Teléfono *
                   </label>
                   <input
@@ -200,7 +200,7 @@ export default function UnetePage() {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300"
                     placeholder="+52 55 1234 5678"
                   />
                 </div>
@@ -209,7 +209,7 @@ export default function UnetePage() {
                 <div>
                   <label
                     htmlFor="membership"
-                    className="block text-white font-semibold mb-2 text-lg"
+                    className="block text-gray-900 font-semibold mb-2 text-lg"
                   >
                     Membresía deseada *
                   </label>
@@ -219,7 +219,7 @@ export default function UnetePage() {
                     value={formData.membership}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300"
                   >
                     <option value="basica">Básica - $50/mes</option>
                     <option value="premium">Premium - $80/mes (Recomendada)</option>
@@ -231,7 +231,7 @@ export default function UnetePage() {
                 <div>
                   <label
                     htmlFor="experience"
-                    className="block text-white font-semibold mb-2 text-lg"
+                    className="block text-gray-900 font-semibold mb-2 text-lg"
                   >
                     Nivel de experiencia *
                   </label>
@@ -241,7 +241,7 @@ export default function UnetePage() {
                     value={formData.experience}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300"
                   >
                     <option value="beginner">Principiante - Nunca he entrenado</option>
                     <option value="intermediate">Intermedio - Tengo algo de experiencia</option>
@@ -253,7 +253,7 @@ export default function UnetePage() {
                 <div>
                   <label
                     htmlFor="startDate"
-                    className="block text-white font-semibold mb-2 text-lg"
+                    className="block text-gray-900 font-semibold mb-2 text-lg"
                   >
                     ¿Cuándo te gustaría comenzar?
                   </label>
@@ -263,13 +263,13 @@ export default function UnetePage() {
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300"
                   />
                 </div>
 
                 {/* Objetivos */}
                 <div>
-                  <label htmlFor="goals" className="block text-white font-semibold mb-2 text-lg">
+                  <label htmlFor="goals" className="block text-gray-900 font-semibold mb-2 text-lg">
                     ¿Cuáles son tus objetivos? *
                   </label>
                   <textarea
@@ -279,7 +279,7 @@ export default function UnetePage() {
                     onChange={handleChange}
                     required
                     rows={4}
-                    className="w-full px-4 py-4 bg-gray-900 border-2 border-gray-600 rounded-xl text-white text-lg focus:outline-none focus:border-avc-red transition duration-300 resize-none"
+                    className="w-full px-4 py-4 bg-white border-2 border-gray-300 rounded-xl text-gray-900 text-lg focus:outline-none focus:border-avc-red transition duration-300 resize-none"
                     placeholder="Ej: Quiero perder peso, ganar fuerza, mejorar mi salud..."
                   ></textarea>
                 </div>
@@ -288,12 +288,12 @@ export default function UnetePage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-avc-red hover:bg-avc-red-dark text-white font-bold py-5 px-8 rounded-xl text-xl transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+                  className="w-full bg-avc-red hover:bg-avc-red-dark text-gray-900 font-bold py-5 px-8 rounded-xl text-xl transition duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
                 >
                   {loading ? 'Procesando...' : '¡Quiero unirme a AVC! 🚀'}
                 </button>
 
-                <p className="text-center text-gray-400 text-sm mt-4">
+                <p className="text-center text-gray-600 text-sm mt-4">
                   * Al enviar este formulario, aceptas nuestros términos y condiciones.
                 </p>
               </div>
@@ -303,38 +303,38 @@ export default function UnetePage() {
       </section>
 
       {/* SECTION ADICIONAL: ¿Por qué Unirte? */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-white text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 text-center mb-16">
             ¿Por qué elegir <span className="text-avc-red">AVC Fitness</span>?
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="text-6xl mb-4">💪</div>
-              <h3 className="text-xl font-bold text-white mb-3">Resultados Reales</h3>
-              <p className="text-gray-400">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Resultados Reales</h3>
+              <p className="text-gray-600">
                 Programas diseñados por expertos para garantizar tu progreso.
               </p>
             </div>
             <div className="text-center">
               <div className="text-6xl mb-4">🏋️</div>
-              <h3 className="text-xl font-bold text-white mb-3">Instalaciones de Primera</h3>
-              <p className="text-gray-400">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Instalaciones de Primera</h3>
+              <p className="text-gray-600">
                 Equipamiento de calidad y espacios amplios y limpios.
               </p>
             </div>
             <div className="text-center">
               <div className="text-6xl mb-4">📅</div>
-              <h3 className="text-xl font-bold text-white mb-3">Horarios Flexibles</h3>
-              <p className="text-gray-400">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Horarios Flexibles</h3>
+              <p className="text-gray-600">
                 Clases desde las 6 AM hasta las 10 PM, adaptadas a tu vida.
               </p>
             </div>
             <div className="text-center">
               <div className="text-6xl mb-4">🎯</div>
-              <h3 className="text-xl font-bold text-white mb-3">Primera Clase Gratis</h3>
-              <p className="text-gray-400">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">Primera Clase Gratis</h3>
+              <p className="text-gray-600">
                 Prueba sin compromiso y descubre la experiencia AVC.
               </p>
             </div>

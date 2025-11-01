@@ -91,16 +91,16 @@ export default function QuienesSomosPage() {
       </section>
 
       {/* SECCIÓN PRINCIPAL */}
-      <section className="py-20 bg-gray-950">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
           {/* Introducción y Foto Principal */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-            <div className="text-lg text-gray-300 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <div className="text-lg text-gray-700 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 Nuestra <span className="text-avc-red">Filosofía</span>
               </h2>
               <p>
-                En <span className="font-bold text-white">AVC Fitness</span> creemos
+                En <span className="font-bold text-gray-900">AVC Fitness</span> creemos
                 que entrenar va más allá del ejercicio: es un estilo de vida, una forma de
                 sentirte bien contigo mismo y disfrutar el proceso.
               </p>
@@ -116,21 +116,21 @@ export default function QuienesSomosPage() {
                 alt="Comunidad AVC"
                 width={600}
                 height={400}
-                className="rounded-xl shadow-2xl object-cover hover:scale-105 transition-transform duration-300 w-full"
+                className="rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300 w-full border border-gray-200"
               />
             </div>
           </div>
 
           {/* Actividades Destacadas */}
           <div className="my-20 text-center">
-            <h3 className="text-3xl font-semibold text-white mb-10">
+            <h3 className="text-3xl font-semibold text-gray-900 mb-10">
               Un lugar para <span className="text-avc-red">todo</span>
             </h3>
             <div className="flex flex-wrap justify-center gap-4">
               {activities.map((activity, index) => (
                 <span 
                   key={index}
-                  className="bg-gray-800 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-white cursor-default"
+                  className="bg-white border-2 border-gray-200 text-avc-red font-semibold py-3 px-6 rounded-lg shadow-md text-lg transform transition duration-300 hover:scale-110 hover:bg-avc-red hover:text-gray-900 hover:border-avc-red cursor-default"
                 >
                   {activity}
                 </span>
@@ -140,21 +140,21 @@ export default function QuienesSomosPage() {
 
           {/* Misión y Visión */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 my-20">
-            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700 transition-all duration-300 hover:border-avc-red hover:-translate-y-1">
-              <h3 className="text-3xl font-bold text-white mb-4">
+            <div className="bg-white rounded-xl p-8 border-2 border-gray-200 shadow-lg transition-all duration-300 hover:border-avc-red hover:-translate-y-1">
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 <span className="text-avc-red">Nuestra</span> Misión
               </h3>
-              <p className="text-gray-300 text-lg">
+              <p className="text-gray-700 text-lg">
                 Ofrecer entrenamientos y actividades deportivas para personas de todas las edades, 
                 fomentando un estilo de vida saludable, divertido y lleno de motivación. Cada persona 
                 que entre a nuestras instalaciones se siente bienvenida, apoyada y libre de juicios.
               </p>
             </div>
-            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700 transition-all duration-300 hover:border-avc-red hover:-translate-y-1">
-              <h3 className="text-3xl font-bold text-white mb-4">
+            <div className="bg-white rounded-xl p-8 border-2 border-gray-200 shadow-lg transition-all duration-300 hover:border-avc-red hover:-translate-y-1">
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">
                 <span className="text-avc-red">Nuestra</span> Visión
               </h3>
-              <p className="text-gray-300 text-lg">
+              <p className="text-gray-700 text-lg">
                 Ser reconocidos por nuestro ambiente positivo, familiar y motivador, con presencia 
                 en todo el estado. Inspirar a más personas a cuidar su salud y bienestar.
               </p>
@@ -163,19 +163,19 @@ export default function QuienesSomosPage() {
 
           {/* Valores */}
           <div className="my-20">
-            <h3 className="text-3xl font-semibold text-white text-center mb-10">
+            <h3 className="text-3xl font-semibold text-gray-900 text-center mb-10">
               Nuestros <span className="text-avc-red">Valores</span>
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
               {values.map((value, index) => (
                 <div 
                   key={index}
-                  className="bg-gray-900 rounded-lg p-6 text-center border-b-4 border-avc-red transition-all duration-300 shadow-lg hover:bg-gray-800 hover:scale-105"
+                  className="bg-white rounded-lg p-6 text-center border-b-4 border-avc-red transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
                 >
                   <div className="flex justify-center mb-4">
                     {value.icon}
                   </div>
-                  <span className="font-bold text-lg text-white block">
+                  <span className="font-bold text-lg text-gray-900 block">
                     {value.title}
                   </span>
                 </div>
@@ -191,24 +191,24 @@ export default function QuienesSomosPage() {
                 alt="Cultura AVC"
                 width={600}
                 height={350}
-                className="rounded-xl shadow-2xl object-cover hover:scale-105 transition-transform duration-300 w-full"
+                className="rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300 w-full border border-gray-200"
               />
               <Image
                 src="https://placehold.co/600x350/555555/white?text=Foto+Cultura+2"
                 alt="Responsabilidad AVC"
                 width={600}
                 height={350}
-                className="rounded-xl shadow-2xl object-cover hover:scale-105 transition-transform duration-300 w-full"
+                className="rounded-xl shadow-lg object-cover hover:scale-105 transition-transform duration-300 w-full border border-gray-200"
               />
             </div>
-            <div className="text-lg text-gray-300 space-y-4">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <div className="text-lg text-gray-700 space-y-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                 Nuestra <span className="text-avc-red">Cultura</span>
               </h2>
               <p>
-                Promovemos activamente el <span className="text-white font-semibold">reciclaje</span>, 
-                el <span className="text-white font-semibold">consumo local</span> y el{' '}
-                <span className="text-white font-semibold">cuidado del medio ambiente</span>.
+                Promovemos activamente el <span className="text-gray-900 font-semibold">reciclaje</span>, 
+                el <span className="text-gray-900 font-semibold">consumo local</span> y el{' '}
+                <span className="text-gray-900 font-semibold">cuidado del medio ambiente</span>.
               </p>
               <p>
                 Buscamos crear un espacio integral para crecer, convivir y disfrutar junto a personas 

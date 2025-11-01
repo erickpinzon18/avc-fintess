@@ -123,10 +123,10 @@ export default function AdminClasesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando...</p>
+          <p className="text-gray-600">Cargando...</p>
         </div>
       </div>
     );
@@ -135,7 +135,7 @@ export default function AdminClasesPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       {/* Header */}
       <AdminHeader 
@@ -149,7 +149,7 @@ export default function AdminClasesPage() {
         <div className="mb-8 flex justify-between items-center">
           <button
             onClick={() => router.push('/admin')}
-            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-gray-100 hover:bg-gray-50 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -162,7 +162,7 @@ export default function AdminClasesPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -174,7 +174,7 @@ export default function AdminClasesPage() {
         {/* Clases Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {clases.map((clase) => (
-            <div key={clase.id} className="bg-gray-900 rounded-xl overflow-hidden border border-gray-800 hover:border-avc-red transition-all duration-300">
+            <div key={clase.id} className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-avc-red transition-all duration-300">
               <div className="relative h-48">
                 <Image
                   src={clase.image || 'https://placehold.co/600x400/333333/white?text=Sin+Imagen'}
@@ -184,8 +184,8 @@ export default function AdminClasesPage() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-2">{clase.name}</h3>
-                <p className="text-gray-400 text-sm mb-4 line-clamp-2">{clase.description}</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{clase.name}</h3>
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{clase.description}</p>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-avc-red font-semibold text-sm">{clase.price}</span>
                   {clase.freeTrial && (
@@ -195,13 +195,13 @@ export default function AdminClasesPage() {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEdit(clase)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
                   >
                     Editar
                   </button>
                   <button
                     onClick={() => handleDelete(clase.id)}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
                   >
                     Eliminar
                   </button>
@@ -213,10 +213,10 @@ export default function AdminClasesPage() {
 
         {clases.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-gray-400 text-lg mb-4">No hay clases registradas</p>
+            <p className="text-gray-600 text-lg mb-4">No hay clases registradas</p>
             <button
               onClick={() => setShowModal(true)}
-              className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300"
+              className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300"
             >
               Crear Primera Clase
             </button>
@@ -227,9 +227,9 @@ export default function AdminClasesPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-gray-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
                 {editingClase ? 'Editar Clase' : 'Nueva Clase'}
               </h2>
               <button
@@ -238,7 +238,7 @@ export default function AdminClasesPage() {
                   setEditingClase(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-600 hover:text-gray-900"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -248,83 +248,83 @@ export default function AdminClasesPage() {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Nombre de la Clase</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Nombre de la Clase</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Ej: CrossFit"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Descripción</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   required
                   rows={3}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Describe la clase..."
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Dirigido a</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Dirigido a</label>
                 <input
                   type="text"
                   value={formData.target}
                   onChange={(e) => setFormData({ ...formData, target: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Ej: Todos los niveles"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Beneficios</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Beneficios</label>
                 <input
                   type="text"
                   value={formData.benefits}
                   onChange={(e) => setFormData({ ...formData, benefits: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Ej: Fuerza, resistencia, técnica"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Precio</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Precio</label>
                 <input
                   type="text"
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Ej: Individual: $80 | Mensual: $850"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Promoción (opcional)</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Promoción (opcional)</label>
                 <input
                   type="text"
                   value={formData.promo}
                   onChange={(e) => setFormData({ ...formData, promo: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="Ej: 2x1 este mes"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">URL de Imagen</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">URL de Imagen</label>
                 <input
                   type="text"
                   value={formData.image}
                   onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   placeholder="https://ejemplo.com/imagen.jpg"
                 />
               </div>
@@ -335,9 +335,9 @@ export default function AdminClasesPage() {
                     type="checkbox"
                     checked={formData.freeTrial}
                     onChange={(e) => setFormData({ ...formData, freeTrial: e.target.checked })}
-                    className="w-5 h-5 text-avc-red bg-gray-800 border-gray-700 rounded focus:ring-avc-red"
+                    className="w-5 h-5 text-avc-red bg-gray-100 border-gray-300 rounded focus:ring-avc-red"
                   />
-                  <span className="text-gray-300">Clase muestra gratis</span>
+                  <span className="text-gray-700">Clase muestra gratis</span>
                 </label>
 
                 {formData.freeTrial && (
@@ -345,7 +345,7 @@ export default function AdminClasesPage() {
                     type="text"
                     value={formData.trialPrice}
                     onChange={(e) => setFormData({ ...formData, trialPrice: e.target.value })}
-                    className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                    className="flex-1 px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                     placeholder="Precio de clase muestra (opcional)"
                   />
                 )}
@@ -359,13 +359,13 @@ export default function AdminClasesPage() {
                     setEditingClase(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingClase ? 'Actualizar' : 'Crear'} Clase
                 </button>

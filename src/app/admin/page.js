@@ -56,10 +56,10 @@ export default function AdminPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando...</p>
+          <p className="text-gray-600">Cargando...</p>
         </div>
       </div>
     );
@@ -129,9 +129,9 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -143,19 +143,19 @@ export default function AdminPage() {
                 className="h-12 w-auto"
               />
               <div className="hidden md:block">
-                <h1 className="text-xl font-bold text-white">Panel de Administración</h1>
-                <p className="text-sm text-gray-400">Gestiona todo el contenido del sitio web</p>
+                <h1 className="text-xl font-bold text-gray-900">Panel de Administración</h1>
+                <p className="text-sm text-gray-600">Gestiona todo el contenido del sitio web</p>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
               <div className="text-right hidden sm:block">
-                <p className="text-sm font-semibold text-white">{user.email}</p>
-                <p className="text-xs text-gray-400">Administrador</p>
+                <p className="text-sm font-semibold text-gray-900">{user.email}</p>
+                <p className="text-xs text-gray-600">Administrador</p>
               </div>
               <button
                 onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center space-x-2"
+                className="bg-avc-red hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition duration-300 flex items-center space-x-2"
               >
                 <svg
                   className="w-5 h-5"
@@ -181,59 +181,59 @@ export default function AdminPage() {
       <main className="container mx-auto px-6 py-12">
         {/* Welcome Section */}
         <div className="mb-12">
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
             Bienvenido de nuevo 👋
           </h2>
-          <p className="text-lg text-gray-400">
+          <p className="text-lg text-gray-600">
             Selecciona una sección para comenzar a editar el contenido
           </p>
         </div>
 
         {/* Quick Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Clases Activas</p>
-                <p className="text-3xl font-bold text-white">-</p>
+                <p className="text-gray-600 text-sm mb-1">Clases Activas</p>
+                <p className="text-3xl font-bold text-gray-900">-</p>
               </div>
-              <div className="bg-green-900 bg-opacity-50 p-3 rounded-lg">
+              <div className="bg-green-100 p-3 rounded-lg">
                 <span className="text-3xl">🏋️</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Coaches</p>
-                <p className="text-3xl font-bold text-white">-</p>
+                <p className="text-gray-600 text-sm mb-1">Coaches</p>
+                <p className="text-3xl font-bold text-gray-900">-</p>
               </div>
-              <div className="bg-purple-900 bg-opacity-50 p-3 rounded-lg">
+              <div className="bg-purple-100 p-3 rounded-lg">
                 <span className="text-3xl">💪</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Eventos</p>
-                <p className="text-3xl font-bold text-white">-</p>
+                <p className="text-gray-600 text-sm mb-1">Eventos</p>
+                <p className="text-3xl font-bold text-gray-900">-</p>
               </div>
-              <div className="bg-orange-900 bg-opacity-50 p-3 rounded-lg">
+              <div className="bg-orange-100 p-3 rounded-lg">
                 <span className="text-3xl">🎉</span>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm mb-1">Artículos Blog</p>
-                <p className="text-3xl font-bold text-white">-</p>
+                <p className="text-gray-600 text-sm mb-1">Artículos Blog</p>
+                <p className="text-3xl font-bold text-gray-900">-</p>
               </div>
-              <div className="bg-blue-900 bg-opacity-50 p-3 rounded-lg">
+              <div className="bg-blue-100 p-3 rounded-lg">
                 <span className="text-3xl">📝</span>
               </div>
             </div>
@@ -246,15 +246,15 @@ export default function AdminPage() {
             <Link
               key={section.href}
               href={section.href}
-              className="group bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-avc-red transition-all duration-300 transform hover:-translate-y-1 hover:shadow-2xl"
+              className="group bg-white rounded-xl p-6 border border-gray-200 hover:border-avc-red transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg"
             >
               <div className={`bg-gradient-to-br ${section.color} w-14 h-14 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
                 <span className="text-3xl">{section.icon}</span>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-avc-red transition-colors duration-300">
+              <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-avc-red transition-colors duration-300">
                 {section.title}
               </h3>
-              <p className="text-sm text-gray-400 leading-relaxed">
+              <p className="text-sm text-gray-600 leading-relaxed">
                 {section.description}
               </p>
               <div className="mt-4 flex items-center text-avc-red text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">

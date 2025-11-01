@@ -48,18 +48,18 @@ export default function BeneficiosPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div ref={benefitsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {benefits.map((benefit, index) => (
               <div
                 key={index}
                 data-animate
-                className="bg-gray-800 p-6 rounded-xl text-center hover:bg-gray-750 transition duration-300 border-b-4 border-avc-red"
+                className="bg-white p-6 rounded-xl text-center hover:bg-gray-100 transition duration-300 border-b-4 border-avc-red shadow-md"
               >
                 <div className="text-5xl mb-4">{benefit.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-3">{benefit.title}</h3>
-                <p className="text-gray-400">{benefit.description}</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">{benefit.title}</h3>
+                <p className="text-gray-600">{benefit.description}</p>
               </div>
             ))}
           </div>

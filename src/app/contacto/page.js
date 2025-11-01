@@ -70,15 +70,15 @@ export default function ContactoPage() {
       </section>
 
       {/* SECCIÓN PRINCIPAL */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* Información de Contacto */}
             <div>
-              <h2 className="text-3xl font-bold text-white mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Visítanos o <span className="text-avc-red">comunícate</span>
               </h2>
-              <p className="text-gray-300 mb-8">
+              <p className="text-gray-700 mb-8">
                 Estamos ubicados en el corazón de la ciudad. Ven a conocer nuestras
                 instalaciones o contáctanos por cualquiera de estos medios.
               </p>
@@ -183,24 +183,24 @@ export default function ContactoPage() {
             </div>
 
             {/* Formulario */}
-            <div className="bg-gray-800 rounded-xl p-8 border border-gray-700">
-              <h2 className="text-2xl font-bold text-white mb-6">Envíanos un mensaje</h2>
+            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-lg">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">Envíanos un mensaje</h2>
 
               {success && (
-                <div className="bg-green-900 border border-green-600 text-white px-4 py-3 rounded mb-6">
+                <div className="bg-green-50 border border-green-500 text-green-800 px-4 py-3 rounded mb-6">
                   ¡Gracias por contactarnos! Te responderemos pronto.
                 </div>
               )}
 
               {error && (
-                <div className="bg-red-900 border border-red-600 text-white px-4 py-3 rounded mb-6">
+                <div className="bg-red-50 border border-red-500 text-red-800 px-4 py-3 rounded mb-6">
                   {error}
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-white font-semibold mb-2">
+                  <label htmlFor="name" className="block text-gray-900 font-semibold mb-2">
                     Nombre completo
                   </label>
                   <input
@@ -210,12 +210,12 @@ export default function ContactoPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red transition duration-300"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-white font-semibold mb-2">
+                  <label htmlFor="email" className="block text-gray-900 font-semibold mb-2">
                     Correo electrónico
                   </label>
                   <input
@@ -225,12 +225,12 @@ export default function ContactoPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red transition duration-300"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="phone" className="block text-white font-semibold mb-2">
+                  <label htmlFor="phone" className="block text-gray-900 font-semibold mb-2">
                     Teléfono
                   </label>
                   <input
@@ -239,12 +239,12 @@ export default function ContactoPage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red transition duration-300"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-white font-semibold mb-2">
+                  <label htmlFor="message" className="block text-gray-900 font-semibold mb-2">
                     Mensaje
                   </label>
                   <textarea
@@ -254,7 +254,7 @@ export default function ContactoPage() {
                     onChange={handleChange}
                     required
                     rows={5}
-                    className="w-full px-4 py-3 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red transition duration-300 resize-none"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red transition duration-300 resize-none"
                   ></textarea>
                 </div>
 

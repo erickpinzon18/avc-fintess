@@ -88,21 +88,21 @@ export default function DudasPage() {
           <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">
             Preguntas <span className="text-avc-red">Frecuentes</span>
           </h1>
-          <p className="text-xl text-gray-200">¿Tienes dudas? Aquí encontrarás respuestas</p>
+          <p className="text-xl text-gray-600">¿Tienes dudas? Aquí encontrarás respuestas</p>
         </div>
       </section>
 
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-6 max-w-7xl">
           {/* Header Section */}
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Preguntas <span className="text-avc-red">Más Frecuentes</span>
             </h2>
-            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
               Aquí encontrarás respuestas a las dudas más comunes. Si no encuentras lo que buscas, 
               no dudes en contactarnos directamente.
             </p>
@@ -115,11 +115,11 @@ export default function DudasPage() {
                 {faqs.map((faq, index) => (
                   <Disclosure key={index}>
                     {({ open }) => (
-                      <div className={`bg-gray-800 rounded-lg border ${open ? 'border-avc-red' : 'border-gray-700'} transition-all duration-300`}>
-                        <Disclosure.Button className="flex justify-between items-start w-full px-6 py-5 text-left text-white font-semibold hover:bg-gray-750 transition duration-300 group">
+                      <div className={`bg-gray-100 rounded-lg border ${open ? 'border-avc-red' : 'border-gray-300'} transition-all duration-300`}>
+                        <Disclosure.Button className="flex justify-between items-start w-full px-6 py-5 text-left text-gray-900 font-semibold hover:bg-gray-50 transition duration-300 group">
                           <span className="pr-4 group-hover:text-avc-red transition-colors">{faq.q}</span>
                           <svg 
-                            className={`w-5 h-5 shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-avc-red' : 'text-gray-400'}`} 
+                            className={`w-5 h-5 shrink-0 transition-transform duration-300 ${open ? 'rotate-180 text-avc-red' : 'text-gray-600'}`} 
                             fill="none" 
                             stroke="currentColor" 
                             viewBox="0 0 24 24"
@@ -127,7 +127,7 @@ export default function DudasPage() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
                         </Disclosure.Button>
-                        <Disclosure.Panel className="px-6 pb-5 text-gray-300 leading-relaxed">
+                        <Disclosure.Panel className="px-6 pb-5 text-gray-700 leading-relaxed">
                           {faq.a}
                         </Disclosure.Panel>
                       </div>
@@ -137,7 +137,7 @@ export default function DudasPage() {
               </div>
 
               {/* Contact Info Below FAQs */}
-              <div className="mt-8 bg-linear-to-r from-avc-red to-red-700 rounded-xl p-6 text-white">
+              <div className="mt-8 bg-linear-to-r from-avc-red to-red-700 rounded-xl p-6 text-gray-900">
                 <div className="flex items-start space-x-4">
                   <div className="bg-white bg-opacity-20 p-3 rounded-lg">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,7 +146,7 @@ export default function DudasPage() {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg mb-2">¿No encontraste lo que buscabas?</h3>
-                    <p className="text-white text-opacity-90">
+                    <p className="text-gray-900 text-opacity-90">
                       Contáctanos directamente y con gusto te atenderemos. Estamos disponibles por WhatsApp, 
                       teléfono o puedes visitarnos en nuestras instalaciones.
                     </p>
@@ -158,19 +158,19 @@ export default function DudasPage() {
             {/* Contact Form - 1 column - Sticky */}
             <div className="lg:col-span-1">
               <div className="sticky top-24">
-                <div className="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-xl">
+                <div className="bg-gray-100 rounded-xl p-6 border border-gray-300 shadow-xl">
                   <div className="text-center mb-6">
                     <div className="bg-avc-red bg-opacity-10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                       <svg className="w-8 h-8 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-2">¿Tienes otra pregunta?</h3>
-                    <p className="text-gray-400 text-sm">Envíanos tu duda y te responderemos pronto</p>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">¿Tienes otra pregunta?</h3>
+                    <p className="text-gray-600 text-sm">Envíanos tu duda y te responderemos pronto</p>
                   </div>
 
                   {success && (
-                    <div className="bg-green-900 border border-green-600 text-white px-4 py-3 rounded-lg mb-4 text-sm">
+                    <div className="bg-green-900 border border-green-600 text-gray-900 px-4 py-3 rounded-lg mb-4 text-sm">
                       <div className="flex items-center">
                         <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -181,14 +181,14 @@ export default function DudasPage() {
                   )}
                   
                   {error && (
-                    <div className="bg-red-900 border border-red-600 text-white px-4 py-3 rounded-lg mb-4 text-sm">
+                    <div className="bg-red-900 border border-red-600 text-gray-900 px-4 py-3 rounded-lg mb-4 text-sm">
                       {error}
                     </div>
                   )}
 
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                      <label htmlFor="name" className="block text-white font-semibold mb-2 text-sm">
+                      <label htmlFor="name" className="block text-gray-900 font-semibold mb-2 text-sm">
                         Nombre completo
                       </label>
                       <input 
@@ -198,13 +198,13 @@ export default function DudasPage() {
                         value={formData.name} 
                         onChange={handleChange} 
                         required 
-                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 text-sm" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 text-sm" 
                         placeholder="Tu nombre"
                       />
                     </div>
                     
                     <div>
-                      <label htmlFor="email" className="block text-white font-semibold mb-2 text-sm">
+                      <label htmlFor="email" className="block text-gray-900 font-semibold mb-2 text-sm">
                         Correo electrónico
                       </label>
                       <input 
@@ -214,13 +214,13 @@ export default function DudasPage() {
                         value={formData.email} 
                         onChange={handleChange} 
                         required 
-                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 text-sm" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 text-sm" 
                         placeholder="tu@email.com"
                       />
                     </div>
                     
                     <div>
-                      <label htmlFor="question" className="block text-white font-semibold mb-2 text-sm">
+                      <label htmlFor="question" className="block text-gray-900 font-semibold mb-2 text-sm">
                         Tu pregunta
                       </label>
                       <textarea 
@@ -230,7 +230,7 @@ export default function DudasPage() {
                         onChange={handleChange} 
                         required 
                         rows={4} 
-                        className="w-full px-4 py-2.5 bg-gray-900 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 resize-none text-sm" 
+                        className="w-full px-4 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:border-avc-red focus:ring-1 focus:ring-avc-red transition duration-300 resize-none text-sm" 
                         placeholder="Escribe tu pregunta aquí..."
                       ></textarea>
                     </div>
@@ -238,11 +238,11 @@ export default function DudasPage() {
                     <button 
                       type="submit" 
                       disabled={loading} 
-                      className="w-full bg-avc-red hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                      className="w-full bg-avc-red hover:bg-red-700 text-gray-900 font-bold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                     >
                       {loading ? (
                         <>
-                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                           </svg>

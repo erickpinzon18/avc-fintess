@@ -264,10 +264,10 @@ export default function AdminHorariosPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando...</p>
+          <p className="text-gray-600">Cargando...</p>
         </div>
       </div>
     );
@@ -276,7 +276,7 @@ export default function AdminHorariosPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <AdminHeader 
         title="Calendario de Clases"
@@ -289,7 +289,7 @@ export default function AdminHorariosPage() {
         <div className="mb-8 flex justify-between items-center">
           <button
             onClick={() => router.push('/admin')}
-            className="bg-gray-800 hover:bg-gray-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-gray-100 hover:bg-gray-50 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -302,7 +302,7 @@ export default function AdminHorariosPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -312,24 +312,24 @@ export default function AdminHorariosPage() {
         </div>
 
         {/* Controles del calendario */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-6 mb-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
           <div className="flex items-center justify-between">
             <button
               onClick={() => changeMonth(-1)}
-              className="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-lg transition duration-300"
+              className="bg-gray-100 hover:bg-gray-50 text-gray-900 p-3 rounded-lg transition duration-300"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             
-            <h2 className="text-3xl font-bold text-white">
+            <h2 className="text-3xl font-bold text-gray-900">
               {MESES[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h2>
             
             <button
               onClick={() => changeMonth(1)}
-              className="bg-gray-800 hover:bg-gray-700 text-white p-3 rounded-lg transition duration-300"
+              className="bg-gray-100 hover:bg-gray-50 text-gray-900 p-3 rounded-lg transition duration-300"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -339,11 +339,11 @@ export default function AdminHorariosPage() {
         </div>
 
         {/* Calendario */}
-        <div className="bg-gray-900 rounded-xl border border-gray-800 p-6">
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
           {/* Encabezados de días */}
           <div className="grid grid-cols-7 gap-2 mb-4">
             {DIAS_SEMANA.map((dia) => (
-              <div key={dia} className="text-center text-gray-400 font-semibold py-2">
+              <div key={dia} className="text-center text-gray-600 font-semibold py-2">
                 {dia}
               </div>
             ))}
@@ -361,18 +361,18 @@ export default function AdminHorariosPage() {
                   key={index}
                   className={`min-h-[200px] p-2 rounded-lg border-2 transition-all duration-300 ${
                     !date
-                      ? 'bg-gray-950 border-gray-900'
+                      ? 'bg-gray-50 border-gray-900'
                       : esPasado
-                      ? 'bg-gray-800 border-gray-700 opacity-50'
+                      ? 'bg-gray-100 border-gray-300 opacity-50'
                       : esHoy
-                      ? 'bg-gray-800 border-avc-red'
-                      : 'bg-gray-800 border-gray-700 hover:border-avc-red cursor-pointer'
+                      ? 'bg-gray-100 border-avc-red'
+                      : 'bg-gray-100 border-gray-300 hover:border-avc-red cursor-pointer'
                   }`}
                   onClick={() => date && !esPasado && handleDateClick(date)}
                 >
                   {date && (
                     <>
-                      <div className={`text-sm font-semibold mb-2 ${esHoy ? 'text-avc-red' : 'text-gray-300'}`}>
+                      <div className={`text-sm font-semibold mb-2 ${esHoy ? 'text-avc-red' : 'text-gray-700'}`}>
                         {date.getDate()}
                       </div>
                       
@@ -387,12 +387,12 @@ export default function AdminHorariosPage() {
                                 handleEdit(horario);
                               }}
                             >
-                              <div className="text-white font-semibold truncate">{horario.clase}</div>
+                              <div className="text-gray-900 font-semibold truncate">{horario.clase}</div>
                               <div className="text-red-200">{horario.horaInicio}</div>
                             </div>
                           ))}
                           {horariosDelDia.length > 5 && (
-                            <div className="text-xs text-gray-400 text-center">
+                            <div className="text-xs text-gray-600 text-center">
                               +{horariosDelDia.length - 5} más
                             </div>
                           )}
@@ -413,8 +413,8 @@ export default function AdminHorariosPage() {
         </div>
 
         {/* Lista de próximas clases */}
-        <div className="mt-8 bg-gray-900 rounded-xl border border-gray-800 p-6">
-          <h3 className="text-2xl font-bold text-white mb-6">Próximas Clases Programadas</h3>
+        <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-6">Próximas Clases Programadas</h3>
           
           {horarios.filter(h => !isPast(h.fecha instanceof Date ? h.fecha : new Date(h.fecha))).length > 0 ? (
             <div className="space-y-4">
@@ -426,30 +426,30 @@ export default function AdminHorariosPage() {
                   return (
                     <div
                       key={horario.id}
-                      className="bg-gray-800 rounded-lg p-4 border border-gray-700 hover:border-avc-red transition-all duration-300 flex items-center justify-between"
+                      className="bg-gray-100 rounded-lg p-4 border border-gray-300 hover:border-avc-red transition-all duration-300 flex items-center justify-between"
                     >
                       <div className="flex-1">
                         <div className="flex items-center space-x-4 mb-2">
-                          <span className="bg-avc-red text-white px-3 py-1 rounded text-sm font-semibold">
+                          <span className="bg-avc-red text-gray-900 px-3 py-1 rounded text-sm font-semibold">
                             {fecha.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' })}
                           </span>
-                          <h4 className="text-xl font-bold text-white">{horario.clase}</h4>
+                          <h4 className="text-xl font-bold text-gray-900">{horario.clase}</h4>
                         </div>
-                        <div className="flex items-center space-x-6 text-sm text-gray-300">
+                        <div className="flex items-center space-x-6 text-sm text-gray-700">
                           <span className="flex items-center">
-                            <svg className="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 mr-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {horario.horaInicio} - {horario.horaFin}
                           </span>
                           <span className="flex items-center">
-                            <svg className="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 mr-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                             {horario.instructor}
                           </span>
                           <span className="flex items-center">
-                            <svg className="w-4 h-4 mr-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-4 h-4 mr-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
                             {horario.capacidadMaxima} personas
@@ -460,13 +460,13 @@ export default function AdminHorariosPage() {
                       <div className="flex space-x-2 ml-4">
                         <button
                           onClick={() => handleEdit(horario)}
-                          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                          className="bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
                         >
                           Editar
                         </button>
                         <button
                           onClick={() => handleDelete(horario.id)}
-                          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+                          className="bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
                         >
                           Eliminar
                         </button>
@@ -477,7 +477,7 @@ export default function AdminHorariosPage() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-gray-400 text-lg">No hay clases programadas próximamente</p>
+              <p className="text-gray-600 text-lg">No hay clases programadas próximamente</p>
               <p className="text-gray-500 text-sm mt-2">Haz click en una fecha del calendario para agregar una clase</p>
             </div>
           )}
@@ -487,9 +487,9 @@ export default function AdminHorariosPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-gray-900 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-900">
                 {editingHorario ? 'Editar Horario' : 'Nuevo Horario'}
               </h2>
               <button
@@ -498,7 +498,7 @@ export default function AdminHorariosPage() {
                   setEditingHorario(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-white"
+                className="text-gray-600 hover:text-gray-900"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -508,12 +508,12 @@ export default function AdminHorariosPage() {
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Clase</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Clase</label>
                 <select
                   value={formData.clase}
                   onChange={(e) => setFormData({ ...formData, clase: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                 >
                   <option value="">Selecciona una clase</option>
                   {clases.map((clase) => (
@@ -525,30 +525,30 @@ export default function AdminHorariosPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Fecha</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Fecha</label>
                 <input
                   type="date"
                   value={formData.fecha}
                   onChange={(e) => setFormData({ ...formData, fecha: e.target.value })}
                   required
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">Hora Inicio</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Hora Inicio</label>
                   <input
                     type="time"
                     value={formData.horaInicio}
                     onChange={(e) => handleHoraInicioChange(e.target.value)}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Hora Fin <span className="text-gray-500 text-xs">(calculada automáticamente)</span>
                   </label>
                   <input
@@ -556,18 +556,18 @@ export default function AdminHorariosPage() {
                     value={formData.horaFin}
                     onChange={(e) => setFormData({ ...formData, horaFin: e.target.value })}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Instructor</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Instructor</label>
                 <select
                   value={formData.instructor}
                   onChange={(e) => setFormData({ ...formData, instructor: e.target.value })}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                 >
                   <option value="">Selecciona un instructor</option>
                   {coaches.map((coach) => (
@@ -580,7 +580,7 @@ export default function AdminHorariosPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">Duración (minutos)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Duración (minutos)</label>
                   <input
                     type="number"
                     value={formData.duracion}
@@ -589,12 +589,12 @@ export default function AdminHorariosPage() {
                     min="15"
                     max="180"
                     step="15"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   />
                   <p className="text-xs text-gray-500 mt-1">Incrementos de 15 minutos</p>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-300 mb-2">Capacidad Máxima</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Capacidad Máxima</label>
                   <input
                     type="number"
                     value={formData.capacidadMaxima}
@@ -602,17 +602,17 @@ export default function AdminHorariosPage() {
                     required
                     min="1"
                     max="50"
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-300 mb-2">Nivel</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Nivel</label>
                 <select
                   value={formData.nivel}
                   onChange={(e) => setFormData({ ...formData, nivel: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-avc-red"
+                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
                 >
                   <option value="Principiante">Principiante</option>
                   <option value="Intermedio">Intermedio</option>
@@ -629,13 +629,13 @@ export default function AdminHorariosPage() {
                     setEditingHorario(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingHorario ? 'Actualizar' : 'Crear'} Horario
                 </button>

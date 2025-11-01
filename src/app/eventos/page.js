@@ -77,9 +77,9 @@ export default function EventosPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-6">
-          <h2 className="text-3xl font-bold text-white mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-12">
             Próximos <span className="text-avc-red">Eventos</span>
           </h2>
           
@@ -89,7 +89,7 @@ export default function EventosPage() {
                 <div
                   key={event.id}
                   onClick={() => openModal(event)}
-                  className="bg-gray-800 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-700 hover:border-avc-red group cursor-pointer"
+                  className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-avc-red group cursor-pointer"
                 >
                   <div className="relative h-64">
                     <Image
@@ -117,19 +117,19 @@ export default function EventosPage() {
                       })}
                     </div>
                     
-                    <h3 className="text-2xl font-bold text-white mb-3">{event.title}</h3>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">{event.title}</h3>
                     
-                    <p className="text-gray-400 mb-4 line-clamp-3">{event.description}</p>
+                    <p className="text-gray-600 mb-4 line-clamp-3">{event.description}</p>
                     
                     <div className="space-y-2 mb-4">
-                      <div className="flex items-center text-gray-400 text-sm">
+                      <div className="flex items-center text-gray-600 text-sm">
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         {event.time}
                       </div>
                       
-                      <div className="flex items-center text-gray-400 text-sm">
+                      <div className="flex items-center text-gray-600 text-sm">
                         <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -138,7 +138,7 @@ export default function EventosPage() {
                       </div>
                       
                       {event.capacity && (
-                        <div className="flex items-center text-gray-400 text-sm">
+                        <div className="flex items-center text-gray-600 text-sm">
                           <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                           </svg>
