@@ -110,10 +110,10 @@ export default async function TestimoniosPage() {
           <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
         <div className="relative z-10 max-w-3xl mx-auto">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
             Lo que dicen nuestros <span className="text-avc-red">miembros</span>
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-gray-200">
             Historias reales de transformación y crecimiento en AVC Fitness.
           </p>
         </div>
@@ -209,7 +209,7 @@ export default async function TestimoniosPage() {
                       />
                     </div>
                     <div className="p-4 bg-gray-100 text-center">
-                      <span className="inline-block bg-gray-600 text-gray-900 px-3 py-1 rounded text-sm font-bold uppercase">
+                      <span className="inline-block bg-gray-600 text-gray-200 px-3 py-1 rounded text-sm font-bold uppercase">
                         Antes
                       </span>
                     </div>
@@ -252,12 +252,15 @@ export default async function TestimoniosPage() {
             fill
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-black opacity-70"></div>
+          {/* Lighter gradient overlay + blur for better contrast without blocking the background */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent backdrop-blur-sm"></div>
         </div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {displayQuotes.map((quoteItem) => (
-              <div key={quoteItem.id} className="bg-white bg-opacity-95 backdrop-blur-sm rounded-lg p-8 border-l-4 border-avc-red shadow-xl">
+              <div key={quoteItem.id} className="bg-white/90 backdrop-blur-sm rounded-lg p-8 ring-1 ring-gray-100 shadow-md">
+                {/* small red accent */}
+                <div className="mx-auto mb-6 h-1 w-12 bg-avc-red rounded"></div>
                 <p className="text-2xl font-serif italic text-gray-900">
                   &quot;{quoteItem.quote}&quot;
                 </p>

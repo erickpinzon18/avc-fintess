@@ -175,6 +175,12 @@ export default function AdminTestimoniosPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
+        {/* Page Title */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Administrar Testimonios</h2>
+          <p className="text-gray-600">Gestiona testimonios, transformaciones e historias de éxito de clientes</p>
+        </div>
+
         {/* Contadores */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-blue-900/20 border border-blue-600 rounded-lg p-4">
@@ -214,7 +220,7 @@ export default function AdminTestimoniosPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

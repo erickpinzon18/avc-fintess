@@ -45,6 +45,15 @@ function BlogEditor() {
     return () => unsubscribe();
   }, [router, searchParams]);
 
+  // Efecto para cargar el contenido en el editor cuando formData.content cambie
+  useEffect(() => {
+    if (contentRef.current && formData.content) {
+      // Limpiar espacios en blanco innecesarios al inicio y final
+      const cleanContent = formData.content.trim();
+      contentRef.current.innerHTML = cleanContent;
+    }
+  }, [formData.content]);
+
   const loadPost = async (postId) => {
     try {
       const postRef = doc(db, 'blog', postId);
@@ -64,11 +73,6 @@ function BlogEditor() {
           featured: postData.featured || false,
         });
         setEditingId(postId);
-        
-        // Insertar contenido en el editor
-        if (contentRef.current) {
-          contentRef.current.innerHTML = postData.content || '';
-        }
       }
     } catch (error) {
       console.error('Error loading post:', error);
@@ -144,10 +148,10 @@ function BlogEditor() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando editor...</p>
+          <p className="text-gray-600">Cargando editor...</p>
         </div>
       </div>
     );
@@ -156,25 +160,25 @@ function BlogEditor() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-950">
+    <div className="min-h-screen bg-gray-50">
       {/* Header Fijo */}
-      <div className="sticky top-0 z-50 bg-gray-900 border-b border-gray-800 shadow-lg">
+      <div className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push('/admin/blog')}
-                className="text-gray-400 hover:text-white transition"
+                className="text-gray-600 hover:text-gray-900 transition"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <div>
-                <h1 className="text-xl font-bold text-white">
+                <h1 className="text-xl font-bold text-gray-900">
                   {editingId ? 'Editar Artículo' : 'Nuevo Artículo'}
                 </h1>
-                <p className="text-sm text-gray-400">Editor de contenido</p>
+                <p className="text-sm text-gray-600">Editor de contenido</p>
               </div>
             </div>
 
@@ -182,7 +186,7 @@ function BlogEditor() {
               <button
                 onClick={() => handleSave(false)}
                 disabled={saving}
-                className="bg-gray-700 hover:bg-gray-600 text-white font-semibold px-6 py-2 rounded-lg transition disabled:opacity-50"
+                className="bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold px-6 py-2 rounded-lg transition disabled:opacity-50"
               >
                 {saving ? 'Guardando...' : 'Guardar Borrador'}
               </button>
@@ -217,57 +221,57 @@ function BlogEditor() {
                   });
                 }}
                 placeholder="Título del artículo..."
-                className="w-full text-4xl font-bold bg-transparent border-none text-white placeholder-gray-600 focus:outline-none"
+                className="w-full text-4xl font-bold bg-transparent border-none text-gray-900 placeholder-gray-400 focus:outline-none"
               />
             </div>
 
             {/* Barra de Herramientas */}
-            <div className="bg-gray-900 border border-gray-800 rounded-lg p-3 sticky top-24 z-40">
+            <div className="bg-white border border-gray-200 rounded-lg p-3 sticky top-24 z-40 shadow-sm">
               <div className="flex flex-wrap gap-2">
                 {/* Formato de texto */}
-                <div className="flex items-center space-x-1 border-r border-gray-700 pr-2">
+                <div className="flex items-center space-x-1 border-r border-gray-200 pr-2">
                   <button
                     onClick={() => execCommand('bold')}
-                    className="p-2 hover:bg-gray-800 rounded transition"
+                    className="p-2 hover:bg-gray-100 rounded transition"
                     title="Negrita (Ctrl+B)"
                   >
-                    <span className="text-white font-bold">B</span>
+                    <span className="text-gray-900 font-bold">B</span>
                   </button>
                   <button
                     onClick={() => execCommand('italic')}
-                    className="p-2 hover:bg-gray-800 rounded transition"
+                    className="p-2 hover:bg-gray-100 rounded transition"
                     title="Cursiva (Ctrl+I)"
                   >
-                    <span className="text-white italic">I</span>
+                    <span className="text-gray-900 italic">I</span>
                   </button>
                   <button
                     onClick={() => execCommand('underline')}
-                    className="p-2 hover:bg-gray-800 rounded transition"
+                    className="p-2 hover:bg-gray-100 rounded transition"
                     title="Subrayado (Ctrl+U)"
                   >
-                    <span className="text-white underline">U</span>
+                    <span className="text-gray-900 underline">U</span>
                   </button>
                 </div>
 
                 {/* Encabezados */}
-                <div className="flex items-center space-x-1 border-r border-gray-700 pr-2">
+                <div className="flex items-center space-x-1 border-r border-gray-200 pr-2">
                   <button
                     onClick={() => execCommand('formatBlock', '<h2>')}
-                    className="px-3 py-2 hover:bg-gray-800 rounded transition text-white font-semibold"
+                    className="px-3 py-2 hover:bg-gray-100 rounded transition text-gray-900 font-semibold"
                     title="Encabezado 2"
                   >
                     H2
                   </button>
                   <button
                     onClick={() => execCommand('formatBlock', '<h3>')}
-                    className="px-3 py-2 hover:bg-gray-800 rounded transition text-white font-semibold"
+                    className="px-3 py-2 hover:bg-gray-100 rounded transition text-gray-900 font-semibold"
                     title="Encabezado 3"
                   >
                     H3
                   </button>
                   <button
                     onClick={() => execCommand('formatBlock', '<p>')}
-                    className="px-3 py-2 hover:bg-gray-800 rounded transition text-white"
+                    className="px-3 py-2 hover:bg-gray-100 rounded transition text-gray-900"
                     title="Párrafo"
                   >
                     P
@@ -275,10 +279,10 @@ function BlogEditor() {
                 </div>
 
                 {/* Listas */}
-                <div className="flex items-center space-x-1 border-r border-gray-700 pr-2">
+                <div className="flex items-center space-x-1 border-r border-gray-200 pr-2">
                   <button
                     onClick={() => execCommand('insertUnorderedList')}
-                    className="p-2 hover:bg-gray-800 rounded transition text-white"
+                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900"
                     title="Lista con viñetas"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,7 +291,7 @@ function BlogEditor() {
                   </button>
                   <button
                     onClick={() => execCommand('insertOrderedList')}
-                    className="p-2 hover:bg-gray-800 rounded transition text-white"
+                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900"
                     title="Lista numerada"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,13 +301,13 @@ function BlogEditor() {
                 </div>
 
                 {/* Enlaces e Imágenes */}
-                <div className="flex items-center space-x-1 border-r border-gray-700 pr-2">
+                <div className="flex items-center space-x-1 border-r border-gray-200 pr-2">
                   <button
                     onClick={() => {
                       const url = prompt('URL del enlace:');
                       if (url) execCommand('createLink', url);
                     }}
-                    className="p-2 hover:bg-gray-800 rounded transition text-white"
+                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900"
                     title="Insertar enlace"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -312,7 +316,7 @@ function BlogEditor() {
                   </button>
                   <button
                     onClick={handleImageUpload}
-                    className="p-2 hover:bg-gray-800 rounded transition text-white"
+                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900"
                     title="Insertar imagen"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -325,7 +329,7 @@ function BlogEditor() {
                 <div className="flex items-center space-x-1">
                   <button
                     onClick={() => execCommand('formatBlock', '<blockquote>')}
-                    className="p-2 hover:bg-gray-800 rounded transition text-white"
+                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900"
                     title="Cita"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -337,11 +341,11 @@ function BlogEditor() {
             </div>
 
             {/* Editor de Contenido */}
-            <div className="bg-gray-900 border border-gray-800 rounded-lg">
+            <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
               <div
                 ref={contentRef}
                 contentEditable
-                className="prose-editor min-h-[600px] p-8 focus:outline-none text-gray-200"
+                className="prose-editor min-h-[600px] p-8 focus:outline-none text-gray-800"
                 placeholder="Empieza a escribir tu artículo..."
                 suppressContentEditableWarning
               />
@@ -352,27 +356,27 @@ function BlogEditor() {
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
               {/* Metadatos */}
-              <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-                <h3 className="text-lg font-bold text-white mb-4">Configuración</h3>
+              <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                <h3 className="text-lg font-bold text-gray-900 mb-4">Configuración</h3>
                 
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Autor</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Autor</label>
                     <input
                       type="text"
                       value={formData.author}
                       onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-avc-red"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-avc-red"
                       placeholder="Nombre del autor"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Categoría</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Categoría</label>
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-avc-red"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-avc-red"
                     >
                       <option value="Nutrición">Nutrición</option>
                       <option value="Entrenamiento">Entrenamiento</option>
@@ -384,36 +388,36 @@ function BlogEditor() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Slug (URL)</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Slug (URL)</label>
                     <input
                       type="text"
                       value={formData.slug}
                       onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-avc-red text-sm font-mono"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-avc-red text-sm font-mono"
                       placeholder="url-del-articulo"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Extracto</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Extracto</label>
                     <textarea
                       value={formData.excerpt}
                       onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                       rows="3"
                       maxLength="200"
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-avc-red text-sm"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-avc-red text-sm"
                       placeholder="Breve descripción (máx 200 caracteres)"
                     />
                     <p className="text-xs text-gray-500 mt-1">{formData.excerpt.length}/200</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-300 mb-2">Imagen Principal (URL)</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Imagen Principal (URL)</label>
                     <input
                       type="url"
                       value={formData.image}
                       onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:border-avc-red text-sm"
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-avc-red text-sm"
                       placeholder="https://..."
                     />
                     {formData.image && (
@@ -423,24 +427,24 @@ function BlogEditor() {
                     )}
                   </div>
 
-                  <div className="pt-4 border-t border-gray-800">
+                  <div className="pt-4 border-t border-gray-200">
                     <label className="flex items-center space-x-2 cursor-pointer mb-3">
                       <input
                         type="checkbox"
                         checked={formData.featured}
                         onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                        className="w-4 h-4 text-yellow-600 bg-gray-800 border-gray-700 rounded focus:ring-yellow-600"
+                        className="w-4 h-4 text-yellow-600 bg-white border-gray-300 rounded focus:ring-yellow-600"
                       />
-                      <span className="text-sm text-gray-300">⭐ Artículo destacado</span>
+                      <span className="text-sm text-gray-700">⭐ Artículo destacado</span>
                     </label>
                   </div>
                 </div>
               </div>
 
               {/* Tips */}
-              <div className="bg-blue-900 bg-opacity-20 border border-blue-800 rounded-lg p-4">
-                <h4 className="text-sm font-bold text-blue-400 mb-2">💡 Tips de Edición</h4>
-                <ul className="text-xs text-blue-300 space-y-1">
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h4 className="text-sm font-bold text-blue-800 mb-2">💡 Tips de Edición</h4>
+                <ul className="text-xs text-blue-700 space-y-1">
                   <li>• Usa H2 para títulos principales</li>
                   <li>• Usa H3 para subtítulos</li>
                   <li>• Guarda borradores frecuentemente</li>
@@ -460,24 +464,24 @@ function BlogEditor() {
         
         .prose-editor:empty:before {
           content: attr(placeholder);
-          color: #6b7280;
+          color: #9ca3af;
           cursor: text;
         }
         
         .prose-editor h2 {
           font-size: 1.875rem;
           font-weight: 700;
-          color: #f3f4f6;
+          color: #111827;
           margin-top: 2em;
           margin-bottom: 1em;
-          border-bottom: 1px solid #374151;
+          border-bottom: 1px solid #e5e7eb;
           padding-bottom: 0.25em;
         }
         
         .prose-editor h3 {
           font-size: 1.5rem;
           font-weight: 600;
-          color: #f3f4f6;
+          color: #111827;
           margin-top: 1.6em;
           margin-bottom: 0.6em;
         }
@@ -485,7 +489,7 @@ function BlogEditor() {
         .prose-editor p {
           font-size: 1.125rem;
           line-height: 1.75rem;
-          color: #d1d5db;
+          color: #374151;
           margin-top: 1.25em;
           margin-bottom: 1.25em;
         }
@@ -493,7 +497,7 @@ function BlogEditor() {
         .prose-editor ul, .prose-editor ol {
           margin-left: 1.25em;
           padding-left: 0.5em;
-          color: #d1d5db;
+          color: #374151;
           font-size: 1.125rem;
           line-height: 1.75rem;
         }
@@ -508,7 +512,7 @@ function BlogEditor() {
           padding-left: 1em;
           font-style: italic;
           font-size: 1.25rem;
-          color: #f3f4f6;
+          color: #111827;
           margin-top: 1.6em;
           margin-bottom: 1.6em;
         }
@@ -532,10 +536,10 @@ function BlogEditor() {
 export default function BlogEditorPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando editor...</p>
+          <p className="text-gray-600">Cargando editor...</p>
         </div>
       </div>
     }>

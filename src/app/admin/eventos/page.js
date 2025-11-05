@@ -40,6 +40,22 @@ export default function AdminEventosPage() {
     return () => unsubscribe();
   }, [router]);
 
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [showModal]);
+
   const loadEventos = async () => {
     try {
       const eventosCol = collection(db, 'eventos');
@@ -167,7 +183,7 @@ export default function AdminEventosPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -194,7 +210,7 @@ export default function AdminEventosPage() {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-4 right-4">
-                        <span className="bg-avc-red text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
+                        <span className="bg-avc-red text-white px-3 py-1 rounded-full text-xs font-semibold">
                           {evento.category}
                         </span>
                       </div>
@@ -232,13 +248,13 @@ export default function AdminEventosPage() {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEdit(evento)}
-                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                       >
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(evento.id)}
-                        className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                       >
                         Eliminar
                       </button>
@@ -272,7 +288,7 @@ export default function AdminEventosPage() {
                         className="w-full h-full object-cover grayscale"
                       />
                       <div className="absolute top-4 right-4">
-                        <span className="bg-gray-700 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
+                        <span className="bg-white text-gray-900 px-3 py-1 rounded-full text-xs font-semibold border border-gray-300">
                           {evento.category}
                         </span>
                       </div>
@@ -294,13 +310,13 @@ export default function AdminEventosPage() {
                     <div className="flex space-x-2">
                       <button
                         onClick={() => handleEdit(evento)}
-                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                       >
                         Editar
                       </button>
                       <button
                         onClick={() => handleDelete(evento.id)}
-                        className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                        className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                       >
                         Eliminar
                       </button>
@@ -319,8 +335,18 @@ export default function AdminEventosPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div 
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
+          onClick={() => {
+            setShowModal(false);
+            setEditingEvento(null);
+            resetForm();
+          }}
+        >
+          <div 
+            className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900">
                 {editingEvento ? 'Editar Evento' : 'Nuevo Evento'}
@@ -331,7 +357,7 @@ export default function AdminEventosPage() {
                   setEditingEvento(null);
                   resetForm();
                 }}
-                className="text-gray-600 hover:text-gray-900"
+                className="bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-900 p-2 rounded-full transition duration-300 shadow-lg"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -457,13 +483,13 @@ export default function AdminEventosPage() {
                     setEditingEvento(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-3 rounded-lg transition duration-300 border border-gray-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingEvento ? 'Actualizar' : 'Crear'} Evento
                 </button>

@@ -73,10 +73,10 @@ export default function UnetePage() {
         </div>
 
         <div className="relative z-10 max-w-5xl mx-auto">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-gray-900 mb-8">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white mb-8">
             Es tu momento de <span className="text-avc-red">brillar</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
             Da el primer paso hacia la mejor versión de ti mismo. Únete a la familia AVC Fitness
             Center y descubre todo lo que puedes lograr.
           </p>

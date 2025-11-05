@@ -208,3 +208,33 @@ body {
   background-color: var(--avc-red);
 }
 
+/* Social Media Embeds */
+.social-embed-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.social-embed-container iframe {
+  width: 100% !important;
+  border: none;
+  overflow: hidden;
+}
+
+/* Facebook Plugin Responsive */
+.fb-page {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.fb-page > span {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.fb-page iframe {
+  width: 100% !important;
+  max-width: 100% !important;
+}

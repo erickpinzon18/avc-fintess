@@ -285,6 +285,12 @@ export default function AdminHorariosPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
+        {/* Page Title */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Administrar Horarios</h2>
+          <p className="text-gray-600">Gestiona el calendario de clases, instructores y disponibilidad</p>
+        </div>
+
         {/* Action Buttons */}
         <div className="mb-8 flex justify-between items-center">
           <button
@@ -302,7 +308,7 @@ export default function AdminHorariosPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

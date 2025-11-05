@@ -147,6 +147,12 @@ export default function AdminGaleriaPage() {
 
       {/* Main Content */}
       <main className="container mx-auto px-6 py-12">
+        {/* Page Title */}
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Administrar Galería</h2>
+          <p className="text-gray-600">Gestiona fotos y videos de instalaciones, clases, eventos y la comunidad</p>
+        </div>
+
         {/* Action Buttons */}
         <div className="mb-8 flex justify-between items-center">
           <button
@@ -164,7 +170,7 @@ export default function AdminGaleriaPage() {
               resetForm();
               setShowModal(true);
             }}
-            className="bg-avc-red hover:bg-red-700 text-gray-900 font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
+            className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300 flex items-center space-x-2"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -234,12 +240,12 @@ export default function AdminGaleriaPage() {
                     </div>
                   )}
                   <div className="absolute top-4 left-4">
-                    <span className="bg-black bg-opacity-75 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
+                    <span className="bg-black bg-opacity-75 text-white px-3 py-1 rounded-full text-xs font-semibold">
                       {item.category}
                     </span>
                   </div>
                   <div className="absolute top-4 right-4">
-                    <span className="bg-avc-red text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
+                    <span className="bg-avc-red text-white px-3 py-1 rounded-full text-xs font-semibold">
                       #{item.order}
                     </span>
                   </div>
@@ -255,13 +261,13 @@ export default function AdminGaleriaPage() {
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleEdit(item)}
-                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                     >
                       Editar
                     </button>
                     <button
                       onClick={() => handleDelete(item.id)}
-                      className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                     >
                       Eliminar
                     </button>
@@ -419,13 +425,13 @@ export default function AdminGaleriaPage() {
                     setEditingItem(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingItem ? 'Actualizar' : 'Crear'} Item
                 </button>

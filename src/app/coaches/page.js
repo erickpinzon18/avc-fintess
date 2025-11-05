@@ -40,6 +40,26 @@ export default function CoachesPage() {
     setShowModal(false);
     setSelectedCoach(null);
   };
+  
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (showModal) {
+      // lock scrolling
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      // restore
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
+
+    // cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [showModal]);
   return (
     <>
       {/* HERO BANNER */}
@@ -127,7 +147,7 @@ export default function CoachesPage() {
       {/* Modal de Detalles del Coach */}
       {showModal && selectedCoach && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 p-4 overflow-y-auto"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
           onClick={closeModal}
         >
           <div 

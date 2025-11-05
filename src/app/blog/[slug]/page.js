@@ -64,10 +64,10 @@ export default function BlogDetailPage({ params }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center pt-32">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-32">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
-          <p className="text-gray-400">Cargando artículo...</p>
+          <p className="text-gray-600">Cargando artículo...</p>
         </div>
       </div>
     );
@@ -76,9 +76,9 @@ export default function BlogDetailPage({ params }) {
   // Si no se encuentra el post, mostrar 404
   if (!post) {
     return (
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center pt-32">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center pt-32">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-white mb-4">Post no encontrado</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Post no encontrado</h1>
           <Link href="/blog" className="text-avc-red hover:underline">
             Volver al Blog
           </Link>
@@ -88,7 +88,7 @@ export default function BlogDetailPage({ params }) {
   }
 
   return (
-    <main className="bg-gray-900 py-20 pt-32">
+    <main className="bg-gray-50 py-20 pt-32">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           
@@ -96,7 +96,7 @@ export default function BlogDetailPage({ params }) {
           <article className="lg:col-span-2">
             
             {/* Breadcrumbs */}
-            <div className="text-sm text-gray-400 mb-4">
+            <div className="text-sm text-gray-600 mb-4">
               <Link href="/blog" className="hover:text-avc-red">
                 Blog
               </Link>
@@ -107,7 +107,7 @@ export default function BlogDetailPage({ params }) {
             </div>
 
             {/* Título del Artículo */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
               {post.title}
             </h1>
 
@@ -116,7 +116,7 @@ export default function BlogDetailPage({ params }) {
               <span className="inline-block bg-avc-red text-white px-3 py-1 text-xs font-bold rounded-full uppercase">
                 {post.category}
               </span>
-              <span className="text-gray-400 text-sm">
+              <span className="text-gray-600 text-sm">
                 Publicado el{' '}
                 {post.publishedAt?.toDate
                   ? post.publishedAt.toDate().toLocaleDateString('es-MX', {
@@ -126,7 +126,7 @@ export default function BlogDetailPage({ params }) {
                     })
                   : 'Fecha no disponible'}
               </span>
-              <span className="text-gray-400 text-sm">Por {post.author}</span>
+              <span className="text-gray-600 text-sm">Por {post.author}</span>
             </div>
 
             {/* Imagen Principal */}
@@ -145,7 +145,7 @@ export default function BlogDetailPage({ params }) {
 
             {/* Contenido del Artículo */}
             <div 
-              className="prose-content bg-gray-800 rounded-lg p-8"
+              className="prose-content bg-white rounded-lg p-8 border border-gray-200"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
@@ -180,8 +180,8 @@ export default function BlogDetailPage({ params }) {
               
               {/* Widget de Artículos Relacionados */}
               {relatedPosts.length > 0 && (
-                <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-xl">
-                  <h3 className="text-xl font-bold text-white mb-5 border-b border-gray-700 pb-3">
+                <div className="bg-white rounded-lg p-6 mb-8 shadow-lg border border-gray-200">
+                  <h3 className="text-xl font-bold text-gray-900 mb-5 border-b border-gray-200 pb-3">
                     Artículos <span className="text-avc-red">Relacionados</span>
                   </h3>
                   <div className="space-y-4">
@@ -200,7 +200,7 @@ export default function BlogDetailPage({ params }) {
                             className="w-16 h-16 rounded-md object-cover mr-4"
                           />
                         )}
-                        <span className="text-gray-200 group-hover:text-avc-red transition duration-300 text-sm line-clamp-2">
+                        <span className="text-gray-700 group-hover:text-avc-red transition duration-300 text-sm line-clamp-2">
                           {relatedPost.title}
                         </span>
                       </Link>
@@ -210,35 +210,35 @@ export default function BlogDetailPage({ params }) {
               )}
 
               {/* Widget de Categorías */}
-              <div className="bg-gray-800 rounded-lg p-6 mb-8 shadow-xl">
-                <h3 className="text-xl font-bold text-white mb-5 border-b border-gray-700 pb-3">
+              <div className="bg-white rounded-lg p-6 mb-8 shadow-lg border border-gray-200">
+                <h3 className="text-xl font-bold text-gray-900 mb-5 border-b border-gray-200 pb-3">
                   <span className="text-avc-red">Categorías</span>
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  <Link href="/blog" className="bg-gray-700 text-gray-200 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
+                  <Link href="/blog" className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
                     Nutrición
                   </Link>
-                  <Link href="/blog" className="bg-gray-700 text-gray-200 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
+                  <Link href="/blog" className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
                     Entrenamiento
                   </Link>
-                  <Link href="/blog" className="bg-gray-700 text-gray-200 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
+                  <Link href="/blog" className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
                     Salud
                   </Link>
-                  <Link href="/blog" className="bg-gray-700 text-gray-200 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
+                  <Link href="/blog" className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
                     Motivación
                   </Link>
-                  <Link href="/blog" className="bg-gray-700 text-gray-200 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
+                  <Link href="/blog" className="bg-gray-100 text-gray-700 text-sm font-semibold px-3 py-1 rounded-full hover:bg-avc-red hover:text-white transition duration-300">
                     Comunidad
                   </Link>
                 </div>
               </div>
 
               {/* Widget de CTA */}
-              <div className="bg-gray-800 rounded-lg p-6 shadow-xl text-center">
-                <h3 className="text-2xl font-bold text-white mb-3">
+              <div className="bg-white rounded-lg p-6 shadow-lg border border-gray-200 text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">
                   ¿Listo para <span className="text-avc-red">empezar?</span>
                 </h3>
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-700 mb-6">
                   Agenda tu clase de prueba gratis y vive la experiencia AVC.
                 </p>
                 <Link 
@@ -259,24 +259,24 @@ export default function BlogDetailPage({ params }) {
           font-size: 1.875rem;
           line-height: 2.25rem;
           font-weight: 700;
-          color: #f3f4f6;
+          color: #111827;
           margin-top: 2em;
           margin-bottom: 1em;
-          border-bottom: 1px solid #374151;
+          border-bottom: 1px solid #e5e7eb;
           padding-bottom: 0.25em;
         }
         .prose-content h3 {
           font-size: 1.5rem;
           line-height: 2rem;
           font-weight: 600;
-          color: #f3f4f6;
+          color: #111827;
           margin-top: 1.6em;
           margin-bottom: 0.6em;
         }
         .prose-content p {
           font-size: 1.125rem;
           line-height: 1.75rem;
-          color: #d1d5db;
+          color: #374151;
           margin-top: 1.25em;
           margin-bottom: 1.25em;
         }
@@ -292,7 +292,7 @@ export default function BlogDetailPage({ params }) {
           list-style-type: disc;
           margin-left: 1.25em;
           padding-left: 0.5em;
-          color: #d1d5db;
+          color: #374151;
           font-size: 1.125rem;
           line-height: 1.75rem;
         }
@@ -305,7 +305,7 @@ export default function BlogDetailPage({ params }) {
           padding-left: 1em;
           font-style: italic;
           font-size: 1.25rem;
-          color: #f3f4f6;
+          color: #1f2937;
           margin-top: 1.6em;
           margin-bottom: 1.6em;
           background: rgba(220, 38, 38, 0.05);

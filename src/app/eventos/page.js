@@ -166,16 +166,16 @@ export default function EventosPage() {
               ))}
             </div>
           ) : (
-            <div className="bg-gray-800 rounded-xl border border-gray-700 p-12 text-center mb-20">
-              <svg className="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-xl border border-gray-200 p-12 text-center mb-20">
+              <svg className="w-16 h-16 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <p className="text-gray-400 text-lg">No hay eventos próximos en este momento</p>
+              <p className="text-gray-600 text-lg">No hay eventos próximos en este momento</p>
               <p className="text-gray-500 text-sm mt-2">¡Mantente atento a nuestras redes sociales!</p>
             </div>
           )}
 
-          <h2 className="text-3xl font-bold text-white mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-12">
             Eventos <span className="text-avc-red">Pasados</span>
           </h2>
           
@@ -185,7 +185,7 @@ export default function EventosPage() {
                 <div 
                   key={event.id} 
                   onClick={() => openModal(event)}
-                  className="bg-gray-800 rounded-xl overflow-hidden opacity-75 hover:opacity-100 transition-all duration-300 border border-gray-700 cursor-pointer"
+                  className="bg-white rounded-xl overflow-hidden opacity-75 hover:opacity-100 transition-all duration-300 border border-gray-200 hover:border-gray-300 cursor-pointer"
                 >
                   <div className="relative h-48">
                     <Image
@@ -195,27 +195,27 @@ export default function EventosPage() {
                       className="object-cover grayscale"
                     />
                     <div className="absolute top-3 right-3">
-                      <span className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                      <span className="bg-white text-gray-900 px-2 py-1 rounded-full text-xs font-semibold border border-gray-300">
                         {event.category}
                       </span>
                     </div>
                   </div>
                   <div className="p-4">
-                    <h3 className="text-lg font-bold text-white mb-2">{event.title}</h3>
-                    <div className="flex items-center text-gray-500 text-sm mb-2">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
+                    <div className="flex items-center text-gray-600 text-sm mb-2">
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       {new Date(event.date).toLocaleDateString('es-MX')}
                     </div>
-                    <p className="text-gray-400 text-sm line-clamp-2">{event.description}</p>
+                    <p className="text-gray-600 text-sm line-clamp-2">{event.description}</p>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="bg-gray-800 rounded-xl border border-gray-700 p-12 text-center">
-              <p className="text-gray-400 text-lg">No hay eventos pasados registrados</p>
+            <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
+              <p className="text-gray-600 text-lg">No hay eventos pasados registrados</p>
             </div>
           )}
         </div>
@@ -224,11 +224,11 @@ export default function EventosPage() {
       {/* Modal de Detalles del Evento */}
       {showModal && selectedEvent && (
         <div 
-          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4 overflow-y-auto"
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
           onClick={closeModal}
         >
           <div 
-            className="bg-gray-900 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-800"
+            className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header del Modal con Imagen */}
@@ -239,11 +239,11 @@ export default function EventosPage() {
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-gray-900 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-t from-white via-white/50 to-transparent"></div>
               
               <button
                 onClick={closeModal}
-                className="absolute top-4 right-4 bg-black bg-opacity-50 hover:bg-opacity-75 text-white rounded-full p-2 transition duration-300"
+                className="absolute top-4 right-4 bg-white bg-opacity-90 hover:bg-opacity-100 text-gray-900 p-2 rounded-full transition duration-300 shadow-lg"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -261,7 +261,7 @@ export default function EventosPage() {
                     </span>
                   )}
                 </div>
-                <h2 className="text-4xl font-bold text-white mb-2">{selectedEvent.title}</h2>
+                <h2 className="text-4xl font-bold text-gray-900 mb-2">{selectedEvent.title}</h2>
               </div>
             </div>
 
@@ -271,14 +271,14 @@ export default function EventosPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
-                    <div className="bg-avc-red bg-opacity-20 p-3 rounded-lg">
-                      <svg className="w-6 h-6 text-avc-red" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <div className="bg-red-50 p-3 rounded-lg border-2 border-avc-red">
+                      <svg className="w-6 h-6 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm">Fecha</p>
-                      <p className="text-white font-semibold text-lg">
+                      <p className="text-gray-600 text-sm">Fecha</p>
+                      <p className="text-gray-900 font-semibold text-lg">
                         {new Date(selectedEvent.date).toLocaleDateString('es-MX', { 
                           year: 'numeric', 
                           month: 'long', 
@@ -290,42 +290,42 @@ export default function EventosPage() {
                   </div>
 
                   <div className="flex items-start space-x-3">
-                    <div className="bg-avc-red bg-opacity-20 p-3 rounded-lg">
-                      <svg className="w-6 h-6 text-avc-red" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <div className="bg-red-50 p-3 rounded-lg border-2 border-avc-red">
+                      <svg className="w-6 h-6 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm">Hora</p>
-                      <p className="text-white font-semibold text-lg">{selectedEvent.time}</p>
+                      <p className="text-gray-600 text-sm">Hora</p>
+                      <p className="text-gray-900 font-semibold text-lg">{selectedEvent.time}</p>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
-                    <div className="bg-avc-red bg-opacity-20 p-3 rounded-lg">
-                      <svg className="w-6 h-6 text-avc-red" fill="none" stroke="white" viewBox="0 0 24 24">
+                    <div className="bg-red-50 p-3 rounded-lg border-2 border-avc-red">
+                      <svg className="w-6 h-6 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-gray-400 text-sm">Ubicación</p>
-                      <p className="text-white font-semibold text-lg">{selectedEvent.location}</p>
+                      <p className="text-gray-600 text-sm">Ubicación</p>
+                      <p className="text-gray-900 font-semibold text-lg">{selectedEvent.location}</p>
                     </div>
                   </div>
 
                   {selectedEvent.capacity && (
                     <div className="flex items-start space-x-3">
-                      <div className="bg-avc-red bg-opacity-20 p-3 rounded-lg">
-                        <svg className="w-6 h-6 text-avc-red" fill="none" stroke="white" viewBox="0 0 24 24">
+                      <div className="bg-red-50 p-3 rounded-lg border-2 border-avc-red">
+                        <svg className="w-6 h-6 text-avc-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-gray-400 text-sm">Capacidad</p>
-                        <p className="text-white font-semibold text-lg">{selectedEvent.capacity} personas</p>
+                        <p className="text-gray-600 text-sm">Capacidad</p>
+                        <p className="text-gray-900 font-semibold text-lg">{selectedEvent.capacity} personas</p>
                       </div>
                     </div>
                   )}
@@ -334,8 +334,8 @@ export default function EventosPage() {
 
               {/* Descripción */}
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-white mb-4">Descripción del Evento</h3>
-                <p className="text-gray-300 leading-relaxed whitespace-pre-line">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Descripción del Evento</h3>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">
                   {selectedEvent.description}
                 </p>
               </div>
@@ -361,7 +361,7 @@ export default function EventosPage() {
                 
                 <button
                   onClick={closeModal}
-                  className="bg-gray-800 hover:bg-gray-700 text-white font-semibold py-4 px-8 rounded-lg transition duration-300"
+                  className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold py-4 px-8 rounded-lg transition duration-300 border border-gray-300"
                 >
                   Cerrar
                 </button>
@@ -369,8 +369,8 @@ export default function EventosPage() {
 
               {/* Nota si no hay link de registro */}
               {!selectedEvent.registrationLink && (
-                <div className="mt-6 bg-yellow-900 bg-opacity-20 border border-yellow-700 rounded-lg p-4">
-                  <p className="text-yellow-500 text-sm flex items-center">
+                <div className="mt-6 bg-yellow-50 border border-yellow-300 rounded-lg p-4">
+                  <p className="text-yellow-700 text-sm flex items-center">
                     <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
