@@ -10,6 +10,55 @@ import AdminHeader from '../components/AdminHeader';
 const DIAS_SEMANA = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
 const MESES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
+// Paleta de colores disponibles para asignar a las clases
+const PALETA_COLORES = [
+  { bg: 'bg-red-600', bgOpacity: 'bg-red-600 bg-opacity-20', border: 'border-red-600', text: 'text-white' },
+  { bg: 'bg-blue-600', bgOpacity: 'bg-blue-600 bg-opacity-20', border: 'border-blue-600', text: 'text-white' },
+  { bg: 'bg-orange-600', bgOpacity: 'bg-orange-600 bg-opacity-20', border: 'border-orange-600', text: 'text-white' },
+  { bg: 'bg-purple-600', bgOpacity: 'bg-purple-600 bg-opacity-20', border: 'border-purple-600', text: 'text-white' },
+  { bg: 'bg-pink-600', bgOpacity: 'bg-pink-600 bg-opacity-20', border: 'border-pink-600', text: 'text-white' },
+  { bg: 'bg-green-600', bgOpacity: 'bg-green-600 bg-opacity-20', border: 'border-green-600', text: 'text-white' },
+  { bg: 'bg-yellow-600', bgOpacity: 'bg-yellow-600 bg-opacity-20', border: 'border-yellow-600', text: 'text-white' },
+  { bg: 'bg-indigo-600', bgOpacity: 'bg-indigo-600 bg-opacity-20', border: 'border-indigo-600', text: 'text-white' },
+  { bg: 'bg-cyan-600', bgOpacity: 'bg-cyan-600 bg-opacity-20', border: 'border-cyan-600', text: 'text-white' },
+  { bg: 'bg-fuchsia-600', bgOpacity: 'bg-fuchsia-600 bg-opacity-20', border: 'border-fuchsia-600', text: 'text-white' },
+  { bg: 'bg-emerald-600', bgOpacity: 'bg-emerald-600 bg-opacity-20', border: 'border-emerald-600', text: 'text-white' },
+  { bg: 'bg-rose-600', bgOpacity: 'bg-rose-600 bg-opacity-20', border: 'border-rose-600', text: 'text-white' },
+  { bg: 'bg-amber-600', bgOpacity: 'bg-amber-600 bg-opacity-20', border: 'border-amber-600', text: 'text-white' },
+  { bg: 'bg-lime-600', bgOpacity: 'bg-lime-600 bg-opacity-20', border: 'border-lime-600', text: 'text-white' },
+  { bg: 'bg-teal-600', bgOpacity: 'bg-teal-600 bg-opacity-20', border: 'border-teal-600', text: 'text-white' },
+  { bg: 'bg-violet-600', bgOpacity: 'bg-violet-600 bg-opacity-20', border: 'border-violet-600', text: 'text-white' },
+  { bg: 'bg-sky-600', bgOpacity: 'bg-sky-600 bg-opacity-20', border: 'border-sky-600', text: 'text-white' },
+  { bg: 'bg-slate-700', bgOpacity: 'bg-slate-700 bg-opacity-20', border: 'border-slate-700', text: 'text-white' },
+];
+
+// Función para generar un hash simple a partir del nombre de la clase
+const hashString = (str) => {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+};
+
+// Función para asignar un color único a cada clase basado en su nombre
+const getClaseColor = (nombreClase, todasLasClases = []) => {
+  // Crear un array ordenado de nombres de clases para asegurar consistencia
+  const clasesOrdenadas = [...todasLasClases].sort();
+  const indiceClase = clasesOrdenadas.indexOf(nombreClase);
+  
+  if (indiceClase === -1) {
+    // Si la clase no está en la lista, usar hash para asignar un color
+    const colorIndex = hashString(nombreClase) % PALETA_COLORES.length;
+    return PALETA_COLORES[colorIndex];
+  }
+  
+  // Asignar color basado en el índice para evitar repeticiones
+  return PALETA_COLORES[indiceClase % PALETA_COLORES.length];
+};
+
 export default function AdminHorariosPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -384,19 +433,25 @@ export default function AdminHorariosPage() {
                       
                       {horariosDelDia.length > 0 && (
                         <div className="space-y-1">
-                          {horariosDelDia.slice(0, 5).map((horario) => (
-                            <div
-                              key={horario.id}
-                              className="bg-avc-red bg-opacity-20 border border-avc-red rounded p-1 text-xs"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleEdit(horario);
-                              }}
-                            >
-                              <div className="text-gray-900 font-semibold truncate">{horario.clase}</div>
-                              <div className="text-red-200">{horario.horaInicio}</div>
-                            </div>
-                          ))}
+                          {horariosDelDia.slice(0, 5).map((horario) => {
+                            const nombresClases = clases.map(c => c.name);
+                            const colores = getClaseColor(horario.clase, nombresClases);
+                            return (
+                              <div
+                                key={horario.id}
+                                className={`${colores.bg} border ${colores.border} rounded p-1 text-xs cursor-pointer hover:opacity-90 transition-opacity`}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleEdit(horario);
+                                }}
+                              >
+                                <div className="text-white font-semibold truncate px-1">
+                                  {horario.clase}
+                                </div>
+                                <div className="text-white opacity-90 mt-0.5 px-1">{horario.horaInicio}</div>
+                              </div>
+                            );
+                          })}
                           {horariosDelDia.length > 5 && (
                             <div className="text-xs text-gray-600 text-center">
                               +{horariosDelDia.length - 5} más
@@ -429,14 +484,16 @@ export default function AdminHorariosPage() {
                 .slice(0, 10)
                 .map((horario) => {
                   const fecha = horario.fecha instanceof Date ? horario.fecha : new Date(horario.fecha);
+                  const nombresClases = clases.map(c => c.name);
+                  const colores = getClaseColor(horario.clase, nombresClases);
                   return (
                     <div
                       key={horario.id}
-                      className="bg-gray-100 rounded-lg p-4 border border-gray-300 hover:border-avc-red transition-all duration-300 flex items-center justify-between"
+                      className={`bg-gray-100 rounded-lg p-4 border-2 ${colores.border} hover:shadow-lg transition-all duration-300 flex items-center justify-between`}
                     >
                       <div className="flex-1">
                         <div className="flex items-center space-x-4 mb-2">
-                          <span className="bg-avc-red text-gray-900 px-3 py-1 rounded text-sm font-semibold">
+                          <span className={`${colores.bg} ${colores.text} px-3 py-1 rounded text-sm font-semibold`}>
                             {fecha.toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' })}
                           </span>
                           <h4 className="text-xl font-bold text-gray-900">{horario.clase}</h4>
@@ -460,19 +517,19 @@ export default function AdminHorariosPage() {
                             </svg>
                             {horario.capacidadMaxima} personas
                           </span>
-                          <span className="bg-gray-700 px-2 py-1 rounded text-xs">{horario.nivel}</span>
+                          <span className="bg-gray-700 px-2 py-1 rounded text-xs text-white">{horario.nivel}</span>
                         </div>
                       </div>
                       <div className="flex space-x-2 ml-4">
                         <button
                           onClick={() => handleEdit(horario)}
-                          className="bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                         >
                           Editar
                         </button>
                         <button
                           onClick={() => handleDelete(horario.id)}
-                          className="bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                         >
                           Eliminar
                         </button>
@@ -487,6 +544,23 @@ export default function AdminHorariosPage() {
               <p className="text-gray-500 text-sm mt-2">Haz click en una fecha del calendario para agregar una clase</p>
             </div>
           )}
+        </div>
+
+        {/* Leyenda de colores */}
+        <div className="mt-8 bg-white rounded-xl border border-gray-200 p-6">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">Leyenda de Colores</h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {clases.map((clase) => {
+              const nombresClases = clases.map(c => c.name);
+              const colores = getClaseColor(clase.name, nombresClases);
+              return (
+                <div key={clase.id} className="flex items-center space-x-2">
+                  <div className={`${colores.bg} w-4 h-4 rounded`}></div>
+                  <span className="text-sm text-gray-700">{clase.name}</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </main>
 
@@ -635,13 +709,13 @@ export default function AdminHorariosPage() {
                     setEditingHorario(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingHorario ? 'Actualizar' : 'Crear'} Horario
                 </button>

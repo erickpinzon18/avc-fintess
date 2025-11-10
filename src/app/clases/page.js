@@ -11,6 +11,7 @@ export default function ClasesPage() {
   const classesRef = useScrollAnimation({ stagger: 0.15 });
   const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [coverImage, setCoverImage] = useState('https://placehold.co/1920x600/2a2a2a/333333?text=Nuestras+Clases+AVC');
 
   useEffect(() => {
     const loadClasses = async () => {
@@ -22,6 +23,12 @@ export default function ClasesPage() {
           ...doc.data(),
         }));
         setClasses(clasesList);
+        
+        // Si hay clases y alguna tiene coverImage, usar la primera que encuentre
+        const claseConPortada = clasesList.find(clase => clase.coverImage);
+        if (claseConPortada && claseConPortada.coverImage) {
+          setCoverImage(claseConPortada.coverImage);
+        }
       } catch (error) {
         console.error('Error al cargar clases:', error);
       } finally {
@@ -37,12 +44,13 @@ export default function ClasesPage() {
       {/* HERO BANNER */}
       <section className="relative h-[60vh] flex items-center justify-center text-center px-4 pt-16">
         <div className="absolute inset-0">
-          <Image
-            src="https://placehold.co/1920x600/2a2a2a/333333?text=Nuestras+Clases+AVC"
-            alt="Clases en AVC Fitness"
-            fill
-            className="object-cover"
-            priority
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage: `url(${coverImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: `${classes.find(c => c.coverImage)?.coverImagePosition?.x || 50}% ${classes.find(c => c.coverImage)?.coverImagePosition?.y || 50}%`,
+            }}
           />
           <div className="absolute inset-0 bg-black opacity-60"></div>
         </div>
@@ -95,12 +103,14 @@ export default function ClasesPage() {
                     data-animate
                     className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-200 hover:border-avc-red"
                   >
-                    <div className="relative h-48">
-                      <Image
-                        src={clase.image}
-                        alt={clase.name}
-                        fill
-                        className="object-cover"
+                    <div className="relative h-48 overflow-hidden">
+                      <div
+                        className="w-full h-full"
+                        style={{
+                          backgroundImage: `url(${clase.image})`,
+                          backgroundSize: 'cover',
+                          backgroundPosition: `${clase.imagePosition?.x || 50}% ${clase.imagePosition?.y || 50}%`,
+                        }}
                       />
                     </div>
                     <div className="p-6">

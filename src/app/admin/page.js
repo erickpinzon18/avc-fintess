@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -12,12 +12,15 @@ export default function AdminPage() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({});
+  const [userRole, setUserRole] = useState('admin'); // 'admin' o 'coach'
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        // Obtener el rol del usuario usando su UID
+        await getUserRole(currentUser.uid);
         loadStats();
       } else {
         router.push('/login');
@@ -27,6 +30,37 @@ export default function AdminPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  const getUserRole = async (uid) => {
+    try {
+      console.log('🔍 Buscando usuario con UID:', uid);
+      console.log('📍 Path completo:', `admins/${uid}`);
+      
+      // Buscar el documento del usuario usando su UID como ID de documento
+      const userDocRef = doc(db, 'admins', uid); // ← CAMBIO: 'admins' con S
+      const userDocSnap = await getDoc(userDocRef);
+      
+      console.log('📄 Documento existe?', userDocSnap.exists());
+      
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        console.log('✅ Usuario encontrado:', userData);
+        console.log('👤 Rol asignado:', userData.role);
+        setUserRole(userData.role || 'admin'); // Usar el rol del documento (admin o coach)
+      } else {
+        // Si no existe en la colección admins, denegar acceso
+        console.error('❌ Usuario no encontrado en colección admins con UID:', uid);
+        console.log('💡 Verifica que el documento exista en Firestore en: admins/' + uid);
+        alert('Tu cuenta no tiene permisos para acceder al panel de administración. UID: ' + uid);
+        await signOut(auth);
+        router.push('/login');
+      }
+    } catch (error) {
+      console.error('❌ Error al obtener rol:', error);
+      console.error('Detalles del error:', error.message);
+      alert('Error al verificar permisos: ' + error.message);
+    }
+  };
 
   const loadStats = async () => {
     try {
@@ -76,6 +110,7 @@ export default function AdminPage() {
       icon: '🏋️',
       href: '/admin/clases',
       color: 'from-green-600 to-green-800',
+      roles: ['admin'],
     },
     {
       title: 'Coaches',
@@ -83,6 +118,7 @@ export default function AdminPage() {
       icon: '💪',
       href: '/admin/coaches',
       color: 'from-purple-600 to-purple-800',
+      roles: ['admin'],
     },
     {
       title: 'Planes/Membresías',
@@ -90,6 +126,7 @@ export default function AdminPage() {
       icon: '💳',
       href: '/admin/planes',
       color: 'from-teal-600 to-teal-800',
+      roles: ['admin'],
     },
     {
       title: 'Calendario/Horarios',
@@ -97,6 +134,7 @@ export default function AdminPage() {
       icon: '📅',
       href: '/admin/horarios',
       color: 'from-yellow-600 to-yellow-800',
+      roles: ['admin'],
     },
     {
       title: 'Testimonios',
@@ -104,6 +142,7 @@ export default function AdminPage() {
       icon: '⭐',
       href: '/admin/testimonios',
       color: 'from-pink-600 to-pink-800',
+      roles: ['admin'],
     },
     {
       title: 'Eventos',
@@ -111,6 +150,7 @@ export default function AdminPage() {
       icon: '🎉',
       href: '/admin/eventos',
       color: 'from-orange-600 to-orange-800',
+      roles: ['admin'],
     },
     {
       title: 'Galería',
@@ -118,6 +158,7 @@ export default function AdminPage() {
       icon: '🖼️',
       href: '/admin/galeria',
       color: 'from-blue-600 to-blue-800',
+      roles: ['admin'],
     },
     {
       title: 'Blog',
@@ -125,8 +166,14 @@ export default function AdminPage() {
       icon: '📝',
       href: '/admin/blog',
       color: 'from-indigo-600 to-indigo-800',
+      roles: ['admin', 'coach'], // Accesible para admin y coach
     },
   ];
+
+  // Filtrar secciones según el rol del usuario
+  const availableSections = adminSections.filter(section => 
+    section.roles.includes(userRole)
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -151,7 +198,9 @@ export default function AdminPage() {
             <div className="flex items-center space-x-4">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-semibold text-gray-900">{user.email}</p>
-                <p className="text-xs text-gray-600">Administrador</p>
+                <p className="text-xs text-gray-600">
+                  {userRole === 'admin' ? 'Administrador' : 'Coach'}
+                </p>
               </div>
               <button
                 onClick={handleLogout}
@@ -185,64 +234,108 @@ export default function AdminPage() {
             Bienvenido de nuevo 👋
           </h2>
           <p className="text-lg text-gray-600">
-            Selecciona una sección para comenzar a editar el contenido
+            {userRole === 'coach' 
+              ? 'Panel de Coach - Comparte tu conocimiento a través del blog'
+              : 'Selecciona una sección para comenzar a editar el contenido'
+            }
           </p>
+          {userRole === 'coach' && (
+            <div className="mt-4 bg-blue-50 border border-blue-200 rounded-lg p-4 inline-block">
+              <p className="text-sm text-blue-800">
+                👤 <strong>Rol:</strong> Coach | 📝 <strong>Permisos:</strong> Crear y editar artículos del blog
+              </p>
+            </div>
+          )}
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">Clases Activas</p>
-                <p className="text-3xl font-bold text-gray-900">-</p>
-              </div>
-              <div className="bg-green-100 p-3 rounded-lg">
-                <span className="text-3xl">🏋️</span>
+        {/* Quick Stats - Solo para admins */}
+        {userRole === 'admin' && (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">Clases Activas</p>
+                  <p className="text-3xl font-bold text-gray-900">{stats.clases || 0}</p>
+                </div>
+                <div className="bg-green-100 p-3 rounded-lg">
+                  <span className="text-3xl">🏋️</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">Coaches</p>
-                <p className="text-3xl font-bold text-gray-900">-</p>
-              </div>
-              <div className="bg-purple-100 p-3 rounded-lg">
-                <span className="text-3xl">💪</span>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">Coaches</p>
+                  <p className="text-3xl font-bold text-gray-900">{stats.coaches || 0}</p>
+                </div>
+                <div className="bg-purple-100 p-3 rounded-lg">
+                  <span className="text-3xl">💪</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">Eventos</p>
-                <p className="text-3xl font-bold text-gray-900">-</p>
-              </div>
-              <div className="bg-orange-100 p-3 rounded-lg">
-                <span className="text-3xl">🎉</span>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">Eventos</p>
+                  <p className="text-3xl font-bold text-gray-900">{stats.eventos || 0}</p>
+                </div>
+                <div className="bg-orange-100 p-3 rounded-lg">
+                  <span className="text-3xl">🎉</span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-600 text-sm mb-1">Artículos Blog</p>
-                <p className="text-3xl font-bold text-gray-900">-</p>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <span className="text-3xl">📝</span>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">Artículos Blog</p>
+                  <p className="text-3xl font-bold text-gray-900">{stats.blog || 0}</p>
+                </div>
+                <div className="bg-blue-100 p-3 rounded-lg">
+                  <span className="text-3xl">📝</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* Stats simplificadas para coaches */}
+        {userRole === 'coach' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 max-w-2xl">
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-gray-600 text-sm mb-1">Mis Artículos</p>
+                  <p className="text-3xl font-bold text-gray-900">{stats.blog || 0}</p>
+                </div>
+                <div className="bg-indigo-100 p-3 rounded-lg">
+                  <span className="text-3xl">📝</span>
+                </div>
+              </div>
+            </div>
+
+            <Link
+              href="/admin/blog/editor"
+              className="bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-xl p-6 text-white hover:from-indigo-700 hover:to-indigo-900 transition-all duration-300 transform hover:scale-105"
+            >
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-indigo-200 text-sm mb-1">Acción Rápida</p>
+                  <p className="text-xl font-bold">Crear Artículo</p>
+                </div>
+                <div className="bg-white bg-opacity-20 p-3 rounded-lg">
+                  <span className="text-3xl">✏️</span>
+                </div>
+              </div>
+            </Link>
+          </div>
+        )}
 
         {/* Admin Sections Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {adminSections.map((section) => (
+          {availableSections.map((section) => (
             <Link
               key={section.href}
               href={section.href}

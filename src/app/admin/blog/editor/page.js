@@ -5,11 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, addDoc, updateDoc, doc, getDoc } from 'firebase/firestore';
+import { uploadImage, deleteImage } from '@/lib/storage';
+import ImageUploader from '@/components/ImageUploader';
 
 function BlogEditor() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -139,11 +142,53 @@ function BlogEditor() {
     }
   };
 
-  const handleImageUpload = () => {
-    const url = prompt('Ingresa la URL de la imagen:');
-    if (url) {
-      insertHTML(`<img src="${url}" alt="Imagen" class="blog-image" />`);
+  const handleMainImageSelect = async (file) => {
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      // Si hay una imagen anterior y estamos editando, eliminarla
+      if (formData.image && editingId && formData.image.includes('firebasestorage')) {
+        try {
+          await deleteImage(formData.image);
+        } catch (error) {
+          console.error('Error al eliminar imagen anterior:', error);
+        }
+      }
+
+      // Subir la nueva imagen
+      const imageUrl = await uploadImage(file, 'blog', null, `${Date.now()}_${file.name}`);
+      setFormData({ ...formData, image: imageUrl });
+    } catch (error) {
+      console.error('Error al subir imagen:', error);
+      alert('Error al subir la imagen principal');
+    } finally {
+      setUploadingImage(false);
     }
+  };
+
+  const handleContentImageUpload = async () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      setUploadingImage(true);
+      try {
+        const imageUrl = await uploadImage(file, 'blog', 'content', `${Date.now()}_${file.name}`);
+        insertHTML(`<img src="${imageUrl}" alt="Imagen" class="blog-image" />`);
+      } catch (error) {
+        console.error('Error al subir imagen:', error);
+        alert('Error al subir la imagen');
+      } finally {
+        setUploadingImage(false);
+      }
+    };
+
+    input.click();
   };
 
   if (loading) {
@@ -183,16 +228,19 @@ function BlogEditor() {
             </div>
 
             <div className="flex items-center space-x-3">
+              {uploadingImage && (
+                <span className="text-sm text-gray-600">Subiendo imagen...</span>
+              )}
               <button
                 onClick={() => handleSave(false)}
-                disabled={saving}
+                disabled={saving || uploadingImage}
                 className="bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold px-6 py-2 rounded-lg transition disabled:opacity-50"
               >
                 {saving ? 'Guardando...' : 'Guardar Borrador'}
               </button>
               <button
                 onClick={() => handleSave(true)}
-                disabled={saving}
+                disabled={saving || uploadingImage}
                 className="bg-avc-red hover:bg-red-700 text-white font-semibold px-6 py-2 rounded-lg transition disabled:opacity-50"
               >
                 {saving ? 'Publicando...' : 'Publicar'}
@@ -315,8 +363,9 @@ function BlogEditor() {
                     </svg>
                   </button>
                   <button
-                    onClick={handleImageUpload}
-                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900"
+                    onClick={handleContentImageUpload}
+                    disabled={uploadingImage}
+                    className="p-2 hover:bg-gray-100 rounded transition text-gray-900 disabled:opacity-50"
                     title="Insertar imagen"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -412,19 +461,13 @@ function BlogEditor() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Imagen Principal (URL)</label>
-                    <input
-                      type="url"
-                      value={formData.image}
-                      onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded text-gray-900 focus:outline-none focus:border-avc-red text-sm"
-                      placeholder="https://..."
+                    <ImageUploader
+                      label="Imagen Principal"
+                      currentImage={formData.image}
+                      onImageSelect={handleMainImageSelect}
+                      height="h-48"
+                      helpText="Recomendado: 1200x630px. Esta imagen aparecerá como portada del artículo."
                     />
-                    {formData.image && (
-                      <div className="mt-3 rounded overflow-hidden">
-                        <img src={formData.image} alt="Preview" className="w-full h-32 object-cover" />
-                      </div>
-                    )}
                   </div>
 
                   <div className="pt-4 border-t border-gray-200">
@@ -448,8 +491,9 @@ function BlogEditor() {
                   <li>• Usa H2 para títulos principales</li>
                   <li>• Usa H3 para subtítulos</li>
                   <li>• Guarda borradores frecuentemente</li>
-                  <li>• Las imágenes deben ser URLs públicas</li>
+                  <li>• Sube imágenes directamente desde tu computadora</li>
                   <li>• El extracto aparece en las tarjetas</li>
+                  <li>• La imagen principal debe ser llamativa</li>
                 </ul>
               </div>
             </div>

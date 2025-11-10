@@ -184,19 +184,19 @@ export default function AdminTestimoniosPage() {
         {/* Contadores */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
           <div className="bg-blue-900/20 border border-blue-600 rounded-lg p-4">
-            <div className="text-blue-400 text-sm font-semibold mb-1">Testimonios Auténticos</div>
+            <div className="text-blue-600 text-sm font-semibold mb-1">Testimonios Auténticos</div>
             <div className="text-3xl font-bold text-gray-900">
               {testimonios.filter(t => t.type === 'testimonial' || !t.type).length} / 4
             </div>
           </div>
           <div className="bg-purple-900/20 border border-purple-600 rounded-lg p-4">
-            <div className="text-purple-400 text-sm font-semibold mb-1">Transformaciones Reales</div>
+            <div className="text-purple-600 text-sm font-semibold mb-1">Transformaciones Reales</div>
             <div className="text-3xl font-bold text-gray-900">
               {testimonios.filter(t => t.type === 'transformation').length} / 2
             </div>
           </div>
           <div className="bg-yellow-900/20 border border-yellow-600 rounded-lg p-4">
-            <div className="text-yellow-400 text-sm font-semibold mb-1">Frases Motivadoras</div>
+            <div className="text-yellow-600 text-sm font-semibold mb-1">Frases Motivadoras</div>
             <div className="text-3xl font-bold text-gray-900">
               {testimonios.filter(t => t.type === 'quote').length} / 3
             </div>
@@ -258,7 +258,7 @@ export default function AdminTestimoniosPage() {
                         fill
                         className="rounded object-cover"
                       />
-                      <span className="absolute bottom-2 left-2 bg-gray-600 text-gray-900 px-2 py-1 text-xs rounded">ANTES</span>
+                      <span className="absolute bottom-2 left-2 bg-gray-600 text-white px-2 py-1 text-xs rounded">ANTES</span>
                     </div>
                     <div className="relative h-40">
                       <Image
@@ -267,7 +267,7 @@ export default function AdminTestimoniosPage() {
                         fill
                         className="rounded object-cover"
                       />
-                      <span className="absolute bottom-2 left-2 bg-avc-red text-gray-900 px-2 py-1 text-xs rounded">DESPUÉS</span>
+                      <span className="absolute bottom-2 left-2 bg-avc-red text-white px-2 py-1 text-xs rounded">DESPUÉS</span>
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-gray-900">{testimonio.name} - {testimonio.duration}</h3>
@@ -311,13 +311,13 @@ export default function AdminTestimoniosPage() {
               <div className="flex space-x-2 mt-4">
                 <button
                   onClick={() => handleEdit(testimonio)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(testimonio.id)}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                 >
                   Eliminar
                 </button>
@@ -546,13 +546,13 @@ export default function AdminTestimoniosPage() {
                     setEditingTestimonio(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
                 >
                   {editingTestimonio ? 'Actualizar' : 'Crear'} Testimonio
                 </button>

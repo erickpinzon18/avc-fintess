@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { uploadImage, deleteImage } from '@/lib/storage';
 import Image from 'next/image';
 import AdminHeader from '../components/AdminHeader';
+import ImageUploader from '@/components/ImageUploader';
 
 export default function AdminCoachesPage() {
   const [user, setUser] = useState(null);
@@ -27,6 +29,8 @@ export default function AdminCoachesPage() {
     philosophy: '',
     favoriteExercise: '',
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -42,6 +46,19 @@ export default function AdminCoachesPage() {
 
     return () => unsubscribe();
   }, [router]);
+
+  // Bloquear scroll cuando el modal está abierto
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showModal]);
 
   const loadCoaches = async () => {
     try {
@@ -59,11 +76,35 @@ export default function AdminCoachesPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
+    
     try {
+      let imageUrl = formData.image;
+      
+      // Normalizar el nombre del coach para usarlo en la ruta
+      const coachName = formData.name.toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^a-z0-9-]/g, '');
+
+      // Subir imagen si hay un archivo nuevo
+      if (imageFile) {
+        imageUrl = await uploadImage(
+          imageFile,
+          'coaches',
+          coachName,
+          'perfil.jpg'
+        );
+      } else if (!imageUrl) {
+        // Si no hay imagen, generar URL de placeholder
+        const placeholderText = encodeURIComponent(formData.name);
+        imageUrl = `https://placehold.co/800x600/1f2937/ffffff?text=${placeholderText}&font=montserrat`;
+      }
+
       const certArray = formData.certifications.split(',').map(cert => cert.trim()).filter(cert => cert);
       
       const coachData = {
         ...formData,
+        image: imageUrl,
         certifications: certArray,
       };
 
@@ -80,13 +121,17 @@ export default function AdminCoachesPage() {
           updatedAt: new Date(),
         });
       }
+      
       setShowModal(false);
       setEditingCoach(null);
+      setImageFile(null);
       resetForm();
       loadCoaches();
     } catch (error) {
       console.error('Error al guardar coach:', error);
-      alert('Error al guardar el coach');
+      alert('Error al guardar el coach: ' + error.message);
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -105,6 +150,7 @@ export default function AdminCoachesPage() {
       philosophy: coach.philosophy || '',
       favoriteExercise: coach.favoriteExercise || '',
     });
+    setImageFile(null);
     setShowModal(true);
   };
 
@@ -134,6 +180,7 @@ export default function AdminCoachesPage() {
       philosophy: '',
       favoriteExercise: '',
     });
+    setImageFile(null);
   };
 
   if (loading) {
@@ -195,12 +242,18 @@ export default function AdminCoachesPage() {
           {coaches.map((coach) => (
             <div key={coach.id} className="bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-avc-red transition-all duration-300">
               <div className="relative h-64">
-                <Image
-                  src={coach.image || 'https://placehold.co/300x300/333333/white?text=Coach'}
-                  alt={coach.name}
-                  fill
-                  className="object-cover"
-                />
+                {coach.image ? (
+                  <Image
+                    src={coach.image}
+                    alt={coach.name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                    <h3 className="text-white text-2xl font-bold text-center px-4">{coach.name}</h3>
+                  </div>
+                )}
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-1">{coach.name}</h3>
@@ -230,13 +283,13 @@ export default function AdminCoachesPage() {
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handleEdit(coach)}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                   >
                     Editar
                   </button>
                   <button
                     onClick={() => handleDelete(coach.id)}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                   >
                     Eliminar
                   </button>
@@ -261,9 +314,23 @@ export default function AdminCoachesPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+        <div 
+          className="fixed inset-0 flex items-center justify-center p-4 overflow-y-auto"
+          style={{ zIndex: 9998 }}
+        >
+          {/* Overlay de fondo */}
+          <div 
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={() => {
+              setShowModal(false);
+              setEditingCoach(null);
+              resetForm();
+            }}
+          ></div>
+          
+          {/* Contenido del modal */}
+          <div className="relative bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between z-10">
               <h2 className="text-2xl font-bold text-gray-900">
                 {editingCoach ? 'Editar Coach' : 'Nuevo Coach'}
               </h2>
@@ -364,16 +431,20 @@ export default function AdminCoachesPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">URL de Imagen</label>
-                <input
-                  type="text"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder="https://ejemplo.com/foto-coach.jpg"
-                />
-              </div>
+              {/* Imagen del Coach */}
+              <ImageUploader
+                label="Foto del Coach"
+                currentImage={formData.image}
+                onImageSelect={(file) => {
+                  setImageFile(file);
+                  if (file === null) {
+                    // Si se elimina la imagen, limpiar también en formData
+                    setFormData({ ...formData, image: '' });
+                  }
+                }}
+                height="h-80"
+                helpText="Foto profesional del coach"
+              />
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
@@ -420,15 +491,27 @@ export default function AdminCoachesPage() {
                     setEditingCoach(null);
                     resetForm();
                   }}
-                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  disabled={uploading}
+                  className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-gray-900 font-semibold py-3 rounded-lg transition duration-300"
+                  disabled={uploading}
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                 >
-                  {editingCoach ? 'Actualizar' : 'Crear'} Coach
+                  {uploading ? (
+                    <>
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Subiendo...
+                    </>
+                  ) : (
+                    <>{editingCoach ? 'Actualizar' : 'Crear'} Coach</>
+                  )}
                 </button>
               </div>
             </form>

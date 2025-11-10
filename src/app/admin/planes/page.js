@@ -253,13 +253,13 @@ export default function AdminPlanesPage() {
               <div className="flex space-x-2">
                 <button
                   onClick={() => handleEdit(plan)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                 >
                   Editar
                 </button>
                 <button
                   onClick={() => handleDelete(plan.id)}
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-gray-900 font-semibold py-2 px-4 rounded transition duration-300"
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                 >
                   Eliminar
                 </button>

@@ -5,7 +5,9 @@ import { useRouter } from 'next/navigation';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore';
+import { uploadImage, deleteImage } from '@/lib/storage';
 import AdminHeader from '../components/AdminHeader';
+import ImageUploader from '@/components/ImageUploader';
 
 export default function AdminEventosPage() {
   const [user, setUser] = useState(null);
@@ -13,6 +15,7 @@ export default function AdminEventosPage() {
   const [eventos, setEventos] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingEvento, setEditingEvento] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     date: '',
@@ -69,6 +72,31 @@ export default function AdminEventosPage() {
       setEventos(eventosList);
     } catch (error) {
       console.error('Error al cargar eventos:', error);
+    }
+  };
+
+  const handleImageSelect = async (file) => {
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      // Si hay una imagen anterior y estamos editando, eliminarla
+      if (formData.image && editingEvento) {
+        try {
+          await deleteImage(formData.image);
+        } catch (error) {
+          console.error('Error al eliminar imagen anterior:', error);
+        }
+      }
+
+      // Subir la nueva imagen
+      const imageUrl = await uploadImage(file, 'eventos', null, `${Date.now()}_${file.name}`);
+      setFormData({ ...formData, image: imageUrl });
+    } catch (error) {
+      console.error('Error al subir imagen:', error);
+      alert('Error al subir la imagen');
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -336,7 +364,7 @@ export default function AdminEventosPage() {
       {/* Modal */}
       {showModal && (
         <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto"
           onClick={() => {
             setShowModal(false);
             setEditingEvento(null);
@@ -344,10 +372,10 @@ export default function AdminEventosPage() {
           }}
         >
           <div 
-            className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between z-10">
               <h2 className="text-2xl font-bold text-gray-900">
                 {editingEvento ? 'Editar Evento' : 'Nuevo Evento'}
               </h2>
@@ -453,16 +481,13 @@ export default function AdminEventosPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">URL de Imagen</label>
-                <input
-                  type="url"
-                  value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  placeholder="https://ejemplo.com/imagen.jpg"
-                />
-              </div>
+              <ImageUploader
+                label="Imagen del Evento"
+                currentImage={formData.image}
+                onImageSelect={handleImageSelect}
+                height="h-64"
+                helpText="Recomendado: 1200x600px (2:1). La imagen se mostrará en la tarjeta del evento."
+              />
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">Link de Registro (opcional)</label>
@@ -489,9 +514,10 @@ export default function AdminEventosPage() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300"
+                  disabled={uploadingImage}
+                  className="flex-1 bg-avc-red hover:bg-red-700 text-white font-semibold py-3 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {editingEvento ? 'Actualizar' : 'Crear'} Evento
+                  {uploadingImage ? 'Subiendo imagen...' : editingEvento ? 'Actualizar Evento' : 'Crear Evento'}
                 </button>
               </div>
             </form>
