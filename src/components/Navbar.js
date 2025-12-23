@@ -36,11 +36,12 @@ export default function Navbar() {
         {/* Logo y Nombre */}
         <Link href="/" className="flex items-center space-x-3">
           <Image
-            src="/assets/logo.png"
+            src="/assets/logo-completo.png"
             alt="Logo AVC Fitness"
-            width={40}
-            height={40}
+            width={180}
+            height={60}
             className="navbar-logo"
+            priority
           />
         </Link>
 

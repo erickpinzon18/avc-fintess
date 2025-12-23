@@ -72,6 +72,10 @@ export default function AdminHorariosPage() {
   const [clases, setClases] = useState([]);
   const [coaches, setCoaches] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showReservacionesModal, setShowReservacionesModal] = useState(false);
+  const [reservaciones, setReservaciones] = useState([]);
+  const [claseSeleccionada, setClaseSeleccionada] = useState(null);
+  const [loadingReservaciones, setLoadingReservaciones] = useState(false);
   const [editingHorario, setEditingHorario] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -107,13 +111,40 @@ export default function AdminHorariosPage() {
     try {
       const calendarioCol = collection(db, 'calendario');
       const horariosSnapshot = await getDocs(calendarioCol);
-      const horariosList = horariosSnapshot.docs
-        .map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-          fecha: doc.data().fecha?.toDate ? doc.data().fecha.toDate() : new Date(doc.data().fecha),
-        }))
-        .filter(h => h.tipo !== 'wod' && h.clase); // Filtrar WODs y solo mostrar clases regulares
+      
+      // Cargar horarios con conteo de reservaciones
+      const horariosListPromises = horariosSnapshot.docs
+        .map(async (docHorario) => {
+          const horarioData = docHorario.data();
+          
+          // Si no es una clase regular, saltar
+          if (horarioData.tipo === 'wod' || !horarioData.clase) {
+            return null;
+          }
+          
+          // Contar reservaciones confirmadas
+          let reservacionesCount = 0;
+          try {
+            const reservacionesCol = collection(db, 'calendario', docHorario.id, 'reservaciones');
+            const reservacionesSnapshot = await getDocs(reservacionesCol);
+            reservacionesCount = reservacionesSnapshot.docs.filter(doc => {
+              const status = doc.data().status;
+              return status === 'confirmada';
+            }).length;
+          } catch (error) {
+            console.error('Error al contar reservaciones:', error);
+          }
+          
+          return {
+            id: docHorario.id,
+            ...horarioData,
+            fecha: horarioData.fecha?.toDate ? horarioData.fecha.toDate() : new Date(horarioData.fecha),
+            reservacionesCount
+          };
+        });
+      
+      const horariosListWithNulls = await Promise.all(horariosListPromises);
+      const horariosList = horariosListWithNulls.filter(h => h !== null);
       
       // Ordenar por fecha y hora
       horariosList.sort((a, b) => {
@@ -156,6 +187,58 @@ export default function AdminHorariosPage() {
     } catch (error) {
       console.error('Error al cargar coaches:', error);
     }
+  };
+
+  const loadReservaciones = async (horarioId) => {
+    setLoadingReservaciones(true);
+    try {
+      const reservacionesCol = collection(db, 'calendario', horarioId, 'reservaciones');
+      const reservacionesSnapshot = await getDocs(reservacionesCol);
+      
+      // Cargar info de usuarios para cada reservación
+      const reservacionesConUsuarios = await Promise.all(
+        reservacionesSnapshot.docs.map(async (docReserva) => {
+          const reservaData = docReserva.data();
+          
+          // Intentar cargar info del usuario
+          let userData = null;
+          if (reservaData.odIdUsuarioId) {
+            try {
+              const userDocRef = doc(db, 'users', reservaData.odIdUsuarioId);
+              const userDoc = await getDocs(collection(db, 'users'));
+              const userSnapshot = userDoc.docs.find(d => d.id === reservaData.odIdUsuarioId);
+              if (userSnapshot) {
+                userData = userSnapshot.data();
+              }
+            } catch (error) {
+              console.error('Error al cargar usuario:', error);
+            }
+          }
+          
+          return {
+            id: docReserva.id,
+            ...reservaData,
+            createdAt: reservaData.createdAt?.toDate ? reservaData.createdAt.toDate() : new Date(reservaData.createdAt),
+            usuario: userData
+          };
+        })
+      );
+      
+      // Ordenar por fecha de creación
+      reservacionesConUsuarios.sort((a, b) => b.createdAt - a.createdAt);
+      setReservaciones(reservacionesConUsuarios);
+    } catch (error) {
+      console.error('Error al cargar reservaciones:', error);
+      setReservaciones([]);
+    } finally {
+      setLoadingReservaciones(false);
+    }
+  };
+
+  const handleVerReservaciones = async (horario) => {
+    setClaseSeleccionada(horario);
+    setShowReservacionesModal(true);
+    await loadReservaciones(horario.id);
   };
 
   const handleSubmit = async (e) => {
@@ -553,6 +636,15 @@ export default function AdminHorariosPage() {
                       </div>
                       <div className="flex space-x-2 ml-4">
                         <button
+                          onClick={() => handleVerReservaciones(horario)}
+                          className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition duration-300 flex items-center space-x-1"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          </svg>
+                          <span>Reservaciones ({horario.reservacionesCount || 0})</span>
+                        </button>
+                        <button
                           onClick={() => handleEdit(horario)}
                           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
                         >
@@ -597,7 +689,7 @@ export default function AdminHorariosPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
           <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
               <h2 className="text-2xl font-bold text-gray-900">
@@ -763,6 +855,137 @@ export default function AdminHorariosPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Reservaciones */}
+      {showReservacionesModal && claseSeleccionada && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Reservaciones</h2>
+                <p className="text-gray-600 mt-1">
+                  {claseSeleccionada.clase} - {new Date(claseSeleccionada.fecha).toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })} - {claseSeleccionada.horaInicio}
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setShowReservacionesModal(false);
+                  setClaseSeleccionada(null);
+                  setReservaciones([]);
+                }}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="p-6">
+              {loadingReservaciones ? (
+                <div className="text-center py-12">
+                  <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-avc-red mx-auto mb-4"></div>
+                  <p className="text-gray-600">Cargando reservaciones...</p>
+                </div>
+              ) : reservaciones.length > 0 ? (
+                <>
+                  <div className="mb-4 flex items-center justify-between">
+                    <p className="text-gray-700">
+                      <span className="font-bold text-lg">{reservaciones.length}</span> de <span className="font-bold">{claseSeleccionada.capacidadMaxima}</span> lugares ocupados
+                    </p>
+                    <div className="text-sm text-gray-600">
+                      Disponibles: <span className="font-bold text-green-600">{claseSeleccionada.capacidadMaxima - reservaciones.length}</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {reservaciones.map((reserva, index) => (
+                      <div
+                        key={reserva.id}
+                        className="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-3 mb-2">
+                              <span className="bg-avc-red text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">
+                                {index + 1}
+                              </span>
+                              <div>
+                                <h3 className="font-bold text-gray-900 text-lg">
+                                  {reserva.nombreUsuario || reserva.usuario?.displayName || 'Sin nombre'}
+                                </h3>
+                                <p className="text-sm text-gray-600">
+                                  {reserva.emailUsuario || reserva.usuario?.email}
+                                </p>
+                              </div>
+                            </div>
+
+                            {reserva.usuario && (
+                              <div className="ml-11 grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                                {reserva.usuario.phone && (
+                                  <div className="flex items-center text-sm text-gray-700">
+                                    <svg className="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                    {reserva.usuario.phone}
+                                  </div>
+                                )}
+                                {reserva.usuario.level && (
+                                  <div className="flex items-center">
+                                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">
+                                      {reserva.usuario.level}
+                                    </span>
+                                  </div>
+                                )}
+                                {reserva.usuario.membershipType && (
+                                  <div className="flex items-center">
+                                    <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs font-semibold">
+                                      {reserva.usuario.membershipType}
+                                    </span>
+                                  </div>
+                                )}
+                                {reserva.usuario.streak !== undefined && (
+                                  <div className="flex items-center text-sm text-gray-700">
+                                    <span className="mr-1">🔥</span>
+                                    <span className="font-semibold">{reserva.usuario.streak}</span>
+                                    <span className="ml-1 text-xs">racha</span>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
+                            <div className="ml-11 mt-2 text-xs text-gray-500">
+                              Reservó: {reserva.createdAt.toLocaleDateString('es-MX', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                          </div>
+
+                          <div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              reserva.status === 'confirmada'
+                                ? 'bg-green-100 text-green-800'
+                                : reserva.status === 'cancelada'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {reserva.status}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">📭</div>
+                  <p className="text-gray-600 text-lg">No hay reservaciones para esta clase</p>
+                  <p className="text-gray-500 text-sm mt-2">Las reservaciones aparecerán aquí cuando los usuarios se inscriban</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

@@ -406,7 +406,7 @@ export default function AdminGaleriaPage() {
                     </div>
                   )}
                   <div className="absolute top-4 left-4">
-                    <span className="bg-black bg-opacity-75 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                    <span className="bg-black/40 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
                       {item.category}
                     </span>
                   </div>

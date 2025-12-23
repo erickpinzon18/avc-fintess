@@ -156,7 +156,7 @@ export default function ImageCropModal({
     >
       {/* Overlay de fondo oscuro */}
       <div 
-        className="absolute inset-0 bg-black bg-opacity-75"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
         onClick={onClose}
       ></div>
       
