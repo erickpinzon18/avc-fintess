@@ -34,6 +34,7 @@ const PALETA_COLORES = [
 
 // Función para generar un hash simple a partir del nombre de la clase
 const hashString = (str) => {
+  if (!str || typeof str !== 'string') return 0;
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
@@ -45,6 +46,11 @@ const hashString = (str) => {
 
 // Función para asignar un color único a cada clase basado en su nombre
 const getClaseColor = (nombreClase, todasLasClases = []) => {
+  // Manejar casos donde nombreClase es undefined o null
+  if (!nombreClase) {
+    return PALETA_COLORES[0]; // Color por defecto
+  }
+  
   // Crear un array ordenado de nombres de clases para asegurar consistencia
   const clasesOrdenadas = [...todasLasClases].sort();
   const indiceClase = clasesOrdenadas.indexOf(nombreClase);
@@ -99,13 +105,16 @@ export default function AdminHorariosPage() {
 
   const loadHorarios = async () => {
     try {
-      const horariosCol = collection(db, 'calendario');
-      const horariosSnapshot = await getDocs(horariosCol);
-      const horariosList = horariosSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        fecha: doc.data().fecha?.toDate ? doc.data().fecha.toDate() : new Date(doc.data().fecha),
-      }));
+      const calendarioCol = collection(db, 'calendario');
+      const horariosSnapshot = await getDocs(calendarioCol);
+      const horariosList = horariosSnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          fecha: doc.data().fecha?.toDate ? doc.data().fecha.toDate() : new Date(doc.data().fecha),
+        }))
+        .filter(h => h.tipo !== 'wod' && h.clase); // Filtrar WODs y solo mostrar clases regulares
+      
       // Ordenar por fecha y hora
       horariosList.sort((a, b) => {
         const fechaA = new Date(a.fecha);
@@ -113,7 +122,7 @@ export default function AdminHorariosPage() {
         if (fechaA.getTime() !== fechaB.getTime()) {
           return fechaA - fechaB;
         }
-        return a.horaInicio.localeCompare(b.horaInicio);
+        return a.horaInicio?.localeCompare(b.horaInicio || '') || 0;
       });
       setHorarios(horariosList);
     } catch (error) {
@@ -170,6 +179,7 @@ export default function AdminHorariosPage() {
         await addDoc(collection(db, 'calendario'), {
           ...dataToSave,
           createdAt: new Date(),
+          reservacionesCount: 0,
         });
       }
       setShowModal(false);
@@ -223,6 +233,26 @@ export default function AdminHorariosPage() {
     });
   };
 
+  // Calcular duración en minutos basada en hora inicio y fin
+  const calcularDuracion = (horaInicio, horaFin) => {
+    if (!horaInicio || !horaFin) return 60;
+    
+    const [horasInicio, minutosInicio] = horaInicio.split(':').map(Number);
+    const [horasFin, minutosFin] = horaFin.split(':').map(Number);
+    
+    const totalMinutosInicio = horasInicio * 60 + minutosInicio;
+    const totalMinutosFin = horasFin * 60 + minutosFin;
+    
+    let duracion = totalMinutosFin - totalMinutosInicio;
+    
+    // Si la hora fin es menor que la inicio, asumimos que cruza medianoche
+    if (duracion < 0) {
+      duracion = (24 * 60) + duracion;
+    }
+    
+    return duracion > 0 ? duracion : 60;
+  };
+
   // Calcular hora fin automáticamente
   const calcularHoraFin = (horaInicio, duracion) => {
     if (!horaInicio || !duracion) return '';
@@ -239,13 +269,14 @@ export default function AdminHorariosPage() {
   // Actualizar hora de inicio y recalcular hora fin
   const handleHoraInicioChange = (horaInicio) => {
     const horaFin = calcularHoraFin(horaInicio, formData.duracion);
-    setFormData({ ...formData, horaInicio, horaFin });
+    const duracion = calcularDuracion(horaInicio, horaFin);
+    setFormData({ ...formData, horaInicio, horaFin, duracion });
   };
 
-  // Actualizar duración y recalcular hora fin
-  const handleDuracionChange = (duracion) => {
-    const horaFin = calcularHoraFin(formData.horaInicio, duracion);
-    setFormData({ ...formData, duracion, horaFin });
+  // Actualizar hora fin y recalcular duración
+  const handleHoraFinChange = (horaFin) => {
+    const duracion = calcularDuracion(formData.horaInicio, horaFin);
+    setFormData({ ...formData, horaFin, duracion });
   };
 
   // Funciones para el calendario
@@ -619,25 +650,43 @@ export default function AdminHorariosPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Hora Inicio</label>
-                  <input
-                    type="time"
+                  <select
                     value={formData.horaInicio}
                     onChange={(e) => handleHoraInicioChange(e.target.value)}
                     required
                     className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  />
+                  >
+                    <option value="">Selecciona hora</option>
+                    {Array.from({ length: 24 }, (_, i) => {
+                      const hora = String(i).padStart(2, '0');
+                      return (
+                        <option key={hora} value={`${hora}:00`}>
+                          {`${hora}:00`}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Hora Fin <span className="text-gray-500 text-xs">(calculada automáticamente)</span>
+                    Hora Fin
                   </label>
-                  <input
-                    type="time"
+                  <select
                     value={formData.horaFin}
-                    onChange={(e) => setFormData({ ...formData, horaFin: e.target.value })}
+                    onChange={(e) => handleHoraFinChange(e.target.value)}
                     required
                     className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  />
+                  >
+                    <option value="">Selecciona hora</option>
+                    {Array.from({ length: 24 }, (_, i) => {
+                      const hora = String(i).padStart(2, '0');
+                      return (
+                        <option key={hora} value={`${hora}:00`}>
+                          {`${hora}:00`}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </div>
               </div>
 
@@ -660,18 +709,11 @@ export default function AdminHorariosPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Duración (minutos)</label>
-                  <input
-                    type="number"
-                    value={formData.duracion}
-                    onChange={(e) => handleDuracionChange(e.target.value)}
-                    required
-                    min="15"
-                    max="180"
-                    step="15"
-                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-avc-red"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Incrementos de 15 minutos</p>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Duración</label>
+                  <div className="w-full px-4 py-3 bg-gray-200 border border-gray-300 rounded-lg text-gray-700 font-semibold">
+                    {formData.duracion} minutos
+                  </div>
+                  <p className="text-xs text-gray-500 mt-1">Calculada automáticamente</p>
                 </div>
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Capacidad Máxima</label>

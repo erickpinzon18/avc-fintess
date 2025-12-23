@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 import { db } from '@/lib/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 // Paleta de colores disponibles para asignar a las clases
 const PALETA_COLORES = [
@@ -65,6 +65,7 @@ export default function HorariosPage() {
   const [planes, setPlanes] = useState([]);
   const [horarios, setHorarios] = useState([]);
   const [clases, setClases] = useState([]);
+  const [wodDelDia, setWodDelDia] = useState(null);
   const [loading, setLoading] = useState(true);
   const pricingRef = useScrollAnimation({ stagger: 0.15 });
 
@@ -72,6 +73,7 @@ export default function HorariosPage() {
     loadPlanes();
     loadHorarios();
     loadClases();
+    loadWodDelDia();
   }, []);
 
   const loadPlanes = async () => {
@@ -107,16 +109,49 @@ export default function HorariosPage() {
 
   const loadHorarios = async () => {
     try {
-      const horariosCol = collection(db, 'calendario');
-      const horariosSnapshot = await getDocs(horariosCol);
-      const horariosList = horariosSnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        fecha: doc.data().fecha?.toDate ? doc.data().fecha.toDate() : new Date(doc.data().fecha),
-      }));
+      const calendarioCol = collection(db, 'calendario');
+      const horariosSnapshot = await getDocs(calendarioCol);
+      
+      const horariosList = horariosSnapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+          fecha: doc.data().fecha?.toDate ? doc.data().fecha.toDate() : new Date(doc.data().fecha),
+        }))
+        .filter(h => h.tipo !== 'wod' && h.clase);
+      
       setHorarios(horariosList);
     } catch (error) {
       console.error('Error al cargar horarios:', error);
+    }
+  };
+
+  const loadWodDelDia = async () => {
+    try {
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+      const fechaString = hoy.toISOString().split('T')[0];
+      
+      const calendarioCol = collection(db, 'calendario');
+      const wodQuery = query(
+        calendarioCol,
+        where('tipo', '==', 'wod'),
+        where('fechaString', '==', fechaString)
+      );
+      const wodSnapshot = await getDocs(wodQuery);
+      
+      if (!wodSnapshot.empty) {
+        const wodDoc = wodSnapshot.docs[0];
+        setWodDelDia({
+          id: wodDoc.id,
+          ...wodDoc.data(),
+        });
+      } else {
+        setWodDelDia(null);
+      }
+    } catch (error) {
+      console.error('Error al cargar WOD del día:', error);
+      setWodDelDia(null);
     }
   };
 
@@ -130,28 +165,30 @@ export default function HorariosPage() {
       scheduleByDay[day] = [];
     });
 
-    // Filtrar solo horarios futuros o de hoy
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
     horarios.forEach(horario => {
-      const fecha = horario.fecha instanceof Date ? horario.fecha : new Date(horario.fecha);
-      if (fecha >= today) {
-        const dayName = dayNames[fecha.getDay()];
-        scheduleByDay[dayName].push({
-          time: horario.horaInicio,
-          class: horario.clase,
-          coach: horario.instructor,
-          horaFin: horario.horaFin,
-          nivel: horario.nivel,
-          capacidad: horario.capacidadMaxima,
-          fecha: fecha,
-          type: horario.clase.toLowerCase().includes('crossfit') ? 'crossfit' 
-                : horario.clase.toLowerCase().includes('funcional') ? 'funcional' 
-                : horario.clase.toLowerCase().includes('yoga') ? 'yoga'
-                : 'other'
-        });
+      // Filtrar WODs y validar campos requeridos
+      if (horario.tipo === 'wod') return;
+      if (!horario.clase || !horario.horaInicio || !horario.instructor || !horario.fecha) {
+        return;
       }
+
+      const fecha = horario.fecha instanceof Date ? horario.fecha : new Date(horario.fecha);
+      const dayName = dayNames[fecha.getDay()];
+      const claseNombre = horario.clase || '';
+      
+      scheduleByDay[dayName].push({
+        time: horario.horaInicio,
+        class: horario.clase,
+        coach: horario.instructor,
+        horaFin: horario.horaFin,
+        nivel: horario.nivel,
+        capacidad: horario.capacidadMaxima,
+        fecha: fecha,
+        type: claseNombre.toLowerCase().includes('crossfit') ? 'crossfit' 
+              : claseNombre.toLowerCase().includes('funcional') ? 'funcional' 
+              : claseNombre.toLowerCase().includes('yoga') ? 'yoga'
+              : 'other'
+      });
     });
 
     // Ordenar horarios de cada día por hora
@@ -164,7 +201,7 @@ export default function HorariosPage() {
 
   const schedule = getScheduleByDay();
 
-  const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  const days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 
   // Obtener lista de nombres de clases para el sistema de colores
   const nombresClases = clases.map(c => c.name);
@@ -310,6 +347,72 @@ export default function HorariosPage() {
           )}
         </div>
       </section>
+
+      {/* WOD DEL DÍA */}
+      {wodDelDia && (
+        <section className="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="inline-block bg-avc-red text-white px-6 py-2 rounded-full font-bold text-sm mb-4">
+                  🔥 WOD del Día
+                </div>
+                <h2 className="text-4xl md:text-5xl font-extrabold mb-2">
+                  {wodDelDia.titulo}
+                </h2>
+                <p className="text-gray-300 text-lg">{wodDelDia.modalidad}</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border-2 border-white/20">
+                {wodDelDia.timeCap && (
+                  <div className="mb-6 text-center">
+                    <span className="inline-block bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg font-bold">
+                      ⏱️ Time Cap: {wodDelDia.timeCap} min
+                    </span>
+                  </div>
+                )}
+
+                <div className="space-y-4 mb-6">
+                  {wodDelDia.ejercicios?.map((ejercicio, index) => (
+                    <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="text-xl font-bold text-white">{ejercicio.nombre}</h4>
+                          <p className="text-gray-300">{ejercicio.cantidad}</p>
+                        </div>
+                        {ejercicio.peso && (
+                          <div className="bg-avc-red px-4 py-2 rounded-lg font-bold">
+                            {ejercicio.peso}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {wodDelDia.notas && (
+                  <div className="bg-yellow-500/20 border-l-4 border-yellow-500 rounded p-4">
+                    <p className="text-yellow-100">
+                      <span className="font-bold">💡 Nota:</span> {wodDelDia.notas}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-8 text-center">
+                <Link
+                  href="/unete"
+                  className="inline-flex items-center space-x-2 bg-avc-red hover:bg-red-700 text-white font-bold py-4 px-8 rounded-full transition duration-300 shadow-lg"
+                >
+                  <span>💪 Únete Hoy y Entrena con Nosotros</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ZONA DE PROGRAMACIÓN */}
       <section className="py-20 bg-gray-100">

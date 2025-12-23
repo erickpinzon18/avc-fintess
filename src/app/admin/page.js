@@ -64,7 +64,7 @@ export default function AdminPage() {
 
   const loadStats = async () => {
     try {
-      const collections = ['clases', 'coaches', 'planes', 'calendario', 'testimonios', 'eventos', 'galeria', 'blog'];
+      const collections = ['clases', 'coaches', 'planes', 'calendario', 'wods', 'testimonios', 'eventos', 'galeria', 'blog'];
       const counts = {};
 
       for (const collectionName of collections) {
@@ -135,6 +135,14 @@ export default function AdminPage() {
       href: '/admin/horarios',
       color: 'from-yellow-600 to-yellow-800',
       roles: ['admin'],
+    },
+    {
+      title: 'WODs del Día',
+      description: 'Crea y gestiona los entrenamientos diarios (Workout of the Day)',
+      icon: '🔥',
+      href: '/admin/wods',
+      color: 'from-red-600 to-red-800',
+      roles: ['admin', 'coach'],
     },
     {
       title: 'Testimonios',
